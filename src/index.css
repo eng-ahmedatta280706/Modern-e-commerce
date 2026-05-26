@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.invisible {
+    pointer-events: none;
+}
+
+body.swal2-shown {
+    overflow: auto !important;
+}
+
+.menu {
+    position: relative;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu .toggle {
+    position: relative;
+    height: 55px;
+    width: 55px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: 0.9s;
+    z-index: 5;
+}
+
+.menu.active .toggle {
+    transform: rotate(360deg);
+    box-shadow:
+        0 6px 8px rgba(0, 0, 0, 0.15),
+        0 0 0 2px #333,
+        0 0 0 8px #fff;
+}
+
+.menu li {
+    position: absolute;
+    left: 0;
+    list-style: none;
+    transition: 0.5s;
+    transform: rotate(calc(360deg / 8 * var(--i)));
+    transform-origin: 100px;
+    scale: 0;
+    transition-delay: calc(0.05s * var(--i));
+}
+
+.menu.active li {
+    scale: 1;
+    /* transform: rotate(calc(360deg / 8 * var(--i))) translateX(100px); */
+}
+
+.menu li a {
+    position: relative;
+    display: flex;
+    transform: rotate(calc(360deg / -8 * var(--i)));
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.75rem;
+    color: var(--clr);
+    /* box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15); */
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.menu li:hover a {
+    /* font-size: 1.8rem; */
+    box-shadow:
+        0 0 0 2px var(--clr),
+        0 0 0 6px #fff;
+
+        backface-visibility: visible;
+        animation-delay: 0s;
+        animation-fill-mode: forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.animate-slideIn {
+    animation: slideIn 0.2s ease-out forwards;
+}
+
+.animate-slideOut {
+    animation: slideOut 0.2s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.4s ease-in forwards;
+}
+
+nav ul li:hover .ChevronDown {
+    transition: transform 0.2s ease-in-out;
+    transform: rotate(180deg);
+}

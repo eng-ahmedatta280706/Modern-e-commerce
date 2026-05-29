@@ -9,6 +9,13 @@ import { useTranslate } from '../../hooks/userTranslate';
 
 const Footer: React.FC = () => {
   const { t, isRTL } = useTranslate(); // isRTL سيكون true إذا كانت اللغة عربية مثلاً
+  const customerServiceLinks = {
+    contact: '/support/contact',
+    trackOrder: '/support/trackOrder',
+    returnPolicy: '/support/returnPolicy',
+    shippingInfo: '/support/shippingInfo',
+    faqs: '/support/faqs',
+  };
 
   return (
     <footer className="bg-gray-900 text-gray-300">
@@ -63,7 +70,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2">
               {["newArrivals", "women", "men", "kids", "accessories", "sale"].map((cat) => (
                 <li key={cat}>
-                  <Link to="/" className="text-gray-400 hover:text-white transition-colors">
+                  <Link to={`/category/${cat}`} className="text-gray-400 hover:text-white transition-colors">
                     {t(`header.categories.${cat}`)}
                   </Link>
                 </li>
@@ -75,9 +82,9 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-bold text-white text-lg mb-4">{t("footer.customerService.title")}</h3>
             <ul className="space-y-2">
-              {["contact", "trackOrder", "returnPolicy", "shippingInfo", "faqs"].map((item) => (
+              {Object.entries(customerServiceLinks).map(([item, path]) => (
                 <li key={item}>
-                  <Link to="/" className="text-gray-400 hover:text-white transition-colors">
+                  <Link to={path} className="text-gray-400 hover:text-white transition-colors">
                     {t(`footer.customerService.${item}`)}
                   </Link>
                 </li>
@@ -113,8 +120,8 @@ const Footer: React.FC = () => {
         <div className={`container mx-auto px-4 flex flex-col md:flex-row justify-between items-center ${isRTL ? "text-right" : "text-left"}`}>
           <p className="text-sm">{t("footer.copyright")}</p>
           <div className={`flex mt-4 md:mt-0 ${isRTL ? "space-x-reverse" : "space-x-4"}`}>
-            <Link to="/" className="text-sm text-gray-400 hover:text-white transition-colors">{t("footer.privacy")}</Link>
-            <Link to="/" className="text-sm text-gray-400 hover:text-white transition-colors">{t("footer.terms")}</Link>
+            <Link to="/support/privacy" className="text-sm text-gray-400 hover:text-white transition-colors">{t("footer.privacy")}</Link>
+            <Link to="/support/terms" className="text-sm text-gray-400 hover:text-white transition-colors">{t("footer.terms")}</Link>
           </div>
         </div>
       </div>

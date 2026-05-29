@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X, ShoppingBag } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';
 import { formatPrice } from '../../utils/formatPrice';
 
 interface MiniCartProps {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';
 import MiniCart from '../ui/MiniCart';
 import ProfileMenu from '../modals/ProfileModal';
 import LanguageSwitcher from '../layout/LangSwitcher';

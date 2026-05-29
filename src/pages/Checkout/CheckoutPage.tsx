@@ -15,7 +15,7 @@ const CheckoutWizard: React.FC = () => {
         throw new Error("CheckoutWizard must be used within a CartProvider");
     }
 
-    const { cartItems, subtotal, updateQuantity, removeFromCart } = cartContext;
+    const { cartItems, removeFromCart } = cartContext;
 
     const [formData, setFormData] = useState({
         name: "",

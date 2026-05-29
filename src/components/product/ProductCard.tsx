@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart } from 'lucide-react';
 import { Product } from '../../types/Product';
 import ColorSelector from './ColorSelector';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useCart } from '../../hooks/useCart';
+import { useWishlist } from '../../hooks/useWishlist';
 
 interface ProductCardProps {
   product: Product;

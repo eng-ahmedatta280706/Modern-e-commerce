@@ -7,9 +7,9 @@ import {
 import VideoPlayer from '../../components/media/VideoPlayer';
 import ColorSelector from '../../components/product/ColorSelector';
 import ProductGrid from '../../components/product/ProductGrid';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';
 import { localProducts } from '../../data/products';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useWishlist } from '../../hooks/useWishlist';
 import ShareButton from '../../components/media/ShareButton';
 import { formatPrice } from '../../utils/formatPrice';
 

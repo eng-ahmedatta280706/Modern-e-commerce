@@ -18,11 +18,12 @@ const SubcategoryPage = lazy(() => import('../pages/Subcategory/SubcategoryPage'
 const SearchResults = lazy(() => import('../pages/SearchResults/SearchResults'));
 const WishlistPage = lazy(() => import('../pages/Wishlist/WishListPage'));
 const CheckoutPage = lazy(() => import('../pages/Checkout/CheckoutPage'));
-const AccountPage = lazy(() => import('../pages/Account/Account'));
+const AccountPage = lazy(() => import('../pages/Account/AccountPage'));
 const OrdersPage = lazy(() => import('../pages/Orders/OrdersPage'));
 const LoginPage = lazy(() => import('../pages/Auth/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/Auth/RegisterPage'));
 const NotFoundPage = lazy(() => import('../pages/NotFound/NotFoundPage'));
+const SupportPage = lazy(() => import('../pages/Support/SupportPage'));
 
 const AppRoutes: React.FC = () => (
     <Suspense fallback={<PageLoader />}>
@@ -37,6 +38,7 @@ const AppRoutes: React.FC = () => (
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/support/:page" element={<SupportPage />} />
 
             {/* Protected routes */}
             <Route path="/checkout" element={

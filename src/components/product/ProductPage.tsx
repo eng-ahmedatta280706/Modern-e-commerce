@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   Star, Truck, ShieldCheck, RotateCcw,
-  ChevronRight, Heart
+  Heart
 } from 'lucide-react';
 import VideoPlayer from '../media/VideoPlayer';
 import ColorSelector from './ColorSelector';
 import ProductGrid from './ProductGrid';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';
 import { localProducts } from '../../data/products';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useWishlist } from '../../hooks/useWishlist';
 import ShareButton from '../media/ShareButton';
 import Breadcrumb from '../ui/Breadcrumb';
 
@@ -23,11 +23,12 @@ const ProductPage: React.FC = () => {
   //   });
   //   return acc;
   // }, [] as string[]);
-  const colors : string[] = localProducts.find(p => p.id === id)?.colors || [];
   const product = localProducts.find(p => p.id === id);
   const { addToCart } = useCart();
 
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const [selectedColor, setSelectedColor] = useState(product?.colors[0] ?? '');
+  const [quantity, setQuantity] = useState(1);
 
   // If product not found
   if (!product) {
@@ -40,10 +41,6 @@ const ProductPage: React.FC = () => {
       </div>
     );
   }
-
-  // State for selected color and quantity
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [quantity, setQuantity] = useState(1);
 
   // Get current image based on selected color
   const currentImage = product.colorImages[selectedColor] || product.image;
@@ -141,7 +138,7 @@ const ProductPage: React.FC = () => {
           <div className="mb-6">
             <h3 className="font-medium mb-2">Color</h3>
             <ColorSelector
-              colors={colors}
+              colors={product.colors}
               selectedColor={selectedColor}
               onChange={setSelectedColor}
               size="md"

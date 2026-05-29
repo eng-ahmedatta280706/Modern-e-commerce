@@ -2,8 +2,8 @@ import React, { useState, useContext, useRef, useEffect, ReactNode } from "react
 import { CartContext } from "../../contexts/CartContext";
 import { UserContext } from "../../contexts/UserContext";
 import Swal from "sweetalert2";
-import { Link, Navigate } from "react-router-dom";
-import { Settings , Mail} from "lucide-react";
+import { Link } from "react-router-dom";
+import { Settings } from "lucide-react";
 
 const defaultUser = {
     id: "guest",

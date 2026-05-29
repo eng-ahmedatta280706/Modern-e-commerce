@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Heart, Trash2 } from "lucide-react";
-import { useWishlist } from "../../contexts/WishlistContext.tsx";
+import { useWishlist } from "../../hooks/useWishlist";
 import ProductCard from "../../components/product/ProductCard";
 
 const WishlistPage: React.FC = () => {

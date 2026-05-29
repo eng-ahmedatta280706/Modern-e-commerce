@@ -7,7 +7,6 @@ import {
 import NavIcons from '../navigation/NavIcons';
 import MegaMenu from '../navigation/MegaMenu';
 import { useTranslate } from '../../hooks/userTranslate';
-import { CategoryKey } from '../../types/Category';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,15 +15,6 @@ const Header: React.FC = () => {
   // const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const { t } = useTranslate();
 
-
-  const categories: CategoryKey[] = [
-    "newArrivals",
-    "women",
-    "men",
-    "kids",
-    "accessories",
-    "sale"
-  ];
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">

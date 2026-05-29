@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Bell, LogOut, ShoppingBag, ChevronRight } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
 
 export interface NavItem {
   label: string;

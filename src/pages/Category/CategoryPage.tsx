@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Breadcrumb from '../../components/ui/Breadcrumb';
-import ProductGrid from '../../components/product/ProductGrid';
 import EmptyState from '../../components/ui/EmptyState';
 import { localProducts } from '../../data/products';
 import { subCategories } from '../../data/categories';

@@ -22,7 +22,7 @@ const LoginRegisterPage: React.FC = () => {
                 await loginUser(email, password);
             }
             window.location.href = "/";
-        } catch (err) {
+        } catch {
             setError("Something went wrong, please try again.");
         }
     };

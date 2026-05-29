@@ -1,11 +1,21 @@
 import axios from "axios";
 
-export const login = (email: string, password: string) =>
-    axios.post("/api/auth/login", { email, password });
+export const login = (identfire: string, password: string) => {
+    if (identfire.includes("@")) {
+        return axios.post("/api/auth/login", { email: identfire, password });
+    } else {
+        return axios.post("/api/auth/login", { username: identfire, password });
+    }
+}
 
-export const register = (data: { name?: string; email?: string; password: string }) =>
-    axios.post("/api/auth/register", data);
+export const register = (data: { name?: string; username?: string; email?: string; password: string }) => {
+    return axios.post("/api/auth/register", data);
+}
 
-export const refreshToken = () => axios.post("/api/auth/refresh");
+export const refreshToken = () => {
+    return axios.post("/api/auth/refresh");
+}
 
-export const logout = () => axios.post("/api/auth/logout");
+export const logout = () => {
+    return axios.post("/api/auth/logout");
+}

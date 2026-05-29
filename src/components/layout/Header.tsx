@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Search, ShoppingCart, Menu, X, Heart,
-  ChevronDown, ShoppingBag, User, Globe
+  Search, Menu, X, ShoppingBag,
 } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
-import MiniCart from '../ui/MiniCart';
-import ProfileMenu from '../ui/ProfileModal';
-import LanguageSwitcher from './LangSwitcher';
+// import { useCart } from '../../contexts/CartContext';
+import NavIcons from '../navigation/NavIcons';
+import MegaMenu from '../navigation/MegaMenu';
 import { useTranslate } from '../../hooks/userTranslate';
-import { subCategories } from "../../data/categories";
 import { CategoryKey } from '../../types/Category';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cartItems } = useCart();
+  // const { cartItems } = useCart();
 
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  // const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const { t } = useTranslate();
 
 
@@ -70,7 +66,8 @@ const Header: React.FC = () => {
           </div>
 
           {/* Nav icons */}
-          <div className="flex items-center space-x-4 rtl:space-x-reverse">
+          <NavIcons />
+          {/* <div className="flex items-center space-x-4 rtl:space-x-reverse">
             <LanguageSwitcher />
 
             <ProfileMenu>
@@ -101,49 +98,17 @@ const Header: React.FC = () => {
               </button>
               {isCartOpen && <MiniCart onClose={() => setIsCartOpen(false)} />}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Categories nav - hidden on mobile unless menu is open */}
-        <nav className={`${isMenuOpen ? 'block' : 'hidden'} lg:block mt-4`}>
-          <ul className="flex flex-col lg:flex-row lg:justify-center space-y-2 lg:space-y-0 lg:space-x-8 rtl:space-x-reverse">
-            {categories.map((category) => (
-              <li key={category} className="group relative">
-                <Link
-                  to="/"
-                  className="text-gray-700 hover:text-blue-600 font-medium flex items-center transition-colors">
-                  {t(`header.categories.${category}`)}
-                  <ChevronDown size={16} className="ChevronDown ml-1 rtl:ml-0 rtl:mr-1" />
-                </Link>
-                <div className="hidden group-hover:grid absolute top-full left-1/2 -transform -translate-x-1/2 bg-white shadow-xl rounded-xl p-6 grid-cols-3 gap-8 w-[700px] z-50">
-                  {Object.entries(subCategories[category]).map(
-                    ([section, items]) => (
-                      <div key={section}>
-                        <h3 className="font-bold text-gray-800 mb-3 border-b pb-2">
-                          {section}
-                        </h3>
-                        <ul className="space-y-2">
-                          {items.map((item) => (
-                            <li key={item}>
-                              <Link
-                                to="/"
-                                className="block text-gray-600 hover:text-blue-600 hover:translate-x-1 transition-all"
-                              >
-                                {item}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <MegaMenu
+          isOpen={isMenuOpen}
+          onClose={() => setIsMenuOpen(false)}
+        />
 
         {/* Mobile search - visible only on mobile */}
-        <div className="mt-4 lg:hidden">
+        {/* <div className="mt-4 lg:hidden">
           <div className="relative w-full">
             <input
               type="text"
@@ -154,7 +119,7 @@ const Header: React.FC = () => {
               <Search size={18} />
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </header>
   );

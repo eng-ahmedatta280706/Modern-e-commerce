@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect , useMemo} from "react";
 // import { localProducts } from "../data/products";
 import { Product } from "../types/Product";
 
@@ -42,10 +42,18 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const clearWishlist = () => {
         setWishlist([]);
     };
+    
+    const value = useMemo(() => ({
+        wishlist,
+        addToWishlist,
+        removeFromWishlist,
+        isInWishlist,
+        clearWishlist
+    }), [wishlist]);
 
     return (
         <WishlistContext.Provider
-            value={{ wishlist, addToWishlist, removeFromWishlist, isInWishlist, clearWishlist }}
+            value={value}
         >
             {children}
         </WishlistContext.Provider>

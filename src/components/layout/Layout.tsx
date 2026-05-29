@@ -1,28 +1,59 @@
 import React from 'react';
+import { useLocation, matchRoutes } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import { useLocation } from 'react-router-dom';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+const routesToHide = [
+  '/checkout',
+  '/login',
+  '/register',
+  '/account',
+  '/wishlist',
+  '/search',
+];
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
-  const hideFooterPaths = ["/checkout", "/wishlist", "/account" , "/login", "/register"];
-  
-  const shouldShowFooter = !hideFooterPaths.includes(location.pathname);
-  
-  const isAuthPage = ["/login", "/register"].includes(location.pathname);
+  const path = location.pathname;
 
-  const hideHeaderPaths = ["/checkout", "/wishlist", "/account"];
-  const shouldShowHeader = !hideHeaderPaths.includes(location.pathname) && !isAuthPage;
+  const hideExact = routesToHide.includes(path);
+  const hideCategory = path.startsWith('/category/');
+
+  // detect unmatched routes
+  const matched = matchRoutes(
+    [
+      { path: '/' },
+      { path: '/product/:id' },
+      { path: '/category/:categorySlug' },
+      { path: '/category/:categorySlug/:subcategorySlug' },
+      { path: '/search' },
+      { path: '/wishlist' },
+      { path: '/checkout' },
+      { path: '/login' },
+      { path: '/register' },
+      { path: '/account' },
+    ],
+    location
+  );
+
+  const isNotFound = !matched;
+
+  const showHeader = !(hideExact || hideCategory || isNotFound);
+  const showFooter = !(hideExact || hideCategory || isNotFound);
 
   return (
     <div className="flex flex-col min-h-screen">
-      {shouldShowHeader && <Header />}
-      <main className="flex-grow">{children}</main>
-      {shouldShowFooter && <Footer />}
+      {showHeader && <Header />}
+
+      <main className="flex-grow">
+        {children}
+      </main>
+
+      {showFooter && <Footer />}
     </div>
   );
 };

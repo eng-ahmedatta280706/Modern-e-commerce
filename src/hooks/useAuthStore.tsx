@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { axiosInstance } from "./../lib/axios.js";
+import { axiosInstance } from "./../lib/axios";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 const BASE_URL =
@@ -29,7 +29,7 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  signup: async (fromData) => {
+  signup: async (fromData: any) => {
     set({ isSigningUp: true });
     try {
       const res = await axiosInstance.post("/user/signup", fromData);
@@ -43,7 +43,7 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  login: async (formData) => {
+  login: async (formData: any) => {
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/user/login", formData);
@@ -69,7 +69,7 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  updateProfile: async (data) => {
+  updateProfile: async (data: any) => {
     set({ isChangingPic: true });
     try {
       const res = await axiosInstance.put("/user/update-profile", data);

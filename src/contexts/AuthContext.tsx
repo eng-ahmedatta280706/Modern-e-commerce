@@ -1,4 +1,8 @@
-import React, { createContext, useState } from "react";
+import React, {
+    createContext,
+    useState,
+    useMemo
+} from "react";
 import { login, logout, register } from "../api/auth";
 
 interface AuthContextType {
@@ -61,8 +65,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const value = useMemo(() => ({
+        isAuthenticated,
+        loading,
+        loginUser,
+        logoutUser,
+        registerUser
+    }), [isAuthenticated, loading]);
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, loading, loginUser, logoutUser, registerUser }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );

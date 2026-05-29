@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import CustomModal from "../ui/ModalMenu";
+import CustomModal from "../modals/ModalMenu";
 import { Globe, Check } from "lucide-react";
 import { LanguageContext } from "../../contexts/LanguageContext";
 

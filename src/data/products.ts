@@ -310,5 +310,577 @@ export const localProducts: Product[] = [
     category: 'Women',
     subcategory: 'Leggings'
 
-  }
+  },
+  {
+    id: '101',
+    name: 'AirFlex Running Shoes',
+    brand: 'Nike',
+    price: 129.99,
+    description: 'Lightweight running shoes designed for speed, comfort and daily training.',
+    image: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Black', 'White', 'Blue'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '102',
+    name: 'Ultraboost 5X',
+    brand: 'Adidas',
+    price: 149.99,
+    description: 'Premium performance shoes with responsive cushioning and modern styling.',
+    image: 'https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'New',
+    colors: ['White', 'Black'],
+    colorImages: {
+      'White': 'https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '103',
+    name: 'Club Fleece Hoodie',
+    brand: 'Nike',
+    price: 69.99,
+    description: 'Soft fleece hoodie perfect for casual wear and cold weather.',
+    image: 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Gray', 'Black'],
+    colorImages: {
+      'Gray': 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Hoodies'
+  },
+  {
+    id: '104',
+    name: 'Essentials Logo Tee',
+    brand: 'Puma',
+    price: 29.99,
+    description: 'Comfortable cotton t-shirt with a modern athletic fit.',
+    image: 'https://images.pexels.com/photos/9558776/pexels-photo-9558776.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['White', 'Black'],
+    colorImages: {
+      'White': 'https://images.pexels.com/photos/9558776/pexels-photo-9558776.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'T-Shirts'
+  },
+  {
+    id: '105',
+    name: 'Heritage Denim Jacket',
+    brand: 'Levis',
+    price: 89.99,
+    description: 'Classic denim jacket made for everyday style and durability.',
+    image: 'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'Best Seller',
+    colors: ['Blue', 'Black'],
+    colorImages: {
+      'Blue': 'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Jackets'
+  },
+  {
+    id: '106',
+    name: 'Classic Polo Shirt',
+    brand: 'Lacoste',
+    price: 59.99,
+    description: 'Timeless polo shirt with premium fabric and elegant design.',
+    image: 'https://images.pexels.com/photos/4066293/pexels-photo-4066293.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Navy', 'White'],
+    colorImages: {
+      'Navy': 'https://images.pexels.com/photos/4066293/pexels-photo-4066293.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Polo Shirts'
+  },
+  {
+    id: '107',
+    name: 'Cargo Utility Pants',
+    brand: 'Dickies',
+    price: 64.99,
+    description: 'Functional cargo pants with multiple pockets and durable fabric.',
+    image: 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Khaki', 'Black'],
+    colorImages: {
+      'Khaki': 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Pants'
+  },
+  {
+    id: '108',
+    name: 'Court Vision Sneakers',
+    brand: 'Nike',
+    price: 119.99,
+    description: 'Basketball-inspired sneakers with clean lines and everyday comfort.',
+    image: 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['White', 'Black'],
+    colorImages: {
+      'White': 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '109',
+    name: 'Tech Knit Joggers',
+    brand: 'Under Armour',
+    price: 54.99,
+    description: 'Modern athletic joggers made with breathable stretch fabric.',
+    image: 'https://images.pexels.com/photos/6311613/pexels-photo-6311613.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Black', 'Gray'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/6311613/pexels-photo-6311613.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Joggers'
+  },
+  {
+    id: '110',
+    name: 'Vintage Graphic Tee',
+    brand: 'Vans',
+    price: 34.99,
+    description: 'Relaxed fit graphic t-shirt inspired by classic streetwear.',
+    image: 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Black', 'White'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'T-Shirts'
+  },
+  {
+    id: '111',
+    name: 'Premium Leather Wallet',
+    brand: 'Fossil',
+    price: 49.99,
+    description: 'Genuine leather wallet with multiple card slots and a slim profile.',
+    image: 'https://images.pexels.com/photos/2079451/pexels-photo-2079451.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Brown', 'Black'],
+    colorImages: {
+      'Brown': 'https://images.pexels.com/photos/2079451/pexels-photo-2079451.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Wallets'
+  },
+  {
+    id: '112',
+    name: 'Explorer Backpack',
+    brand: 'The North Face',
+    price: 119.99,
+    description: 'Durable backpack suitable for travel, school, and outdoor adventures.',
+    image: 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'Best Seller',
+    colors: ['Black', 'Gray'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Bags'
+  },
+  {
+    id: '113',
+    name: 'Luxury Aviator Sunglasses',
+    brand: 'Ray-Ban',
+    price: 159.99,
+    description: 'Classic aviator sunglasses offering timeless style and UV protection.',
+    image: 'https://images.pexels.com/photos/701877/pexels-photo-701877.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Gold', 'Silver'],
+    colorImages: {
+      'Gold': 'https://images.pexels.com/photos/701877/pexels-photo-701877.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Sunglasses'
+  },
+  {
+    id: '114',
+    name: 'Performance Training Shorts',
+    brand: 'Under Armour',
+    price: 39.99,
+    description: 'Breathable athletic shorts designed for maximum mobility.',
+    image: 'https://images.pexels.com/photos/6550878/pexels-photo-6550878.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Black', 'Gray'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/6550878/pexels-photo-6550878.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Shorts'
+  },
+  {
+    id: '115',
+    name: 'Classic White Sneakers',
+    brand: 'Converse',
+    price: 84.99,
+    description: 'Minimalist sneakers that pair well with any casual outfit.',
+    image: 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'Sale',
+    colors: ['White'],
+    colorImages: {
+      'White': 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Shoes',
+    subcategory: 'Sneakers'
+  },
+  {
+    id: '116',
+    name: 'Elegant Evening Dress',
+    brand: 'Zara',
+    price: 99.99,
+    description: 'Sophisticated evening dress designed for formal occasions.',
+    image: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'New',
+    colors: ['Black', 'Red'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Women',
+    subcategory: 'Dresses'
+  },
+  {
+    id: '117',
+    name: 'Oversized Knit Sweater',
+    brand: 'H&M',
+    price: 54.99,
+    description: 'Warm oversized sweater with a relaxed modern silhouette.',
+    image: 'https://images.pexels.com/photos/6311612/pexels-photo-6311612.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Cream', 'Gray'],
+    colorImages: {
+      'Cream': 'https://images.pexels.com/photos/6311612/pexels-photo-6311612.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Women',
+    subcategory: 'Sweaters'
+  },
+  {
+    id: '118',
+    name: 'High Waist Jeans',
+    brand: 'Levis',
+    price: 79.99,
+    description: 'Flattering high-waist jeans with premium stretch denim.',
+    image: 'https://images.pexels.com/photos/7691083/pexels-photo-7691083.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Blue', 'Black'],
+    colorImages: {
+      'Blue': 'https://images.pexels.com/photos/7691083/pexels-photo-7691083.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Women',
+    subcategory: 'Jeans'
+  },
+  {
+    id: '119',
+    name: 'Leather Shoulder Bag',
+    brand: 'Michael Kors',
+    price: 189.99,
+    description: 'Premium shoulder bag crafted from high-quality leather.',
+    image: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'Best Seller',
+    colors: ['Brown', 'Black'],
+    colorImages: {
+      'Brown': 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Bags'
+  },
+  {
+    id: '120',
+    name: 'Classic Analog Watch',
+    brand: 'Casio',
+    price: 74.99,
+    description: 'Elegant analog watch with a timeless and versatile design.',
+    image: 'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Silver', 'Black'],
+    colorImages: {
+      'Silver': 'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Watches'
+  },
+  {
+    id: '121',
+    name: 'Signature Leather Belt',
+    brand: 'Tommy Hilfiger',
+    price: 44.99,
+    description: 'Premium leather belt with a timeless buckle design.',
+    image: 'https://images.pexels.com/photos/45055/pexels-photo-45055.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Brown', 'Black'],
+    colorImages: {
+      'Brown': 'https://images.pexels.com/photos/45055/pexels-photo-45055.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Belts'
+  },
+  {
+    id: '122',
+    name: 'Urban Bomber Jacket',
+    brand: 'Zara',
+    price: 119.99,
+    description: 'Modern bomber jacket designed for everyday streetwear.',
+    image: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'New',
+    colors: ['Black', 'Olive'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Jackets'
+  },
+  {
+    id: '123',
+    name: 'Slim Fit Chinos',
+    brand: 'Dockers',
+    price: 64.99,
+    description: 'Comfortable chinos suitable for business casual and daily wear.',
+    image: 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Khaki', 'Navy'],
+    colorImages: {
+      'Khaki': 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Pants'
+  },
+  {
+    id: '124',
+    name: 'Cashmere Blend Cardigan',
+    brand: 'Uniqlo',
+    price: 79.99,
+    description: 'Soft cardigan made from a luxurious cashmere blend.',
+    image: 'https://images.pexels.com/photos/6311611/pexels-photo-6311611.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Cream', 'Gray'],
+    colorImages: {
+      'Cream': 'https://images.pexels.com/photos/6311611/pexels-photo-6311611.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Women',
+    subcategory: 'Sweaters'
+  },
+  {
+    id: '125',
+    name: 'Luxury Silk Scarf',
+    brand: 'Burberry',
+    price: 129.99,
+    description: 'Elegant silk scarf featuring a sophisticated pattern.',
+    image: 'https://images.pexels.com/photos/6347547/pexels-photo-6347547.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Beige', 'Black'],
+    colorImages: {
+      'Beige': 'https://images.pexels.com/photos/6347547/pexels-photo-6347547.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Scarves'
+  },
+  {
+    id: '126',
+    name: 'Athletic Zip Hoodie',
+    brand: 'Adidas',
+    price: 74.99,
+    description: 'Lightweight zip hoodie perfect for workouts and casual wear.',
+    image: 'https://images.pexels.com/photos/6311393/pexels-photo-6311393.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Gray', 'Black'],
+    colorImages: {
+      'Gray': 'https://images.pexels.com/photos/6311393/pexels-photo-6311393.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Hoodies'
+  },
+  {
+    id: '127',
+    name: 'Pleated Midi Skirt',
+    brand: 'Mango',
+    price: 69.99,
+    description: 'Elegant pleated skirt ideal for formal and casual outfits.',
+    image: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Black', 'Beige'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Women',
+    subcategory: 'Skirts'
+  },
+  {
+    id: '128',
+    name: 'Designer Baseball Cap',
+    brand: 'New Era',
+    price: 34.99,
+    description: 'Classic baseball cap with premium embroidery.',
+    image: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Black', 'Navy'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Caps'
+  },
+  {
+    id: '129',
+    name: 'Premium Polo Shirt',
+    brand: 'Ralph Lauren',
+    price: 89.99,
+    description: 'Iconic polo shirt crafted from breathable premium cotton.',
+    image: 'https://images.pexels.com/photos/4066293/pexels-photo-4066293.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'Best Seller',
+    colors: ['White', 'Navy'],
+    colorImages: {
+      'White': 'https://images.pexels.com/photos/4066293/pexels-photo-4066293.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Polo Shirts'
+  },
+  {
+    id: '130',
+    name: 'Leather Tote Bag',
+    brand: 'Coach',
+    price: 219.99,
+    description: 'Spacious leather tote bag combining style and practicality.',
+    image: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'Premium',
+    colors: ['Brown', 'Black'],
+    colorImages: {
+      'Brown': 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Bags'
+  },
+  {
+    id: '121',
+    name: 'Signature Leather Belt',
+    brand: 'Tommy Hilfiger',
+    price: 44.99,
+    description: 'Premium leather belt with a timeless buckle design.',
+    image: 'https://images.pexels.com/photos/45055/pexels-photo-45055.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Brown', 'Black'],
+    colorImages: {
+      'Brown': 'https://images.pexels.com/photos/45055/pexels-photo-45055.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Belts'
+  },
+  {
+    id: '122',
+    name: 'Urban Bomber Jacket',
+    brand: 'Zara',
+    price: 119.99,
+    description: 'Modern bomber jacket designed for everyday streetwear.',
+    image: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'New',
+    colors: ['Black', 'Olive'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Jackets'
+  },
+  {
+    id: '123',
+    name: 'Slim Fit Chinos',
+    brand: 'Dockers',
+    price: 64.99,
+    description: 'Comfortable chinos suitable for business casual and daily wear.',
+    image: 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Khaki', 'Navy'],
+    colorImages: {
+      'Khaki': 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Pants'
+  },
+  {
+    id: '124',
+    name: 'Cashmere Blend Cardigan',
+    brand: 'Uniqlo',
+    price: 79.99,
+    description: 'Soft cardigan made from a luxurious cashmere blend.',
+    image: 'https://images.pexels.com/photos/6311611/pexels-photo-6311611.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Cream', 'Gray'],
+    colorImages: {
+      'Cream': 'https://images.pexels.com/photos/6311611/pexels-photo-6311611.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Women',
+    subcategory: 'Sweaters'
+  },
+  {
+    id: '125',
+    name: 'Luxury Silk Scarf',
+    brand: 'Burberry',
+    price: 129.99,
+    description: 'Elegant silk scarf featuring a sophisticated pattern.',
+    image: 'https://images.pexels.com/photos/6347547/pexels-photo-6347547.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Beige', 'Black'],
+    colorImages: {
+      'Beige': 'https://images.pexels.com/photos/6347547/pexels-photo-6347547.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Scarves'
+  },
+  {
+    id: '126',
+    name: 'Athletic Zip Hoodie',
+    brand: 'Adidas',
+    price: 74.99,
+    description: 'Lightweight zip hoodie perfect for workouts and casual wear.',
+    image: 'https://images.pexels.com/photos/6311393/pexels-photo-6311393.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Gray', 'Black'],
+    colorImages: {
+      'Gray': 'https://images.pexels.com/photos/6311393/pexels-photo-6311393.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Hoodies'
+  },
+  {
+    id: '127',
+    name: 'Pleated Midi Skirt',
+    brand: 'Mango',
+    price: 69.99,
+    description: 'Elegant pleated skirt ideal for formal and casual outfits.',
+    image: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Black', 'Beige'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Women',
+    subcategory: 'Skirts'
+  },
+  {
+    id: '128',
+    name: 'Designer Baseball Cap',
+    brand: 'New Era',
+    price: 34.99,
+    description: 'Classic baseball cap with premium embroidery.',
+    image: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    colors: ['Black', 'Navy'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Caps'
+  },
+  {
+    id: '129',
+    name: 'Premium Polo Shirt',
+    brand: 'Ralph Lauren',
+    price: 89.99,
+    description: 'Iconic polo shirt crafted from breathable premium cotton.',
+    image: 'https://images.pexels.com/photos/4066293/pexels-photo-4066293.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'Best Seller',
+    colors: ['White', 'Navy'],
+    colorImages: {
+      'White': 'https://images.pexels.com/photos/4066293/pexels-photo-4066293.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Men',
+    subcategory: 'Polo Shirts'
+  },
+  {
+    id: '130',
+    name: 'Leather Tote Bag',
+    brand: 'Coach',
+    price: 219.99,
+    description: 'Spacious leather tote bag combining style and practicality.',
+    image: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    badge: 'Premium',
+    colors: ['Brown', 'Black'],
+    colorImages: {
+      'Brown': 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    },
+    category: 'Accessories',
+    subcategory: 'Bags'
+  },
 ];

@@ -15,7 +15,7 @@ export interface Product {
     width?: number;
     height?: number;
   };
-  badge?: 'New' | 'Sale' | 'Best Seller';
+  badge?: 'New' | 'Sale' | 'Best Seller' | 'Premium';
   tags?: string[];
   colors: string[];
   colorImages: {

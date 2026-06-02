@@ -1,3 +1,6 @@
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -52,14 +55,16 @@ body.swal2-shown {
     list-style: none;
     transition: 0.5s;
     transform: rotate(calc(360deg / 8 * var(--i)));
-    transform-origin: 100px;
+    /* transform-origin: 80px; */
     scale: 0;
     transition-delay: calc(0.05s * var(--i));
 }
 
 .menu.active li {
     scale: 1;
-    /* transform: rotate(calc(360deg / 8 * var(--i))) translateX(100px); */
+    /* transform-origin: 80px; */
+    transform: rotate(calc(360deg / 8 * var(--i))) translateX(80px);
+    margin-top: -25px;
 }
 
 .menu li a {
@@ -75,7 +80,7 @@ body.swal2-shown {
     border-radius: 50%;
     font-size: 1.75rem;
     color: var(--clr);
-    /* box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15); */
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
     transition: 0.3s;
     text-decoration: none;
 }
@@ -86,9 +91,9 @@ body.swal2-shown {
         0 0 0 2px var(--clr),
         0 0 0 6px #fff;
 
-        backface-visibility: visible;
-        animation-delay: 0s;
-        animation-fill-mode: forwards;
+    backface-visibility: visible;
+    animation-delay: 0s;
+    animation-fill-mode: forwards;
 }
 
 @keyframes slideIn {
@@ -158,4 +163,57 @@ body.swal2-shown {
 nav ul li:hover .ChevronDown {
     transition: transform 0.2s ease-in-out;
     transform: rotate(180deg);
+}
+
+
+.addCart-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #1dbb6e;
+    color: white;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 25px;
+    overflow: hidden;
+    white-space: nowrap;
+
+    transition:
+        width 0.4s ease,
+        background-color 0.3s ease;
+}
+
+.addCart-btn:hover {
+    width: 120px;
+    gap: 8px;
+    text-align: center;
+
+}
+
+.addCart-btn span {
+    opacity: 0;
+    max-width: 0;
+    margin-bottom: 2px;
+    overflow: hidden;
+
+    transition:
+        opacity 0.25s ease,
+        max-width 0.4s ease;
+}
+
+.addCart-btn:hover span {
+    opacity: 1;
+    max-width: 100px;
+}
+
+.ShoppingCart {
+    flex-shrink: 0;
+    transition: transform 0.5s ease;
+}
+
+.addCart-btn:hover .ShoppingCart {
+    transform: rotate(-360deg);
 }

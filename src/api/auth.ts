@@ -1,21 +1,17 @@
-import axios from "axios";
+import api from "../services/api";
 
 export const login = (identfire: string, password: string) => {
-    if (identfire.includes("@")) {
-        return axios.post("/api/auth/login", { email: identfire, password });
-    } else {
-        return axios.post("/api/auth/login", { username: identfire, password });
-    }
+    return api.post("/auth/login", { email: identfire, password });
 }
 
 export const register = (data: { name?: string; username?: string; email?: string; password: string }) => {
-    return axios.post("/api/auth/register", data);
+    return api.post("/auth/register", data);
 }
 
 export const refreshToken = () => {
-    return axios.post("/api/auth/refresh");
+    return api.post("/auth/refresh");
 }
 
 export const logout = () => {
-    return axios.post("/api/auth/logout");
+    return api.post("/auth/logout");
 }

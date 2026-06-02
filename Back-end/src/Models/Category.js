@@ -1,21 +1,82 @@
-import { Schema, model } from 'mongoose';
+import { db } from '../configs/db.js';
+import { Categories } from './schema.js';
+import { eq, and, isNull } from 'drizzle-orm';
 import slugify from 'slugify';
 
-const categorySchema = new Schema({
-  name:        { type: String, required: true, unique: true, trim: true },
-  slug:        { type: String, unique: true },
-  description: { type: String, default: '' },
-  image:       { type: String, default: '' },
-  parent:      { type: Schema.Types.ObjectId, ref: 'Category', default: null },
-  isActive:    { type: Boolean, default: true },
-  order:       { type: Number, default: 0 },
-}, { timestamps: true });
+// Category Queries
+export async function findCategories(filter = {}) {
+  let query = db.select().from(Categories);
 
-categorySchema.pre('save', function (next) {
-  if (this.isModified('name')) {
-    this.slug = slugify(this.name, { lower: true, strict: true });
+  if (filter.isActive !== undefined) {
+    query = query.where(eq(Categories.isActive, filter.isActive));
   }
-  next();
-});
+  if (filter.parentId) {
+    query = query.where(eq(Categories.parentId, filter.parentId));
+  }
 
-export default model('Category', categorySchema);
+  return await query;
+}
+
+export async function findCategoryById(id) {
+  const [result] = await db.select().from(Categories).where(eq(Categories.id, id));
+  return result || null;
+}
+
+export async function findCategoryBySlug(slug) {
+  const [result] = await db.select().from(Categories).where(eq(Categories.slug, slug));
+  return result || null;
+}
+
+export async function findCategoryByName(name) {
+  const [result] = await db.select().from(Categories).where(eq(Categories.name, name));
+  return result || null;
+}
+
+// Category Management
+export async function createCategory(data) {
+  const slug = slugify(data.name, { lower: true, strict: true });
+
+  const [result] = await db.insert(Categories).values({
+    ...data,
+    slug,
+  }).returning();
+  return result;
+}
+
+export async function updateCategory(id, updateData) {
+  if (updateData.name) {
+    updateData.slug = slugify(updateData.name, { lower: true, strict: true });
+  }
+  updateData.updatedAt = new Date();
+
+  const [result] = await db.update(Categories).set(updateData).where(eq(Categories.id, id)).returning();
+  return result;
+}
+
+export async function deleteCategory(id) {
+  return await db.delete(Categories).where(eq(Categories.id, id));
+}
+
+// Root categories (those without parent)
+export async function getRootCategories() {
+  return await db.select().from(Categories).where(
+    and(isNull(Categories.parentId), eq(Categories.isActive, true))
+  );
+}
+
+// Subcategories
+export async function getSubcategories(parentId) {
+  return await db.select().from(Categories).where(
+    and(eq(Categories.parentId, parentId), eq(Categories.isActive, true))
+  );
+}
+
+// Get category with hierarchy
+export async function getCategoryHierarchy(parentId = null) {
+  const parent = parentId ? await findCategoryById(parentId) : null;
+  const subcats = await getSubcategories(parentId || '');
+  return {
+    parent,
+    subcategories: subcats,
+  };
+}

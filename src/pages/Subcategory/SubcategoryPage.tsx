@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useParams, Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { SlidersHorizontal } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
 import ProductFilter from '../../components/product/ProductFilter';
@@ -8,8 +8,14 @@ import Pagination from '../../components/ui/Pagination';
 import EmptyState from '../../components/ui/EmptyState';
 import { useProducts } from '../../hooks/useProducts';
 import { toTitleCase } from '../../utils/helpers';
+import {
+  parseProductFiltersFromSearchParams,
+  syncProductFiltersToSearchParams,
+} from '../../utils/productFilters';
+import SearchBar from '../../components/search/SearchBar';
 
 const PAGE_SIZE = 12;
+
 
 const SubcategoryPage: React.FC = () => {
   const { categorySlug = '', subcategorySlug = '' } = useParams<{
@@ -20,8 +26,30 @@ const SubcategoryPage: React.FC = () => {
   const categoryLabel = toTitleCase(categorySlug.replace(/-/g, ' '));
   const subcategoryLabel = toTitleCase(subcategorySlug.replace(/-/g, ' '));
 
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const routeBaseFilters = useMemo(() => {
+    if (categorySlug === 'new-arrivals') {
+      return { badge: 'New' as const, subcategory: subcategoryLabel };
+    }
+
+    if (categorySlug === 'sale') {
+      return { badge: 'Sale' as const, subcategory: subcategoryLabel };
+    }
+
+    return { category: categoryLabel, subcategory: subcategoryLabel };
+  }, [categorySlug, categoryLabel, subcategoryLabel]);
+
+  const urlFilters = useMemo(
+    () => parseProductFiltersFromSearchParams(searchParams, {
+      ...routeBaseFilters,
+    }),
+    [searchParams, routeBaseFilters]
+  );
 
   const {
     products,
@@ -34,12 +62,20 @@ const SubcategoryPage: React.FC = () => {
     allColors,
     priceRange,
     totalCount,
-  } = useProducts({
-    category: categoryLabel,
-    subcategory: subcategoryLabel,
-  });
+  } = useProducts(urlFilters);
+
+  useEffect(() => {
+    const syncedFilters = parseProductFiltersFromSearchParams(searchParams, {
+      ...routeBaseFilters,
+    });
+    (Object.keys(syncedFilters) as (keyof typeof syncedFilters)[]).forEach(key => {
+      updateFilter(key, syncedFilters[key]);
+    });
+    setCurrentPage(1);
+  }, [searchParams, routeBaseFilters, updateFilter]);
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+  
   const paginatedProducts = products.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
@@ -49,7 +85,21 @@ const SubcategoryPage: React.FC = () => {
     key: K,
     value: (typeof filters)[K]
   ) => {
-    updateFilter(key, value as any);
+    const nextFilters = key === 'category'
+      ? { ...filters, category: value as string | undefined, subcategory: undefined }
+      : { ...filters, [key]: value };
+    updateFilter(key, value);
+    if (key === 'category') {
+      updateFilter('subcategory', undefined);
+    }
+    const nextParams = syncProductFiltersToSearchParams(searchParams, nextFilters);
+    navigate({ pathname: location.pathname, search: nextParams.toString() ? `?${nextParams.toString()}` : '' }, { replace: true });
+    setCurrentPage(1);
+  };
+
+  const handleResetFilters = () => {
+    resetFilters({ ...routeBaseFilters });
+    navigate({ pathname: location.pathname }, { replace: true });
     setCurrentPage(1);
   };
 
@@ -57,7 +107,7 @@ const SubcategoryPage: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       <Breadcrumb
         items={[
-          { label: 'Shop', href: '/shop' },
+          // { label: 'Shop', href: '/shop' },
           { label: categoryLabel, href: `/category/${categorySlug}` },
           { label: subcategoryLabel },
         ]}
@@ -84,6 +134,13 @@ const SubcategoryPage: React.FC = () => {
       <div className="flex gap-8">
         {/* Sidebar */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
+          <SearchBar
+            placeholder="Search products..."
+            value={filters.search ?? ''}
+            onChange={val => {
+              handleFilterChange('search', val || undefined);
+            }}
+          />
           <ProductFilter
             filters={filters}
             sortBy={sortBy}
@@ -93,7 +150,8 @@ const SubcategoryPage: React.FC = () => {
             totalCount={totalCount}
             onFilterChange={handleFilterChange}
             onSortChange={val => { setSortBy(val); setCurrentPage(1); }}
-            onReset={() => { resetFilters(); setCurrentPage(1); }}
+            onReset={handleResetFilters}
+            categoryLabel={categoryLabel}
           />
         </aside>
 
@@ -111,7 +169,8 @@ const SubcategoryPage: React.FC = () => {
                 totalCount={totalCount}
                 onFilterChange={handleFilterChange}
                 onSortChange={val => { setSortBy(val); setCurrentPage(1); setFilterOpen(false); }}
-                onReset={() => { resetFilters(); setCurrentPage(1); setFilterOpen(false); }}
+                onReset={() => { handleResetFilters(); setFilterOpen(false); }}
+                categoryLabel={categoryLabel}
                 isOpen
               />
             </div>
@@ -120,8 +179,8 @@ const SubcategoryPage: React.FC = () => {
 
         {/* Products */}
         <main className="flex-1 min-w-0">
-          {paginatedProducts.length === 0 ? (
-            <EmptyState variant="products" onAction={resetFilters} />
+          {products.length === 0 ? (
+            <EmptyState variant="products" onAction={() => navigate('/shop')} />
           ) : (
             <>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">

@@ -1,30 +1,37 @@
-import { find, countDocuments, updateMany, findOneAndUpdate, deleteMany, findOneAndDelete } from '../models/Notification';
-import { AppError } from '../middleware/errorHandler';
+import {
+  getUserNotifications,
+  getUnreadCount,
+  markAllAsRead,
+  markNotificationAsRead,
+  findNotificationById,
+  deleteNotification as deleteNotificationModel,
+  deleteUserNotifications,
+} from '../Models/Notification.js';
+import errorHandler from '../middleware/errorHandler.js';
+
+const { AppError } = errorHandler;
 
 export async function getNotifications(req, res, next) {
   try {
     const { page = 1, limit = 20, unreadOnly } = req.query;
-    const filter = { recipient: req.user._id };
-    if (unreadOnly === 'true') filter.isRead = false;
+    const pageNum = Number(page);
+    const lim = Number(limit);
 
-    const [notifications, total, unreadCount] = await Promise.all([
-      find(filter)
-        .sort({ createdAt: -1 })
-        .skip((Number(page) - 1) * Number(limit))
-        .limit(Number(limit)),
-      countDocuments(filter),
-      countDocuments({ recipient: req.user._id, isRead: false }),
-    ]);
+    // fetch recent notifications (drizzle helper returns ordered results)
+    const all = await getUserNotifications(req.user._id, pageNum * lim);
+    const paged = all.slice((pageNum - 1) * lim, pageNum * lim);
+    const total = all.length;
+    const unreadCount = await getUnreadCount(req.user._id);
 
     res.json({
       success: true,
-      data: notifications,
+      data: paged,
       unreadCount,
       pagination: {
-        page: Number(page),
-        limit: Number(limit),
+        page: pageNum,
+        limit: lim,
         total,
-        pages: Math.ceil(total / Number(limit)),
+        pages: Math.max(1, Math.ceil(total / lim)),
       },
     });
   } catch (err) { next(err); }
@@ -35,17 +42,17 @@ export async function markRead(req, res, next) {
     const { id } = req.params;
 
     if (id === 'all') {
-      await updateMany({ recipient: req.user._id }, { isRead: true });
+      await markAllAsRead(req.user._id);
       return res.json({ success: true, message: 'All notifications marked as read.' });
     }
 
-    const notification = await findOneAndUpdate(
-      { _id: id, recipient: req.user._id },
-      { isRead: true },
-      { new: true }
-    );
-    if (!notification) return next(new AppError('Notification not found.', 404));
-    res.json({ success: true, data: notification });
+    const notification = await findNotificationById(id);
+    if (!notification || String(notification.recipientId) !== String(req.user._id)) {
+      return next(new AppError('Notification not found.', 404));
+    }
+
+    const updated = await markNotificationAsRead(id);
+    res.json({ success: true, data: updated });
   } catch (err) { next(err); }
 }
 
@@ -54,15 +61,16 @@ export async function deleteNotification(req, res, next) {
     const { id } = req.params;
 
     if (id === 'all') {
-      await deleteMany({ recipient: req.user._id });
+      await deleteUserNotifications(req.user._id);
       return res.json({ success: true, message: 'All notifications deleted.' });
     }
 
-    const notification = await findOneAndDelete({
-      _id: id,
-      recipient: req.user._id,
-    });
-    if (!notification) return next(new AppError('Notification not found.', 404));
+    const notification = await findNotificationById(id);
+    if (!notification || String(notification.recipientId) !== String(req.user._id)) {
+      return next(new AppError('Notification not found.', 404));
+    }
+
+    await deleteNotificationModel(id);
     res.json({ success: true, message: 'Notification deleted.' });
   } catch (err) { next(err); }
 }

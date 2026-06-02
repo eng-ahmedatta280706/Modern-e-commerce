@@ -1,11 +1,12 @@
-import { verify } from 'jsonwebtoken';
-import { findById } from '../models/User';
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
+import { findUserById, toJSON } from '../Models/User.js';
 
 /**
  * Verifies JWT from Authorization header or cookie.
  * Attaches req.user on success.
  */
-const protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   try {
     let token;
 
@@ -21,7 +22,8 @@ const protect = async (req, res, next) => {
 
     const decoded = verify(token, process.env.JWT_SECRET);
 
-    const user = await findById(decoded.id).select('-password');
+    const userRaw = await findUserById(decoded.id);
+    const user = userRaw ? await toJSON(userRaw) : null;
     if (!user) {
       return res.status(401).json({ success: false, message: 'User no longer exists.' });
     }
@@ -40,7 +42,7 @@ const protect = async (req, res, next) => {
  * Role-based access control.
  * Usage: authorize('admin') or authorize('admin', 'seller')
  */
-const authorize = (...roles) => (req, res, next) => {
+export const authorize = (...roles) => (req, res, next) => {
   if (!roles.includes(req.user.role)) {
     return res.status(403).json({
       success: false,
@@ -53,7 +55,7 @@ const authorize = (...roles) => (req, res, next) => {
 /**
  * Seller-specific: ensure seller account is approved.
  */
-const requireApprovedSeller = (req, res, next) => {
+export const requireApprovedSeller = (req, res, next) => {
   if (req.user.role === 'seller' && req.user.sellerStatus !== 'approved') {
     return res.status(403).json({
       success: false,

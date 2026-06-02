@@ -1,74 +1,144 @@
-import { Schema, model } from 'mongoose';
+import { db } from '../configs/db.js';
+import { Users, Addresses, Wishlist } from './schema.js';
+import { eq, and } from 'drizzle-orm';
 import { hash, compare } from 'bcryptjs';
 
-const addressSchema = new Schema({
-  label:    { type: String, default: 'Home' },
-  street:   String,
-  city:     String,
-  state:    String,
-  country:  String,
-  zipCode:  String,
-  isDefault:{ type: Boolean, default: false },
-}, { _id: true });
+// User Queries
+export async function findUserOne(query) {
+    const [result] = await db.select().from(Users).where(eq(Users.email, query.email || ''));
+    return result || null;
+}
 
-const userSchema = new Schema({
-  name:        { type: String, required: true, trim: true },
-  email:       { type: String, required: true, unique: true, lowercase: true, trim: true },
-  password:    { type: String, required: true, minlength: 8, select: false },
-  phone:       { type: String, default: '' },
-  profilePic:  { type: String, default: '' },
-  role: {
-    type: String,
-    enum: ['customer', 'seller', 'admin'],
-    default: 'customer',
-  },
+export async function findUser(query = {}) {
+    if (query.username) {
+        return await db.select().from(Users).where(eq(Users.name, query.username));
+    }
+    if (query.email) {
+        return await db.select().from(Users).where(eq(Users.email, query.email));
+    }
+    if (query.role) {
+        return await db.select().from(Users).where(eq(Users.role, query.role));
+    }
+    return await db.select().from(Users);
+}
 
-  // ── Seller extras ────────────────────────────
-  storeName:   { type: String, default: '' },
-  storeSlug:   { type: String, default: '', unique: true, sparse: true },
-  storeBio:    { type: String, default: '' },
-  storeLogo:   { type: String, default: '' },
-  storeBanner: { type: String, default: '' },
-  sellerStatus:{
-    type: String,
-    enum: ['pending', 'approved', 'rejected', 'suspended'],
-    default: 'pending',
-  },
-  commissionRate: { type: Number, default: 10 }, // %
+export async function findUserById(id) {
+    const [result] = await db.select().from(Users).where(eq(Users.id, id));
+    return result || null;
+}
 
-  // ── Customer extras ──────────────────────────
-  addresses:   [addressSchema],
-  wishlist:    [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+export async function createUser(data) {
+    const hashedPassword = await hash(data.password, 12);
+    const [result] = await db.insert(Users).values({
+        ...data,
+        password: hashedPassword,
+    }).returning();
+    return result;
+}
 
-  // ── Auth / security ──────────────────────────
-  isVerified:          { type: Boolean, default: false },
-  isActive:            { type: Boolean, default: true },
-  passwordResetToken:  String,
-  passwordResetExpires:Date,
-  refreshToken:        String,
-  lastLogin:           Date,
-}, { timestamps: true });
+export async function findUserByIdAndUpdate(id, update) {
+    if (update.password) {
+        update.password = await hash(update.password, 12);
+    } else if (update.email) {
+        const existingUser = await findUserOne({ email: update.email });
+        if (existingUser && existingUser.id !== id) {
+            throw new Error('Email already in use');
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(update.email)) {
+            throw new Error('Invalid email format');
+        }
+    } else if (update.name) {
+        const existingUser = await db.select().from(Users).where(eq(Users.name, update.name)).then(res => res[0]);
+        if (existingUser && existingUser.id !== id) {
+            throw new Error('Username already in use');
+        }
+        const usernameRegex = /^[a-zA-Z0-9_]+$/;
+        if (!usernameRegex.test(update.name)) {
+            throw new Error('Username can only contain letters, numbers, and underscores');
+        }
+    } else if (update.role) {
+        const validRoles = ['customer', 'seller', 'admin'];
+        if (!validRoles.includes(update.role)) {
+            throw new Error('Invalid role');
+        }
+        const user = await findUserById(id);
+        if (user.role === 'admin' && update.role !== 'admin') {
+            throw new Error('Cannot change role of an admin user');
+        }
+    } else if (update.sellerStatus) {
+        const validStatuses = ['pending', 'approved', 'rejected'];
+        if (!validStatuses.includes(update.sellerStatus)) {
+            throw new Error('Invalid seller status');
+        }
+    }
+    update.updatedAt = new Date();
+    const [result] = await db.update(Users).set(update).where(eq(Users.id, id)).returning();
+    return result;
+}
 
-// Hash password before save
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  this.password = await hash(this.password, 12);
-  next();
-});
+export async function countUsers() {
+    const result = await db.select().from(Users);
+    return result.length;
+}
 
-// Compare password
-userSchema.methods.comparePassword = async function (candidate) {
-  return compare(candidate, this.password);
-};
+export async function getUserAddresses(userId) {
+    return await db.select().from(Addresses).where(eq(Addresses.userId, userId));
+}
 
-// Don't return password
-userSchema.methods.toJSON = function () {
-  const obj = this.toObject();
-  delete obj.password;
-  delete obj.refreshToken;
-  delete obj.passwordResetToken;
-  delete obj.passwordResetExpires;
-  return obj;
-};
+export async function addUserAddress(userId, addressData) {
+    const [result] = await db.insert(Addresses).values({
+        userId,
+        ...addressData,
+    }).returning();
+    return result;
+}
 
-export default model('User', userSchema);
+export async function getUserWishlist(userId) {
+    return await db.select().from(Wishlist).where(eq(Wishlist.userId, userId));
+}
+
+export async function addToWishlist(userId, productId) {
+    const [result] = await db.insert(Wishlist).values({
+        userId,
+        productId,
+    }).returning().catch(() => null);
+    return result;
+}
+
+export async function removeFromWishlist(userId, productId) {
+    return await db.delete(Wishlist).where(
+        and(eq(Wishlist.userId, userId), eq(Wishlist.productId, productId))
+    );
+}
+
+// User helper methods
+export async function isAdmin(userId) {
+    const user = await findUserById(userId);
+    return user?.role === 'admin';
+}
+
+export async function isSeller(userId) {
+    const user = await findUserById(userId);
+    return user?.role === 'seller';
+}
+
+export async function isApprovedSeller(userId) {
+    const user = await findUserById(userId);
+    return user?.role === 'seller' && user?.sellerStatus === 'approved';
+}
+
+export async function comparePassword(userId, candidatePassword) {
+    const user = await findUserById(userId);
+    if (!user) return false;
+    return compare(candidatePassword, user.password);
+}
+
+export async function toJSON(user) {
+    const obj = { ...user };
+    delete obj.password;
+    delete obj.refreshToken;
+    delete obj.passwordResetToken;
+    delete obj.passwordResetExpires;
+    return obj;
+}

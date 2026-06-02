@@ -52,7 +52,8 @@ const ProductPage: React.FC = () => {
     .slice(0, 4);
 
   const handleAddToCart = () => {
-    addToCart(product, selectedColor);
+    addToCart(product, selectedColor, Number(quantity));
+    // console.log(`Added to cart: ${product.name} - Color: ${selectedColor} - Quantity: ${quantity}`);
   };
 
   return (

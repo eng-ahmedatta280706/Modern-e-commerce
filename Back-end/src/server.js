@@ -1,20 +1,23 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import mongoSanitize from 'express-mongo-sanitize';
-import connectDB from './config/db';
-import { errorHandler } from './middleware/errorHandler';
-import { globalLimiter } from './middleware/rateLimiter';
+import connectDB from './configs/db.js';
+import errorHandlerModule from './middleware/errorHandler.js';
+import { globalLimiter } from './middleware/rateLimiter.js';
+
+dotenv.config();
+
+const { errorHandler } = errorHandlerModule;
 
 // ── Routes ────────────────────────────────────────────────
-import authRoutes from './routes/authRoutes';
-import productRoutes from './routes/productRoutes';
-import orderRoutes from './routes/orderRoutes';
-import adminRoutes from './routes/adminRoutes';
-import sellerRoutes from './routes/sellerRoutes';
-import publicRoutes from './routes/publicRoutes';
+import authRoutes from './routes/authRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import sellerRoutes from './routes/sellerRoutes.js';
+import publicRoutes from './routes/publicRoutes.js';
 
 // ── Connect DB ────────────────────────────────────────────
 connectDB();
@@ -28,7 +31,6 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }));
-app.use(mongoSanitize());
 app.use(globalLimiter);
 
 // ── Body Parsing ──────────────────────────────────────────
@@ -46,12 +48,12 @@ app.get('/api/health', (_req, res) =>
 );
 
 // ── API Routes ────────────────────────────────────────────
-app.use('/api/auth',     authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/orders',   orderRoutes);
-app.use('/api/admin',    adminRoutes);
-app.use('/api/seller',   sellerRoutes);
-app.use('/api',          publicRoutes);   // categories + coupon validation
+app.use('/api/orders', orderRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/seller', sellerRoutes);
+app.use('/api', publicRoutes);   // categories + coupon validation
 
 // ── 404 handler ───────────────────────────────────────────
 app.use((_req, res) =>

@@ -1,26 +1,26 @@
 require('dotenv').config();
 import mongoose from 'mongoose';
-import { deleteMany, create } from '../models/User';
-import { deleteMany as _deleteMany, insertMany } from '../models/Product';
-import { deleteMany as __deleteMany, insertMany as _insertMany } from '../models/Category';
-import { deleteMany as ___deleteMany, insertMany as __insertMany } from '../models/Coupon';
+import { deleteMany, create } from '../Models/User.js';
+import { deleteMany as _deleteMany, insertMany } from '../Models/Product.js';
+import { deleteMany as __deleteMany, insertMany as _insertMany } from '../Models/Category.js';
+import { deleteMany as ___deleteMany, insertMany as __insertMany } from '../Models/Coupon.js';
 import connectDB from '../config/db';
 
 const CATEGORIES = [
-  { name: 'Women',        slug: 'women',        order: 1, image: 'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?w=800' },
-  { name: 'Men',          slug: 'men',           order: 2, image: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?w=800' },
-  { name: 'Kids',         slug: 'kids',          order: 3, image: 'https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?w=800' },
-  { name: 'Accessories',  slug: 'accessories',   order: 4, image: 'https://images.pexels.com/photos/1078958/pexels-photo-1078958.jpeg?w=800' },
-  { name: 'Shoes',        slug: 'shoes',         order: 5, image: 'https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?w=800' },
-  { name: 'Sale',         slug: 'sale',          order: 6, image: 'https://images.pexels.com/photos/5632400/pexels-photo-5632400.jpeg?w=800' },
-  { name: 'New Arrivals', slug: 'new-arrivals',  order: 0, image: 'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?w=800' },
+  { name: 'Women', slug: 'women', order: 1, image: 'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?w=800' },
+  { name: 'Men', slug: 'men', order: 2, image: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?w=800' },
+  { name: 'Kids', slug: 'kids', order: 3, image: 'https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?w=800' },
+  { name: 'Accessories', slug: 'accessories', order: 4, image: 'https://images.pexels.com/photos/1078958/pexels-photo-1078958.jpeg?w=800' },
+  { name: 'Shoes', slug: 'shoes', order: 5, image: 'https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?w=800' },
+  { name: 'Sale', slug: 'sale', order: 6, image: 'https://images.pexels.com/photos/5632400/pexels-photo-5632400.jpeg?w=800' },
+  { name: 'New Arrivals', slug: 'new-arrivals', order: 0, image: 'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?w=800' },
 ];
 
 const COUPONS = [
-  { code: 'SAVE10',     type: 'percentage', value: 10,  minOrder: 30,  maxDiscount: 50,  usageLimit: null },
-  { code: 'DISCOUNT50', type: 'fixed',      value: 50,  minOrder: 150, maxDiscount: 0,   usageLimit: 100  },
-  { code: 'FREESHIP',   type: 'shipping',   value: 0,   minOrder: 0,   maxDiscount: 0,   usageLimit: null },
-  { code: 'WELCOME20',  type: 'percentage', value: 20,  minOrder: 0,   maxDiscount: 40,  usageLimit: 1    },
+  { code: 'SAVE10', type: 'percentage', value: 10, minOrder: 30, maxDiscount: 50, usageLimit: null },
+  { code: 'DISCOUNT50', type: 'fixed', value: 50, minOrder: 150, maxDiscount: 0, usageLimit: 100 },
+  { code: 'FREESHIP', type: 'shipping', value: 0, minOrder: 0, maxDiscount: 0, usageLimit: null },
+  { code: 'WELCOME20', type: 'percentage', value: 20, minOrder: 0, maxDiscount: 40, usageLimit: 1 },
 ];
 
 const seedProducts = (sellerId) => [
@@ -121,38 +121,38 @@ const seed = async () => {
 
   // ── Admin ─────────────────────────────────────────────
   const admin = await create({
-    name:     process.env.ADMIN_NAME     || 'Super Admin',
-    email:    process.env.ADMIN_EMAIL    || 'admin@stylestore.com',
+    name: process.env.ADMIN_NAME || 'Super Admin',
+    email: process.env.ADMIN_EMAIL || 'admin@stylestore.com',
     password: process.env.ADMIN_PASSWORD || 'Admin@12345',
-    role:     'admin',
+    role: 'admin',
     isVerified: true,
-    isActive:   true,
+    isActive: true,
   });
   console.log(`✅ Admin created:    ${admin.email}`);
 
   // ── Demo Seller ───────────────────────────────────────
   const seller = await create({
-    name:         'Demo Seller',
-    email:        'seller@stylestore.com',
-    password:     'Seller@12345',
-    role:         'seller',
-    storeName:    'StyleStore Official',
-    storeBio:     'Official StyleStore brand — quality clothing for everyone.',
+    name: 'Demo Seller',
+    email: 'seller@stylestore.com',
+    password: 'Seller@12345',
+    role: 'seller',
+    storeName: 'StyleStore Official',
+    storeBio: 'Official StyleStore brand — quality clothing for everyone.',
     sellerStatus: 'approved',
     commissionRate: 10,
     isVerified: true,
-    isActive:   true,
+    isActive: true,
   });
   console.log(`✅ Seller created:   ${seller.email}  (status: approved)`);
 
   // ── Demo Customer ─────────────────────────────────────
   const customer = await create({
-    name:       'Demo Customer',
-    email:      'customer@stylestore.com',
-    password:   'Customer@12345',
-    role:       'customer',
+    name: 'Demo Customer',
+    email: 'customer@stylestore.com',
+    password: 'Customer@12345',
+    role: 'customer',
     isVerified: true,
-    isActive:   true,
+    isActive: true,
   });
   console.log(`✅ Customer created: ${customer.email}`);
 

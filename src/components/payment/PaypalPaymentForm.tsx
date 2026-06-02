@@ -24,6 +24,7 @@ const PaypalPaymentForm: React.FC<PaypalPaymentFormProps> = ({
                 value={paypalEmail}
                 onChange={onChange}
                 className="w-full border rounded-lg px-4 py-2"
+                autoComplete="email"
                 required
             />
             <input
@@ -33,6 +34,7 @@ const PaypalPaymentForm: React.FC<PaypalPaymentFormProps> = ({
                 value={paypalName}
                 onChange={onChange}
                 className="w-full border rounded-lg px-4 py-2"
+                autoComplete="name"
                 required
             />
             <input
@@ -42,6 +44,7 @@ const PaypalPaymentForm: React.FC<PaypalPaymentFormProps> = ({
                 value={paypalPhone}
                 onChange={onChange}
                 className="w-full border rounded-lg px-4 py-2"
+                inputMode="tel"
             />
             <textarea
                 name="paypalNotes"

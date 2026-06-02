@@ -2,9 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-
 import { localProducts } from "../../data/products"; // استيراد المنتجات المحلية
 
 interface Product {
@@ -46,9 +43,9 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ products }) => {
         className="h-[600px]"
       >
         {displayProducts.map((product) => (
-          <SwiperSlide key={product.id}>
+          <SwiperSlide key={product.id} className="relative h-full">
             {/* خلفية الصورة */}
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute inset-0 z-0 overflow-hidden">
               <img
                 src={product.image}
                 alt={product.name}
@@ -58,7 +55,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ products }) => {
             </div>
 
             {/* المحتوى */}
-            <div className="relative container mx-auto px-4 py-24 md:py-32 flex flex-col items-start">
+            <div className="relative z-10 container mx-auto px-4 py-24 md:py-32 flex flex-col items-start">
               {product.badge && (
                 <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm mb-4">
                   {product.badge}

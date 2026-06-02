@@ -9,16 +9,26 @@ interface ReviewOrderProps {
     onBack: () => void;
     onSubmit: () => void;
     onSelectItems: (itemIds: string[]) => void;
+    shippingMethod: string;
+    onShippingMethodChange: (method: string) => void;
+    appliedCoupon: any;
+    onCouponChange: (coupon: any) => void;
 }
 
-const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onSubmit, onSelectItems }) => {
+const ReviewOrder: React.FC<ReviewOrderProps> = ({
+    onBack,
+    onSubmit,
+    onSelectItems,
+    shippingMethod,
+    onShippingMethodChange,
+    appliedCoupon,
+    onCouponChange,
+}) => {
     const cartContext = useContext(CartContext);
     if (!cartContext) throw new Error("ReviewOrder must be used within CartProvider");
 
     const { cartItems, subtotal, updateQuantity, removeFromCart } = cartContext;
 
-    const [shippingMethod, setShippingMethod] = useState("standard");
-    const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [editingItem, setEditingItem] = useState<CartItem | null>(null);
 
@@ -79,6 +89,8 @@ const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onSubmit, onSelectIte
                                 type="checkbox"
                                 checked={selectedItems.includes(String(item.id))}
                                 onChange={() => toggleSelectItem(String(item.id))}
+                                aria-label={`Select ${item.name} for checkout`}
+                                title={`Select ${item.name}`}
                             />
                         </div>
                     </li>
@@ -86,10 +98,10 @@ const ReviewOrder: React.FC<ReviewOrderProps> = ({ onBack, onSubmit, onSelectIte
             </ul>
 
             {/* خيارات الشحن */}
-            <DeliveryOptions shippingMethod={shippingMethod} onChange={setShippingMethod} />
+            <DeliveryOptions shippingMethod={shippingMethod} onChange={onShippingMethodChange} />
 
             {/* إدخال الكوبون */}
-            <CouponForm onApply={setAppliedCoupon} />
+            <CouponForm onApply={onCouponChange} />
 
             {/* تفاصيل التكلفة */}
             <div className="space-y-2 mb-6 text-sm text-gray-600">

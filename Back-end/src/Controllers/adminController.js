@@ -1,10 +1,10 @@
-import { countDocuments, find, findById, findByIdAndUpdate, findOneAndUpdate } from '../models/User';
-import { countDocuments as _countDocuments, find as _find, findById as _findById } from '../models/Product';
-import { countDocuments as __countDocuments, find as __find, aggregate } from '../models/Order';
-import { find as ___find, create, findByIdAndUpdate as _findByIdAndUpdate, findByIdAndDelete } from '../models/Coupon';
-import { AppError } from '../middleware/errorHandler';
-import { sendSellerApprovalEmail, sendSellerRejectionEmail } from '../services/emailService';
-import { notifySellerApproved, notifySellerRejected } from '../services/notificationService';
+import { countUsers, findUser, findUserById, findUserByIdAndUpdate } from '../Models/User.js';
+import { findProducts, countProducts, findProductById, updateProductById } from '../Models/Product.js';
+import { findOrders, countOrders, getTotalRevenue, getOrdersByStatus } from '../Models/Order.js';
+import { findCoupons, createCoupon, updateCoupon, deleteCoupon } from '../Models/Coupon.js';
+import AppError from '../middleware/errorHandler.js';
+import { sendSellerApprovalEmail, sendSellerRejectionEmail } from '../services/emailService.js';
+import { notifySellerApproved, notifySellerRejected } from '../services/notificationService.js';
 
 // ═══════════════════════════════════════════════════════════
 // DASHBOARD STATS
@@ -12,62 +12,52 @@ import { notifySellerApproved, notifySellerRejected } from '../services/notifica
 
 export async function getDashboardStats(_req, res, next) {
   try {
-    const now   = new Date();
-    const start = new Date(now.getFullYear(), now.getMonth(), 1); // start of this month
-    const last  = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const last = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
-    const [
-      totalUsers, totalSellers, totalProducts, totalOrders,
-      thisMonthOrders, lastMonthOrders,
-      pendingSellers,
-      revenueData,
-      ordersByStatus,
-      topProducts,
-      recentOrders,
-      monthlySales,
-    ] = await Promise.all([
-      countDocuments({ role: 'customer' }),
-      countDocuments({ role: 'seller' }),
-      _countDocuments({ isActive: true }),
-      __countDocuments(),
+    // Fetch data for stats
+    const totalUsers = (await findUser({ role: 'customer' })).length;
+    const totalSellers = (await findUser({ role: 'seller' })).length;
+    const allProducts = await findProducts({ isActive: true });
+    const totalProducts = allProducts.length;
+    const allOrders = await findOrders({});
+    const totalOrders = allOrders.length;
 
-      __find({ createdAt: { $gte: start } }),
-      __find({ createdAt: { $gte: last, $lt: start } }),
+    const thisMonthOrders = allOrders.filter(o => new Date(o.createdAt) >= start);
+    const lastMonthOrders = allOrders.filter(o => {
+      const d = new Date(o.createdAt);
+      return d >= last && d < start;
+    });
 
-      countDocuments({ role: 'seller', sellerStatus: 'pending' }),
+    const pendingSellers = (await findUser({ role: 'seller', sellerStatus: 'pending' })).length;
+    const totalRevenue = await getTotalRevenue();
 
-      aggregate([
-        { $match: { paymentStatus: 'paid' } },
-        { $group: { _id: null, total: { $sum: '$total' } } },
-      ]),
+    const ordersByStatus = {};
+    allOrders.forEach(o => {
+      ordersByStatus[o.status] = (ordersByStatus[o.status] || 0) + 1;
+    });
 
-      aggregate([
-        { $group: { _id: '$status', count: { $sum: 1 } } },
-      ]),
+    const topProducts = allProducts
+      .sort((a, b) => (b.sold || 0) - (a.sold || 0))
+      .slice(0, 5);
 
-      _find({ isActive: true }).sort({ sold: -1 }).limit(5)
-        .populate('seller', 'name storeName'),
+    const recentOrders = allOrders
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 10);
 
-      __find().sort({ createdAt: -1 }).limit(10)
-        .populate('customer', 'name email')
-        .populate('items.product', 'name images'),
+    // Monthly sales aggregation (JS-level)
+    const monthlySales = {};
+    allOrders.forEach(o => {
+      const d = new Date(o.createdAt);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      if (!monthlySales[key]) monthlySales[key] = { revenue: 0, orders: 0 };
+      monthlySales[key].revenue += Number(o.total);
+      monthlySales[key].orders += 1;
+    });
 
-      aggregate([
-        { $match: { paymentStatus: 'paid' } },
-        {
-          $group: {
-            _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
-            revenue: { $sum: '$total' },
-            orders:  { $sum: 1 },
-          },
-        },
-        { $sort: { '_id.year': 1, '_id.month': 1 } },
-        { $limit: 12 },
-      ]),
-    ]);
-
-    const thisRevenue = thisMonthOrders.reduce((s, o) => s + (o.total || 0), 0);
-    const lastRevenue = lastMonthOrders.reduce((s, o) => s + (o.total || 0), 0);
+    const thisRevenue = thisMonthOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
+    const lastRevenue = lastMonthOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
     const revenueGrowth = lastRevenue === 0 ? 100
       : +(((thisRevenue - lastRevenue) / lastRevenue) * 100).toFixed(1);
 
@@ -79,20 +69,23 @@ export async function getDashboardStats(_req, res, next) {
           totalSellers,
           totalProducts,
           totalOrders,
-          totalRevenue: revenueData[0]?.total ?? 0,
+          totalRevenue,
           pendingSellers,
           thisMonthOrders: thisMonthOrders.length,
           thisMonthRevenue: +thisRevenue.toFixed(2),
           revenueGrowth,
         },
-        ordersByStatus: Object.fromEntries(ordersByStatus.map(s => [s._id, s.count])),
+        ordersByStatus,
         topProducts,
         recentOrders,
-        monthlySales: monthlySales.map(m => ({
-          month: `${m._id.year}-${String(m._id.month).padStart(2, '0')}`,
-          revenue: +m.revenue.toFixed(2),
-          orders: m.orders,
-        })),
+        monthlySales: Object.entries(monthlySales)
+          .sort()
+          .slice(-12)
+          .map(([month, data]) => ({
+            month,
+            revenue: +data.revenue.toFixed(2),
+            orders: data.orders,
+          })),
       },
     });
   } catch (err) { next(err); }
@@ -105,25 +98,27 @@ export async function getDashboardStats(_req, res, next) {
 export async function getUsers(req, res, next) {
   try {
     const { role, search, page = 1, limit = 20 } = req.query;
-    const filter = {};
-    if (role)   filter.role  = role;
-    if (search) filter.$or   = [
-      { name:  new RegExp(search, 'i') },
-      { email: new RegExp(search, 'i') },
-    ];
+    const allUsers = await findUser({});
 
-    const [users, total] = await Promise.all([
-      find(filter).sort({ createdAt: -1 })
-        .skip((page - 1) * limit).limit(Number(limit)),
-      countDocuments(filter),
-    ]);
+    let filtered = allUsers;
+    if (role) filtered = filtered.filter(u => u.role === role);
+    if (search) {
+      const regex = new RegExp(search, 'i');
+      filtered = filtered.filter(u => regex.test(u.name) || regex.test(u.email));
+    }
+
+    const total = filtered.length;
+    const users = filtered
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice((page - 1) * limit, page * limit);
+
     res.json({ success: true, data: users, pagination: { page: Number(page), limit: Number(limit), total } });
   } catch (err) { next(err); }
 }
 
 export async function getUser(req, res, next) {
   try {
-    const user = await findById(req.params.id);
+    const user = await findUserById(req.params.id);
     if (!user) return next(new AppError('User not found.', 404));
     res.json({ success: true, data: user });
   } catch (err) { next(err); }
@@ -135,7 +130,7 @@ export async function updateUser(req, res, next) {
     const updates = {};
     allowed.forEach(f => { if (req.body[f] !== undefined) updates[f] = req.body[f]; });
 
-    const user = await findByIdAndUpdate(req.params.id, updates, { new: true });
+    const user = await findUserByIdAndUpdate(req.params.id, updates);
     if (!user) return next(new AppError('User not found.', 404));
     res.json({ success: true, data: user });
   } catch (err) { next(err); }
@@ -143,7 +138,7 @@ export async function updateUser(req, res, next) {
 
 export async function deleteUser(req, res, next) {
   try {
-    const user = await findByIdAndUpdate(req.params.id, { isActive: false }, { new: true });
+    const user = await findUserByIdAndUpdate(req.params.id, { isActive: false });
     if (!user) return next(new AppError('User not found.', 404));
     res.json({ success: true, message: 'User deactivated.' });
   } catch (err) { next(err); }
@@ -156,33 +151,31 @@ export async function deleteUser(req, res, next) {
 export async function getSellers(req, res, next) {
   try {
     const { status, search, page = 1, limit = 20 } = req.query;
-    const filter = { role: 'seller' };
-    if (status) filter.sellerStatus = status;
-    if (search) filter.$or = [
-      { name: new RegExp(search, 'i') },
-      { storeName: new RegExp(search, 'i') },
-      { email: new RegExp(search, 'i') },
-    ];
+    const allSellers = (await findUser({ role: 'seller' })) || [];
 
-    const [sellers, total] = await Promise.all([
-      find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(Number(limit)),
-      countDocuments(filter),
-    ]);
+    let filtered = allSellers;
+    if (status) filtered = filtered.filter(s => s.sellerStatus === status);
+    if (search) {
+      const regex = new RegExp(search, 'i');
+      filtered = filtered.filter(s => regex.test(s.name) || regex.test(s.storeName) || regex.test(s.email));
+    }
+
+    const total = filtered.length;
+    const sellers = filtered
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice((page - 1) * limit, page * limit);
+
     res.json({ success: true, data: sellers, pagination: { page: Number(page), limit: Number(limit), total } });
   } catch (err) { next(err); }
 }
 
 export async function approveSeller(req, res, next) {
   try {
-    const seller = await findOneAndUpdate(
-      { _id: req.params.id, role: 'seller' },
-      { sellerStatus: 'approved' },
-      { new: true }
-    );
-    if (!seller) return next(new AppError('Seller not found.', 404));
+    const seller = await findUserByIdAndUpdate(req.params.id, { sellerStatus: 'approved' });
+    if (!seller || seller.role !== 'seller') return next(new AppError('Seller not found.', 404));
 
     await sendSellerApprovalEmail(seller).catch(() => null);
-    await notifySellerApproved(seller._id).catch(() => null);
+    await notifySellerApproved(seller.id).catch(() => null);
 
     res.json({ success: true, data: seller, message: 'Seller approved.' });
   } catch (err) { next(err); }
@@ -191,15 +184,11 @@ export async function approveSeller(req, res, next) {
 export async function rejectSeller(req, res, next) {
   try {
     const { reason } = req.body;
-    const seller = await findOneAndUpdate(
-      { _id: req.params.id, role: 'seller' },
-      { sellerStatus: 'rejected' },
-      { new: true }
-    );
-    if (!seller) return next(new AppError('Seller not found.', 404));
+    const seller = await findUserByIdAndUpdate(req.params.id, { sellerStatus: 'rejected' });
+    if (!seller || seller.role !== 'seller') return next(new AppError('Seller not found.', 404));
 
     await sendSellerRejectionEmail(seller, reason).catch(() => null);
-    await notifySellerRejected(seller._id).catch(() => null);
+    await notifySellerRejected(seller.id).catch(() => null);
 
     res.json({ success: true, data: seller, message: 'Seller rejected.' });
   } catch (err) { next(err); }
@@ -207,11 +196,7 @@ export async function rejectSeller(req, res, next) {
 
 export async function suspendSeller(req, res, next) {
   try {
-    const seller = await findOneAndUpdate(
-      { _id: req.params.id, role: 'seller' },
-      { sellerStatus: 'suspended', isActive: false },
-      { new: true }
-    );
+    const seller = await findUserByIdAndUpdate(req.params.id, { sellerStatus: 'suspended', isActive: false });
     if (!seller) return next(new AppError('Seller not found.', 404));
     res.json({ success: true, data: seller, message: 'Seller suspended.' });
   } catch (err) { next(err); }
@@ -223,11 +208,7 @@ export async function updateSellerCommission(req, res, next) {
     if (commissionRate < 0 || commissionRate > 100)
       return next(new AppError('Commission must be between 0 and 100.', 400));
 
-    const seller = await findOneAndUpdate(
-      { _id: req.params.id, role: 'seller' },
-      { commissionRate },
-      { new: true }
-    );
+    const seller = await findUserByIdAndUpdate(req.params.id, { commissionRate });
     if (!seller) return next(new AppError('Seller not found.', 404));
     res.json({ success: true, data: seller });
   } catch (err) { next(err); }
@@ -240,20 +221,26 @@ export async function updateSellerCommission(req, res, next) {
 export async function getAllOrders(req, res, next) {
   try {
     const { status, search, page = 1, limit = 20, from, to } = req.query;
-    const filter = {};
-    if (status) filter.status = status;
+    const allOrders = await findOrders({});
+
+    let filtered = allOrders;
+    if (status) filtered = filtered.filter(o => o.status === status);
     if (from || to) {
-      filter.createdAt = {};
-      if (from) filter.createdAt.$gte = new Date(from);
-      if (to)   filter.createdAt.$lte = new Date(to);
+      const fromDate = from ? new Date(from) : null;
+      const toDate = to ? new Date(to) : null;
+      filtered = filtered.filter(o => {
+        const oDate = new Date(o.createdAt);
+        if (fromDate && oDate < fromDate) return false;
+        if (toDate && oDate > toDate) return false;
+        return true;
+      });
     }
 
-    const [orders, total] = await Promise.all([
-      __find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(Number(limit))
-        .populate('customer', 'name email')
-        .populate('items.product', 'name images'),
-      __countDocuments(filter),
-    ]);
+    const total = filtered.length;
+    const orders = filtered
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice((page - 1) * limit, page * limit);
+
     res.json({ success: true, data: orders, pagination: { page: Number(page), limit: Number(limit), total } });
   } catch (err) { next(err); }
 }
@@ -265,27 +252,29 @@ export async function getAllOrders(req, res, next) {
 export async function getAllProducts(req, res, next) {
   try {
     const { page = 1, limit = 20, search, category, seller } = req.query;
-    const filter = {};
-    if (category) filter.category = new RegExp(category, 'i');
-    if (seller)   filter.seller   = seller;
-    if (search)   filter.$text    = { $search: search };
+    const allProducts = await findProducts({});
 
-    const [products, total] = await Promise.all([
-      _find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(Number(limit))
-        .populate('seller', 'name storeName'),
-      _countDocuments(filter),
-    ]);
+    let filtered = allProducts;
+    if (category) filtered = filtered.filter(p => new RegExp(category, 'i').test(p.category));
+    if (seller) filtered = filtered.filter(p => String(p.sellerId) === seller);
+    if (search) filtered = filtered.filter(p => new RegExp(search, 'i').test(p.name));
+
+    const total = filtered.length;
+    const products = filtered
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice((page - 1) * limit, page * limit);
+
     res.json({ success: true, data: products, pagination: { page: Number(page), limit: Number(limit), total } });
   } catch (err) { next(err); }
 }
 
 export async function toggleProductFeatured(req, res, next) {
   try {
-    const product = await _findById(req.params.id);
+    const product = await findProductById(req.params.id);
     if (!product) return next(new AppError('Product not found.', 404));
-    product.isFeatured = !product.isFeatured;
-    await product.save();
-    res.json({ success: true, data: product });
+
+    const updated = await updateProductById(req.params.id, { isFeatured: !product.isFeatured });
+    res.json({ success: true, data: updated });
   } catch (err) { next(err); }
 }
 
@@ -295,29 +284,30 @@ export async function toggleProductFeatured(req, res, next) {
 
 export async function getCoupons(_req, res, next) {
   try {
-    const coupons = await ___find().sort({ createdAt: -1 }).populate('createdBy', 'name');
-    res.json({ success: true, data: coupons });
+    const coupons = await findCoupons({});
+    const sorted = coupons.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    res.json({ success: true, data: sorted });
   } catch (err) { next(err); }
 }
 
-export async function createCoupon(req, res, next) {
+export async function create_Coupon(req, res, next) {
   try {
-    const coupon = await create({ ...req.body, createdBy: req.user._id });
+    const coupon = await createCoupon({ ...req.body, createdBy: req.user._id });
     res.status(201).json({ success: true, data: coupon });
   } catch (err) { next(err); }
 }
 
-export async function updateCoupon(req, res, next) {
+export async function update_Coupon(req, res, next) {
   try {
-    const coupon = await _findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const coupon = await updateCoupon(req.params.id, req.body);
     if (!coupon) return next(new AppError('Coupon not found.', 404));
     res.json({ success: true, data: coupon });
   } catch (err) { next(err); }
 }
 
-export async function deleteCoupon(req, res, next) {
+export async function delete_Coupon(req, res, next) {
   try {
-    await findByIdAndDelete(req.params.id);
+    await deleteCoupon(req.params.id);
     res.json({ success: true, message: 'Coupon deleted.' });
   } catch (err) { next(err); }
 }

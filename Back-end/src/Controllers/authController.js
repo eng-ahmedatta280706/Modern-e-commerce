@@ -1,9 +1,10 @@
 import { randomBytes, createHash } from 'crypto';
-import { findOne, create, find, findById, findByIdAndUpdate } from '../models/User';
-import { sendToken, signToken } from '../utils/jwt';
-import { AppError } from '../middleware/errorHandler';
-import { sendWelcomeEmail, sendPasswordResetEmail } from '../services/emailService';
-import { notifyNewSeller } from '../services/notificationService';
+import { findUserOne, createUser, findUserById, findUserByIdAndUpdate, comparePassword } from '../Models/User.js';
+import sendToken from '../utils/jwt.js';
+import signToken from '../utils/jwt.js';
+import AppError from '../middleware/errorHandler.js';
+import { sendWelcomeEmail, sendPasswordResetEmail } from '../services/emailService.js';
+import { notifyNewSeller } from '../services/notificationService.js';
 
 // ── Register ─────────────────────────────────────────────
 export async function register(req, res, next) {
@@ -13,10 +14,10 @@ export async function register(req, res, next) {
     // Prevent self-assigning admin
     const safeRole = role === 'admin' ? 'customer' : (role || 'customer');
 
-    const existing = await findOne({ email });
+    const existing = await findUserOne({ email });
     if (existing) return next(new AppError('Email already registered.', 409));
 
-    const user = await create({ name, email, password, role: safeRole });
+    const user = await createUser({ name, email, password, role: safeRole });
 
     await sendWelcomeEmail(user).catch(() => null);
     sendToken(user, 201, res);
@@ -30,10 +31,10 @@ export async function registerSeller(req, res, next) {
 
     if (!storeName) return next(new AppError('Store name is required.', 400));
 
-    const existing = await findOne({ email });
+    const existing = await findUserOne({ email });
     if (existing) return next(new AppError('Email already registered.', 409));
 
-    const user = await create({
+    const user = await createUser({
       name, email, password,
       role: 'seller',
       storeName,
@@ -42,8 +43,8 @@ export async function registerSeller(req, res, next) {
     });
 
     // Notify admins
-    const admins = await find({ role: 'admin' }).select('_id');
-    await Promise.all(admins.map(a => notifyNewSeller(a._id, user)));
+    const admins = await findUser({ role: 'admin' });
+    await Promise.all(admins.map(a => notifyNewSeller(a.id, user)));
 
     sendToken(user, 201, res);
   } catch (err) { next(err); }
@@ -55,15 +56,13 @@ export async function login(req, res, next) {
     const { email, password } = req.body;
     if (!email || !password) return next(new AppError('Email and password are required.', 400));
 
-    const user = await findOne({ email }).select('+password');
-    if (!user || !(await user.comparePassword(password))) {
+    const user = await findUserOne({ email });
+    if (!user || !(await comparePassword(user.id, password))) {
       return next(new AppError('Invalid email or password.', 401));
     }
     if (!user.isActive) return next(new AppError('Account suspended. Contact support.', 403));
 
-    user.lastLogin = new Date();
-    await user.save({ validateBeforeSave: false });
-
+    await findUserByIdAndUpdate(user.id, { lastLogin: new Date() });
     sendToken(user, 200, res);
   } catch (err) { next(err); }
 }
@@ -76,7 +75,7 @@ export async function refreshToken(req, res, next) {
 
     const jwt = require('jsonwebtoken');
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-    const user = await findById(decoded.id);
+    const user = await findUserById(decoded.id);
     if (!user || !user.isActive) return next(new AppError('Invalid refresh token.', 401));
 
     const token = signToken(user._id, user.role);
@@ -93,7 +92,7 @@ export function logout(_req, res) {
 // ── Get current user ─────────────────────────────────────
 export async function getMe(req, res, next) {
   try {
-    const user = await findById(req.user._id);
+    const user = await findUserById(req.user._id);
     res.json({ success: true, user });
   } catch (err) { next(err); }
 }
@@ -112,9 +111,7 @@ export async function updateProfile(req, res, next) {
 
     if (req.file) updates.profilePic = req.file.path;
 
-    const user = await findByIdAndUpdate(req.user._id, updates, {
-      new: true, runValidators: true,
-    });
+    const user = await findUserByIdAndUpdate(req.user._id, updates);
     res.json({ success: true, user });
   } catch (err) { next(err); }
 }
@@ -124,12 +121,12 @@ export async function changePassword(req, res, next) {
   try {
     const { currentPassword, newPassword } = req.body;
 
-    const user = await findById(req.user._id).select('+password');
-    if (!(await user.comparePassword(currentPassword))) {
+    const user = await findUserById(req.user._id);
+    if (!(await comparePassword(user.id, currentPassword))) {
       return next(new AppError('Current password is incorrect.', 401));
     }
-    user.password = newPassword;
-    await user.save();
+
+    await findUserByIdAndUpdate(user.id, { password: newPassword });
     sendToken(user, 200, res);
   } catch (err) { next(err); }
 }
@@ -137,13 +134,15 @@ export async function changePassword(req, res, next) {
 // ── Forgot password ──────────────────────────────────────
 export async function forgotPassword(req, res, next) {
   try {
-    const user = await findOne({ email: req.body.email });
+    const user = await findUserOne({ email: req.body.email });
     if (!user) return next(new AppError('No user found with that email.', 404));
 
     const token = randomBytes(32).toString('hex');
-    user.passwordResetToken = createHash('sha256').update(token).digest('hex');
-    user.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 min
-    await user.save({ validateBeforeSave: false });
+    const hashedToken = createHash('sha256').update(token).digest('hex');
+    await findUserByIdAndUpdate(user.id, {
+      passwordResetToken: hashedToken,
+      passwordResetExpires: new Date(Date.now() + 10 * 60 * 1000),
+    });
 
     const resetURL = `${process.env.CLIENT_URL}/reset-password/${token}`;
     await sendPasswordResetEmail(user, resetURL);
@@ -156,17 +155,18 @@ export async function forgotPassword(req, res, next) {
 export async function resetPassword(req, res, next) {
   try {
     const hashed = createHash('sha256').update(req.params.token).digest('hex');
-    const user = await findOne({
-      passwordResetToken: hashed,
-      passwordResetExpires: { $gt: Date.now() },
-    });
+    // Fetch users and find one with matching token and non-expired time
+    const allUsers = await findUser({});
+    const user = allUsers.find(u => u.passwordResetToken === hashed && u.passwordResetExpires > new Date());
 
     if (!user) return next(new AppError('Token is invalid or expired.', 400));
 
-    user.password = req.body.password;
-    user.passwordResetToken  = undefined;
-    user.passwordResetExpires = undefined;
-    await user.save();
-    sendToken(user, 200, res);
+    await findUserByIdAndUpdate(user.id, {
+      password: req.body.password,
+      passwordResetToken: null,
+      passwordResetExpires: null,
+    });
+    const updatedUser = await findUserById(user.id);
+    sendToken(updatedUser, 200, res);
   } catch (err) { next(err); }
 }

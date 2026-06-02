@@ -49,7 +49,7 @@ const ProductPage: React.FC = () => {
   }
 
   const handleAddToCart = () => {
-    addToCart(product, activeColor);
+    addToCart(product, activeColor, quantity);
   };
 
   const handleWishlist = () => {

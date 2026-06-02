@@ -23,6 +23,9 @@ const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
                 onChange={onChange}
                 className="w-full border rounded-lg px-4 py-2"
                 pattern="\d{16}"
+                inputMode="numeric"
+                autoComplete="cc-number"
+                maxLength={16}
                 required
             />
             <input
@@ -33,6 +36,9 @@ const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
                 onChange={onChange}
                 className="w-full border rounded-lg px-4 py-2"
                 pattern="(0[1-9]|1[0-2])\/\d{2}"
+                inputMode="numeric"
+                autoComplete="cc-exp"
+                maxLength={5}
                 required
             />
             <input
@@ -43,6 +49,9 @@ const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
                 onChange={onChange}
                 className="w-full border rounded-lg px-4 py-2"
                 pattern="\d{3}"
+                inputMode="numeric"
+                autoComplete="cc-csc"
+                maxLength={4}
                 required
             />
         </div>

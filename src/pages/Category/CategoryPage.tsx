@@ -84,7 +84,7 @@ const CategoryPage: React.FC = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <Breadcrumb items={[{ label: 'Shop', href: '/shop' }, { label: categoryLabel }]} />
+        <Breadcrumb items={[{ label: categoryLabel }]} />
 
         {/* Subcategory quick-links */}
         {subcategoryData && (

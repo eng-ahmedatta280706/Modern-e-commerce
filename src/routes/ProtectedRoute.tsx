@@ -4,9 +4,10 @@ import { AuthContext } from '../contexts/AuthContext';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  allowedRoles?: Array<'admin' | 'seller' | 'customer'>;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }) => {
   const auth = useContext(AuthContext);
   const location = useLocation();
 
@@ -22,6 +23,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (!auth.isAuthenticated) {
     return <Navigate to="/register" state={{ from: location }} replace />;
+  }
+
+  if (allowedRoles?.length) {
+    const role = auth.user?.role;
+    if (!role || !allowedRoles.includes(role)) {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;

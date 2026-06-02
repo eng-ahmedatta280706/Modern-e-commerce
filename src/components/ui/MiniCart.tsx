@@ -9,7 +9,7 @@ interface MiniCartProps {
 }
 
 const MiniCart: React.FC<MiniCartProps> = ({ onClose }) => {
-  const { cartItems, removeFromCart, updateQuantity, subtotal, totalItems } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, subtotal, totalItems} = useCart();
   const [closing, setClosing] = useState(false);
 
   const handleClose = () => {
@@ -17,12 +17,22 @@ const MiniCart: React.FC<MiniCartProps> = ({ onClose }) => {
     setTimeout(() => { onClose(); setClosing(false); }, 200);
   };
 
+  // console.log("cartItems:", cartItems);
+
+  // cartItems.forEach(item => {
+  //   console.log({
+  //     name: item.name,
+  //     price: item.price,
+  //     quantity: item.quantity,
+  //     priceType: typeof item.price,
+  //     quantityType: typeof item.quantity,
+  //   });
+  // });
+
   return (
     <div
-      className={`absolute top-full right-0 mt-2 w-72 md:w-96 bg-white rounded-lg shadow-xl z-50 ${
-        closing ? 'animate-slideOut' : 'animate-slideIn'
-      }`}
-    >
+      className={`absolute top-full right-0 mt-2 w-72 md:w-96 bg-white rounded-lg shadow-xl z-50 ${closing ? 'animate-slideOut' : 'animate-slideIn'
+        }`}>
       {/* Header */}
       <div className="p-4 border-b flex justify-between items-center">
         <h3 className="font-medium">
@@ -73,61 +83,67 @@ const MiniCart: React.FC<MiniCartProps> = ({ onClose }) => {
                     {/* Qty stepper */}
                     <div className="flex items-center border rounded overflow-hidden">
                       <button
-                        onClick={() => updateQuantity(item.id, item.selectedColor, item.quantity - 1)}
-                        className="px-2 py-1 text-gray-600 hover:bg-gray-100 transition-colors"
-                        aria-label="Decrease"
+                        onClick={() => {
+                          updateQuantity(item.id, item.selectedColor, item.quantity - 1);
+                        }}
+                      className="px-2 py-1 text-gray-600 hover:bg-gray-100 transition-colors"
+                      aria-label="Decrease"
                       >
-                        -
-                      </button>
-                      <span className="px-3 text-sm">{item.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.selectedColor, item.quantity + 1)}
-                        className="px-2 py-1 text-gray-600 hover:bg-gray-100 transition-colors"
-                        aria-label="Increase"
-                      >
-                        +
-                      </button>
-                    </div>
+                      -
+                    </button>
+                    <span className="px-3 text-sm">{item.quantity}</span>
                     <button
-                      onClick={() => removeFromCart(item.id, item.selectedColor)}
-                      className="text-xs font-medium text-red-500 hover:text-red-700"
+                        onClick={() => {
+                          updateQuantity(item.id, item.selectedColor, item.quantity + 1);
+                        }}
+                      className="px-2 py-1 text-gray-600 hover:bg-gray-100 transition-colors"
+                      aria-label="Increase"
                     >
-                      Remove
+                      +
                     </button>
                   </div>
+                  <button
+                    onClick={() => removeFromCart(item.id, item.selectedColor)}
+                    className="text-xs font-medium text-red-500 hover:text-red-700"
+                  >
+                    Remove
+                  </button>
                 </div>
+              </div>
               </li>
-            ))}
-          </ul>
+        ))}
+      </ul>
         )}
-      </div>
-
-      {/* Footer */}
-      {cartItems.length > 0 && (
-        <div className="border-t p-4">
-          <div className="flex justify-between text-sm mb-4">
-            <p className="text-gray-600">Subtotal</p>
-            <p className="font-semibold">{formatPrice(subtotal)}</p>
-          </div>
-          <div className="space-y-2">
-            <Link
-              to="/checkout"
-              className="w-full bg-blue-600 text-white py-2.5 px-4 rounded-lg text-center block hover:bg-blue-700 transition-colors font-medium text-sm"
-              onClick={onClose}
-            >
-              Checkout
-            </Link>
-            <Link
-              to="/shop"
-              className="w-full border border-gray-300 py-2.5 px-4 rounded-lg text-center block hover:bg-gray-50 transition-colors text-sm"
-              onClick={onClose}
-            >
-              Continue Shopping
-            </Link>
-          </div>
-        </div>
-      )}
     </div>
+
+      {/* Footer */ }
+  {
+    cartItems.length > 0 && (
+      <div className="border-t p-4">
+        <div className="flex justify-between text-sm mb-4">
+          <p className="text-gray-600">Subtotal</p>
+          <p className="font-semibold">{formatPrice(subtotal)}</p>
+        </div>
+        <div className="space-y-2">
+          <Link
+            to="/checkout"
+            className="w-full bg-blue-600 text-white py-2.5 px-4 rounded-lg text-center block hover:bg-blue-700 transition-colors font-medium text-sm"
+            onClick={onClose}
+          >
+            Checkout
+          </Link>
+          <Link
+            to="/shop"
+            className="w-full border border-gray-300 py-2.5 px-4 rounded-lg text-center block hover:bg-gray-50 transition-colors text-sm"
+            onClick={onClose}
+          >
+            Continue Shopping
+          </Link>
+        </div>
+      </div>
+    )
+  }
+    </div >
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CartItem } from "../types/CartItem";
+import { CartItem } from "../../types/CartItem";
 
 interface CartItemModalProps {
     item: CartItem;

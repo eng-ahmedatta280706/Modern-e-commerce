@@ -6,6 +6,7 @@ export interface CreateOrderPayload {
   items: CartItem[];
   shippingMethod: ShippingMethod;
   paymentMethod: PaymentMethod;
+  couponCode?: string;
   shippingAddress: {
     name: string;
     email: string;

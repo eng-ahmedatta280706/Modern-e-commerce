@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingCart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { Product } from '../../types/Product';
 import ColorSelector from './ColorSelector';
+import AddCart from '../ui/AddCart';
 import { useCart } from '../../hooks/useCart';
 import { useWishlist } from '../../hooks/useWishlist';
 
@@ -20,13 +21,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isWishlist }) => {
   // الصورة حسب اللون المختار
   const currentImage = product.colorImages[selectedColor] || product.image;
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product, selectedColor);
   };
 
-  const handleWishlist = (e: React.MouseEvent) => {
+  const handleWishlist = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (isInWishlist(product.id)) {
@@ -77,13 +78,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isWishlist }) => {
             )}
 
             {/* زر Add to Cart */}
-            <button
+            {/* <button
               onClick={handleAddToCart}
-              className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full transition-colors"
+              className="addCart-btn flex items-center space-x-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-0 rounded-full transition-colors"
             >
-              <ShoppingCart size={16} />
+              <ShoppingCart size={16} className='ShoppingCart' />
               <span className="text-sm">Add to Cart</span>
-            </button>
+            </button> */}
+            <AddCart
+              product={product}
+              color={selectedColor}
+              onClick={handleAddToCart} />
           </div>
         </div>
 

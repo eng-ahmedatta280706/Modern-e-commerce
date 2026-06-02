@@ -4,6 +4,7 @@ import type { Product } from '../types/Product';
 
 export interface ProductFilters {
   category?: string;
+  brand?: string;
   subcategory?: string;
   colors?: string[];
   minPrice?: number;
@@ -47,6 +48,9 @@ export const useProducts = (initialFilters: ProductFilters = {}) => {
         p => p.subcategory?.toLowerCase() === filters.subcategory!.toLowerCase()
       );
     }
+    if (filters.brand) {
+      result = result.filter(p => p.brand === filters.brand);
+    }
     if (filters.badge) {
       result = result.filter(p => p.badge === filters.badge);
     }
@@ -79,7 +83,7 @@ export const useProducts = (initialFilters: ProductFilters = {}) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
-  const resetFilters = () => setFilters(initialFilters);
+  const resetFilters = (nextFilters: ProductFilters = {}) => setFilters(nextFilters);
 
   const categories = useMemo(
     () => [...new Set(localProducts.map(p => p.category))],

@@ -2,6 +2,8 @@ import React from 'react';
 import { X, SlidersHorizontal } from 'lucide-react';
 import type { ProductFilters, SortOption } from '../../hooks/useProducts';
 import { formatPrice } from '../../utils/formatPrice';
+// import { FilteringProducts } from '../../utils/helpers';
+// import SearchBar from '../search/SearchBar';
 
 interface ProductFilterProps {
   filters: ProductFilters;
@@ -15,21 +17,39 @@ interface ProductFilterProps {
   onReset: () => void;
   isOpen?: boolean;
   onToggle?: () => void;
+  categoryLabel?: string;
 }
 
-const colorMap: Record<string, string> = {
-  black: '#000000', white: '#FFFFFF', red: '#EF4444', blue: '#3B82F6',
-  green: '#10B981', yellow: '#F59E0B', purple: '#8B5CF6', pink: '#EC4899',
-  gray: '#6B7280', navy: '#1E3A8A', brown: '#92400E', beige: '#E5E7EB',
+const colorClassMap: Record<string, string> = {
+  black: 'bg-black',
+  white: 'bg-white border border-gray-200',
+  red: 'bg-red-500',
+  blue: 'bg-blue-500',
+  green: 'bg-emerald-500',
+  yellow: 'bg-amber-500',
+  purple: 'bg-violet-500',
+  pink: 'bg-pink-500',
+  gray: 'bg-gray-500',
+  navy: 'bg-[#1E3A8A]',
+  brown: 'bg-[#92400E]',
+  beige: 'bg-[#E5E7EB]',
+  Tan: 'bg-[#D2B48C]',
+  Cream: 'bg-[#FFFDD0]',
+  Blush: 'bg-[#FFC0CB]',
+  LightBlue: 'bg-[#ADD8E6]',
+  Olive: 'bg-[#808000]',
+  Beige: 'bg-[#F5F5DC]',
 };
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: 'default', label: 'Featured' },
+  { value: 'default', label: 'Default' },
   { value: 'newest', label: 'Newest First' },
   { value: 'price-asc', label: 'Price: Low to High' },
   { value: 'price-desc', label: 'Price: High to Low' },
   { value: 'name-asc', label: 'Name: A–Z' },
 ];
+
+const BRAND_OPTIONS = ['Brand A', 'Brand B', 'Brand C'];
 
 const BADGE_OPTIONS = ['New', 'Sale', 'Best Seller'];
 
@@ -45,6 +65,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
   onReset,
   isOpen = true,
   onToggle,
+  categoryLabel,
 }) => {
   const hasActiveFilters =
     filters.category ||
@@ -63,10 +84,13 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
     onFilterChange('colors', next.length > 0 ? next : undefined);
   };
 
+  // const filteredProducts = FilteringProducts(paginatedProducts, search);
+
   return (
     <aside className="w-full">
       {/* Mobile toggle */}
       <button
+        type="button"
         className="lg:hidden flex items-center gap-2 mb-4 text-gray-700 font-medium border rounded-lg px-4 py-2"
         onClick={onToggle}
       >
@@ -78,17 +102,20 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-gray-900">Filters</h3>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <span>{totalCount} results</span>
-            {hasActiveFilters && (
-              <button
-                onClick={onReset}
-                className="flex items-center gap-1 text-red-500 hover:text-red-700"
-              >
-                <X size={14} /> Clear
-              </button>
-            )}
-          </div>
+          {!categoryLabel && (
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <span>{totalCount} results</span>
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={onReset}
+                  className="flex items-center gap-1 text-red-500 hover:text-red-700"
+                >
+                  <X size={14} /> Clear
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Sort */}
@@ -108,26 +135,46 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
         {/* Categories */}
         <div>
           <h4 className="font-medium text-gray-800 mb-3 text-sm uppercase tracking-wide">Category</h4>
-          <ul className="space-y-1">
-            <li>
-              <button
-                onClick={() => onFilterChange('category', undefined)}
-                className={`w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${!filters.category ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
-              >
-                All Categories
-              </button>
-            </li>
-            {categories.map(cat => (
-              <li key={cat}>
-                <button
-                  onClick={() => onFilterChange('category', cat)}
-                  className={`w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${filters.category === cat ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
-                >
+          {/* If we're on a category page, show that category as selected and disable changing it */}
+          {categoryLabel ? (
+            <button
+              type="button"
+              disabled
+              className="w-full text-left text-sm px-2 py-1.5 rounded-lg bg-gray-100 text-gray-400 font-medium cursor-not-allowed"
+            >
+              {categoryLabel}
+            </button>
+          ) : (
+            <select
+              value={filters.category ?? ''}
+              onChange={e => onFilterChange('category', e.target.value || undefined)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">All Categories</option>
+              {categories.map(cat => (
+                <option key={cat} value={cat}>
                   {cat}
-                </button>
-              </li>
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+
+        {/* Brands */}
+        <div>
+          <h4 className="font-medium text-gray-800 mb-3 text-sm uppercase tracking-wide">Brand</h4>
+          <select
+            value={filters.brand ?? ''}
+            onChange={e => onFilterChange('brand', e.target.value || undefined)}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Brands</option>
+            {BRAND_OPTIONS.map(brand => (
+              <option key={brand} value={brand}>
+                {brand}
+              </option>
             ))}
-          </ul>
+          </select>
         </div>
 
         {/* Price Range */}
@@ -170,17 +217,11 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
               const isActive = (filters.colors ?? []).includes(color);
               return (
                 <button
+                  type="button"
                   key={color}
                   title={color}
-                  aria-pressed={isActive}
                   onClick={() => toggleColor(color)}
-                  className={`rounded-full transition-all ${isActive ? 'ring-2 ring-blue-500 ring-offset-1' : 'ring-1 ring-gray-200'}`}
-                  style={{
-                    backgroundColor: colorMap[color.toLowerCase()] ?? color,
-                    width: 28,
-                    height: 28,
-                    border: color.toLowerCase() === 'white' ? '1px solid #e5e7eb' : 'none',
-                  }}
+                  className={`h-7 w-7 rounded-full transition-all ${colorClassMap[color.toLowerCase()] ?? 'bg-gray-200'} ${isActive ? 'ring-2 ring-blue-500 ring-offset-1' : 'ring-1 ring-gray-200'}`}
                 />
               );
             })}
@@ -192,6 +233,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
           <h4 className="font-medium text-gray-800 mb-3 text-sm uppercase tracking-wide">Product Type</h4>
           <div className="space-y-1">
             <button
+              type="button"
               onClick={() => onFilterChange('badge', undefined)}
               className={`w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${!filters.badge ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
             >
@@ -199,6 +241,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
             </button>
             {BADGE_OPTIONS.map(badge => (
               <button
+                type="button"
                 key={badge}
                 onClick={() => onFilterChange('badge', badge)}
                 className={`w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${filters.badge === badge ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}

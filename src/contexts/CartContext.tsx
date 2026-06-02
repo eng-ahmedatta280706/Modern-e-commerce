@@ -13,7 +13,7 @@ export interface CartItem extends Product {
 
 interface CartContextType {
   cartItems: CartItem[];
-  addToCart: (product: Product, selectedColor: string) => void;
+  addToCart: (product: Product, selectedColor: string, quantity?: number) => void;
   removeFromCart: (productId: string, selectedColor: string) => void;
   updateQuantity: (productId: string, selectedColor: string, quantity: number) => void;
   clearCart: () => void;
@@ -51,17 +51,17 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // ✅ Fixed: total number of individual units in cart
   const totalItems = cartItems.length;
 
-  const addToCart = (product: Product, selectedColor: string) => {
+  const addToCart = (product: Product, selectedColor: string, quantity: number = 1) => {
     setCartItems(prev => {
       const existingIndex = prev.findIndex(
         item => item.id === product.id && item.selectedColor === selectedColor
       );
       if (existingIndex >= 0) {
         return prev.map((item, i) =>
-          i === existingIndex ? { ...item, quantity: item.quantity + 1 } : item
+          i === existingIndex ? { ...item, quantity } : item
         );
       }
-      return [...prev, { ...product, quantity: 1, selectedColor }];
+      return [...prev, { ...product, quantity, selectedColor }];
     });
   };
 
@@ -85,7 +85,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     );
   };
 
-  const clearCart = () => setCartItems([]);
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
   const value = {
     cartItems,

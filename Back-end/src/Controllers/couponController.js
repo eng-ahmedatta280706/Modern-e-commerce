@@ -1,5 +1,7 @@
-import { findOne } from '../models/Coupon';
-import { AppError } from '../middleware/errorHandler';
+import { findCouponOne, calculateDiscount } from '../Models/Coupon.js';
+import errorHandler from '../middleware/errorHandler.js';
+
+const { AppError } = errorHandler;
 
 // POST /coupons/validate — customer applies a coupon code at checkout
 export async function validateCoupon(req, res, next) {
@@ -7,7 +9,7 @@ export async function validateCoupon(req, res, next) {
     const { code, subtotal } = req.body;
     if (!code) return next(new AppError('Coupon code is required.', 400));
 
-    const coupon = await findOne({
+    const coupon = await findCouponOne({
       code: code.toUpperCase().trim(),
       isActive: true,
     });
@@ -15,7 +17,7 @@ export async function validateCoupon(req, res, next) {
     if (!coupon) return next(new AppError('Invalid coupon code.', 400));
 
     // Expiry check
-    if (coupon.expiresAt && coupon.expiresAt < new Date()) {
+    if (coupon.expiresAt && new Date(coupon.expiresAt) < new Date()) {
       return next(new AppError('This coupon has expired.', 400));
     }
 
@@ -25,22 +27,14 @@ export async function validateCoupon(req, res, next) {
     }
 
     // Minimum order check
-    if (subtotal && Number(subtotal) < coupon.minOrder) {
+    if (subtotal && Number(subtotal) < Number(coupon.minOrder)) {
       return next(
-        new AppError(`Minimum order of $${coupon.minOrder.toFixed(2)} required for this coupon.`, 400)
+        new AppError(`Minimum order of $${Number(coupon.minOrder).toFixed(2)} required for this coupon.`, 400)
       );
     }
 
-    // Calculate discount preview
-    let discount = 0;
-    if (coupon.type === 'percentage' && coupon.value) {
-      discount = (Number(subtotal) * coupon.value) / 100;
-      if (coupon.maxDiscount) discount = Math.min(discount, coupon.maxDiscount);
-    } else if (coupon.type === 'fixed' && coupon.value) {
-      discount = Math.min(coupon.value, Number(subtotal) || coupon.value);
-    } else if (coupon.type === 'shipping') {
-      discount = 0; // shipping waived — exact amount depends on shipping method
-    }
+    // Calculate discount preview using helper
+    const discount = await calculateDiscount(coupon.id, Number(subtotal), 0);
 
     res.json({
       success: true,

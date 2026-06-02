@@ -13,12 +13,12 @@ import { formatPrice } from '../../../utils/formatPrice';
 import Swal from 'sweetalert2';
 
 const SELLER_NAV: NavItem[] = [
-  { label: 'Dashboard',    href: '/seller',               icon: <LayoutDashboard size={18} /> },
-  { label: 'My Products',  href: '/seller/products',      icon: <ShoppingBag size={18} /> },
-  { label: 'Orders',       href: '/seller/orders',        icon: <ListOrdered size={18} /> },
-  { label: 'Analytics',    href: '/seller/analytics',     icon: <BarChart3 size={18} /> },
-  { label: 'Notifications',href: '/seller/notifications', icon: <Bell size={18} /> },
-  { label: 'Profile',      href: '/seller/profile',       icon: <User2 size={18} /> },
+  { label: 'Dashboard', href: '/seller', icon: <LayoutDashboard size={18} /> },
+  { label: 'My Products', href: '/seller/products', icon: <ShoppingBag size={18} /> },
+  { label: 'Orders', href: '/seller/orders', icon: <ListOrdered size={18} /> },
+  { label: 'Analytics', href: '/seller/analytics', icon: <BarChart3 size={18} /> },
+  { label: 'Notifications', href: '/seller/notifications', icon: <Bell size={18} /> },
+  { label: 'Profile', href: '/seller/profile', icon: <User2 size={18} /> },
 ];
 
 interface Product {
@@ -47,16 +47,16 @@ const ProductFormModal: React.FC<{
   onClose: () => void;
 }> = ({ initial = {}, onSave, onClose }) => {
   const [form, setForm] = useState({
-    name:        initial.name        ?? '',
+    name: initial.name ?? '',
     description: '',
-    price:       initial.price       ?? '',
-    discount:    initial.discount    ?? 0,
-    category:    initial.category    ?? 'Men',
+    price: initial.price ?? '',
+    discount: initial.discount ?? 0,
+    category: initial.category ?? 'Men',
     subcategory: '',
-    stock:       initial.stock       ?? '',
-    badge:       initial.badge       ?? '',
-    colors:      '',
-    sizes:       '',
+    stock: initial.stock ?? '',
+    badge: initial.badge ?? '',
+    colors: '',
+    sizes: '',
   });
   const [files, setFiles] = useState<File[]>([]);
 
@@ -157,22 +157,22 @@ const ProductFormModal: React.FC<{
 };
 
 const SellerProductsPage: React.FC = () => {
-  const [products, setProducts]     = useState<Product[]>([]);
-  const [loading, setLoading]       = useState(true);
-  const [search, setSearch]         = useState('');
-  const [statusFilter, setStatus]   = useState<'all' | 'active' | 'inactive'>('all');
-  const [page, setPage]             = useState(1);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatus] = useState<'all' | 'active' | 'inactive'>('all');
+  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [total, setTotal]           = useState(0);
-  const [modalOpen, setModalOpen]   = useState(false);
-  const [editing, setEditing]       = useState<Product | undefined>(undefined);
+  const [total, setTotal] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editing, setEditing] = useState<Product | undefined>(undefined);
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '12' });
-      if (search)                   params.set('search', search);
-      if (statusFilter !== 'all')   params.set('status', statusFilter);
+      if (search) params.set('search', search);
+      if (statusFilter !== 'all') params.set('status', statusFilter);
       const { data } = await api.get(`/seller/products?${params}`);
       setProducts(data.data);
       setTotal(data.pagination.total);

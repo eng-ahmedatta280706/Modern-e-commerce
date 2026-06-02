@@ -53,7 +53,7 @@ const variantDefaults: Record<EmptyStateVariant, {
     title: 'No products found',
     description: 'Try changing your filters or browse other categories.',
     actionLabel: 'View All Products',
-    actionHref: '/shop',
+    actionHref: `/shop`,
   },
 };
 

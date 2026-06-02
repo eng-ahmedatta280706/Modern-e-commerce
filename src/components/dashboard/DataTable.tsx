@@ -67,14 +67,14 @@ function DataTable<T>({
                   <Loader2 size={28} className="animate-spin mx-auto text-blue-600" />
                 </td>
               </tr>
-            ) : data.length === 0 ? (
+            ) : data?.length === 0 ? (
               <tr>
                 <td colSpan={columns.length} className="py-16 text-center text-gray-400">
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
-              data.map(row => (
+              data?.map(row => (
                 <tr key={keyExtractor(row)} className="hover:bg-gray-50 transition-colors">
                   {columns.map(col => (
                     <td key={col.key} className="px-4 py-3 text-gray-700">

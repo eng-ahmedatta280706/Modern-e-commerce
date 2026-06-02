@@ -4,6 +4,7 @@ export interface Product {
   price: number;
   description: string;
   image: string;
+  brand?: string;
   rating?: number;
   reviews?: [{ rating: number; comment: string; reviewerName: string; reviewerEmail: string; date: string }];
   stock?: number;

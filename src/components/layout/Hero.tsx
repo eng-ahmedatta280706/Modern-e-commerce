@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import { localProducts } from "../../data/products"; // استيراد المنتجات المحلية
 
 interface Product {
@@ -23,8 +23,9 @@ interface HeroCarouselProps {
 
 const HeroCarousel: React.FC<HeroCarouselProps> = ({ products }) => {
   const displayProducts = products && products.length > 0 ? products : localProducts;
+  const featuredProducts = displayProducts.slice(0, 5);
 
-  if (!displayProducts || displayProducts.length === 0) {
+  if (!featuredProducts || featuredProducts.length === 0) {
     return (
       <div className="relative bg-gray-900 text-white h-[400px] flex items-center justify-center">
         <p className="text-lg md:text-xl">There are no products available.</p>
@@ -35,14 +36,13 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ products }) => {
   return (
     <div className="relative bg-gray-900 text-white">
       <Swiper
-        modules={[Pagination, Autoplay]}
+        modules={[Autoplay]}
         slidesPerView={1}
         loop={true}
-        pagination={{ clickable: false }}
         autoplay={{ delay: 4000 }}
         className="h-[600px]"
       >
-        {displayProducts.map((product) => (
+        {featuredProducts.map((product) => (
           <SwiperSlide key={product.id} className="relative h-full">
             {/* خلفية الصورة */}
             <div className="absolute inset-0 z-0 overflow-hidden">

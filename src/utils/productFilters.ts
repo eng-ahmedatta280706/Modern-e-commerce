@@ -16,6 +16,7 @@ export const parseProductFiltersFromSearchParams = (
     defaults: ProductFilters = {}
 ): ProductFilters => {
     const colors = searchParams.get('colors');
+    const brands = searchParams.get('brand');
 
     return {
         ...defaults,
@@ -33,6 +34,9 @@ export const parseProductFiltersFromSearchParams = (
         colors: colors
             ? colors.split(',').map(color => color.trim()).filter(Boolean)
             : defaults.colors,
+        brands: brands
+            ? brands.split(',').map(brand => brand.trim()).filter(Boolean)
+            : defaults.brands,
     };
 };
 
@@ -56,6 +60,7 @@ export const syncProductFiltersToSearchParams = (
     if (filters.minPrice !== undefined) next.set('minPrice', String(filters.minPrice));
     if (filters.maxPrice !== undefined) next.set('maxPrice', String(filters.maxPrice));
     if (filters.colors && filters.colors.length > 0) next.set('colors', filters.colors.join(','));
+    if (filters.brand) next.set('brand', filters.brand);
     else next.delete('colors');
 
     return next;

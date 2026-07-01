@@ -37,6 +37,7 @@ const ShopPage: React.FC = () => {
     updateFilter,
     resetFilters,
     categories,
+    brands,
     allColors,
     priceRange,
     totalCount,
@@ -119,6 +120,7 @@ const ShopPage: React.FC = () => {
             onFilterChange={handleFilterChange}
             onSortChange={val => { setSortBy(val); setCurrentPage(1); }}
             onReset={handleResetFilters}
+            Brands={brands}
           />
         </aside>
 

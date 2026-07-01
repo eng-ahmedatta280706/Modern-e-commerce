@@ -76,7 +76,7 @@ const FeaturedCategories: React.FC = () => {
         spaceBetween={10}
         slidesPerView={1}
         breakpoints={{
-          640: { slidesPerView: 2.1, spaceBetween: 16 },
+          640: { slidesPerView: 3, spaceBetween: 16 },
           1024: { slidesPerView: 4, spaceBetween: 24 },
         }}
       >
@@ -84,9 +84,9 @@ const FeaturedCategories: React.FC = () => {
           <SwiperSlide key={category.id}>
             <Link
               to={`/category/${category.link}`}
-              className="group relative block overflow-hidden rounded-lg"
+              className="group relative block overflow-hidden rounded-lg w-full h-full"
             >
-              <div className="aspect-square overflow-hidden">
+              <div className="aspect-square overflow-hidden w-[100%] h-[200px]">
                 <img
                   src={category.image}
                   alt={category.name}

@@ -9,6 +9,7 @@ interface ProductFilterProps {
   filters: ProductFilters;
   sortBy: SortOption;
   categories: string[];
+  Brands?: string[];
   allColors: string[];
   priceRange: { min: number; max: number };
   totalCount: number;
@@ -49,14 +50,15 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: 'name-asc', label: 'Name: A–Z' },
 ];
 
-const BRAND_OPTIONS = ['Brand A', 'Brand B', 'Brand C'];
+// const BRAND_OPTIONS = ['Brand A', 'Brand B', 'Brand C'];
 
-const BADGE_OPTIONS = ['New', 'Sale', 'Best Seller'];
+const BADGE_OPTIONS = ['New', 'Sale', 'Best Seller' , 'Limited Edition' , 'Exclusive', 'Premium' , 'Eco-Friendly', 'Handmade', 'Luxury', 'Budget', 'Popular', 'Trending', 'Classic', 'Innovative', 'Award-Winning', 'Customer Favorite'];
 
 const ProductFilter: React.FC<ProductFilterProps> = ({
   filters,
   sortBy,
   categories,
+  Brands,
   allColors,
   priceRange,
   totalCount,
@@ -169,7 +171,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">All Brands</option>
-            {BRAND_OPTIONS.map(brand => (
+            {Brands?.map(brand => (
               <option key={brand} value={brand}>
                 {brand}
               </option>

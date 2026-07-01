@@ -883,4 +883,751 @@ export const localProducts: Product[] = [
     category: 'Accessories',
     subcategory: 'Bags'
   },
+  //////////////////////////////////////////
+  {
+    id: '201',
+    name: 'Adventure Graphic T-Shirt',
+    brand: 'Nike Kids',
+    price: 24.99,
+    description: 'Comfortable cotton t-shirt featuring an adventure-themed graphic print. Perfect for everyday play and outdoor activities.',
+    image: 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 45,
+    badge: 'Best Seller',
+    tags: ['Kids', 'Boys', 'Cotton', 'Casual'],
+    colors: ['Blue', 'Black', 'Red'],
+    colorImages: {
+      'Blue': 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Black': 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Red': 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'T-Shirts',
+    meta: {
+      material: '100% Cotton',
+      careInstructions: 'Machine wash cold',
+      origin: 'Vietnam',
+      releaseDate: '2026-01-10'
+    }
+  },
+  {
+    id: '202',
+    name: 'Dino Print T-Shirt',
+    brand: 'H&M Kids',
+    price: 19.99,
+    description: 'Fun dinosaur graphic t-shirt made from soft breathable cotton for active kids.',
+    image: 'https://images.pexels.com/photos/5698849/pexels-photo-5698849.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.5,
+    stock: 52,
+    badge: 'New',
+    tags: ['Kids', 'Boys', 'Dinosaur'],
+    colors: ['Green', 'Gray'],
+    colorImages: {
+      'Green': 'https://images.pexels.com/photos/5698849/pexels-photo-5698849.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Gray': 'https://images.pexels.com/photos/5698849/pexels-photo-5698849.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'T-Shirts',
+    meta: {
+      material: 'Cotton Blend',
+      careInstructions: 'Machine wash',
+      origin: 'Bangladesh',
+      releaseDate: '2026-02-15'
+    }
+  },
+  {
+    id: '203',
+    name: 'Classic Blue Jeans',
+    brand: 'Levis Kids',
+    price: 39.99,
+    description: 'Durable blue jeans with stretch fabric for comfort and mobility.',
+    image: 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 38,
+    badge: 'Best Seller',
+    tags: ['Kids', 'Boys', 'Jeans'],
+    colors: ['Blue', 'Dark Blue'],
+    colorImages: {
+      'Blue': 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Dark Blue': 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Jeans',
+    meta: {
+      material: 'Denim',
+      careInstructions: 'Machine wash cold',
+      origin: 'Mexico'
+    }
+  },
+  {
+    id: '204',
+    name: 'Junior Running Shoes',
+    brand: 'Adidas Kids',
+    price: 54.99,
+    description: 'Lightweight running shoes designed for active kids with excellent cushioning.',
+    image: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.9,
+    stock: 29,
+    badge: 'Premium',
+    tags: ['Kids', 'Sports', 'Running'],
+    colors: ['Black', 'White', 'Blue'],
+    colorImages: {
+      'Black': 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'White': 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Blue': 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Shoes',
+    meta: {
+      material: 'Mesh Fabric',
+      careInstructions: 'Wipe clean',
+      origin: 'Indonesia'
+    }
+  },
+  {
+    id: '205',
+    name: 'Warm Fleece Hoodie',
+    brand: 'Nike Kids',
+    price: 44.99,
+    description: 'Soft fleece hoodie that keeps kids warm and comfortable during cooler days.',
+    image: 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.6,
+    stock: 33,
+    badge: 'Sale',
+    tags: ['Kids', 'Hoodie', 'Winter'],
+    colors: ['Gray', 'Black', 'Navy'],
+    colorImages: {
+      'Gray': 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Black': 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Navy': 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Hodes',
+    meta: {
+      material: 'Fleece Cotton',
+      careInstructions: 'Machine wash cold',
+      origin: 'Vietnam'
+    }
+  },
+  {
+    id: '206',
+    name: 'Adventure Graphic T-Shirt',
+    brand: 'Nike Kids',
+    price: 24.99,
+    description: 'Comfortable cotton t-shirt featuring an adventure-themed graphic print.',
+    image: 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 45,
+    badge: 'Best Seller',
+    tags: ['Kids', 'Boys', 'Cotton'],
+    colors: ['Blue', 'Black', 'Red'],
+    colorImages: {
+      Blue: 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Black: 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Red: 'https://images.pexels.com/photos/9558761/pexels-photo-9558761.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'T-Shirts'
+  },
+  {
+    id: '207',
+    name: 'Dino Print T-Shirt',
+    brand: 'H&M Kids',
+    price: 19.99,
+    description: 'Fun dinosaur graphic t-shirt made from breathable cotton.',
+    image: 'https://images.pexels.com/photos/5698849/pexels-photo-5698849.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.5,
+    stock: 52,
+    badge: 'New',
+    tags: ['Kids', 'Dinosaur'],
+    colors: ['Green', 'Gray'],
+    colorImages: {
+      Green: 'https://images.pexels.com/photos/5698849/pexels-photo-5698849.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Gray: 'https://images.pexels.com/photos/5698849/pexels-photo-5698849.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'T-Shirts'
+  },
+  {
+    id: '208',
+    name: 'Super Hero Tee',
+    brand: 'Zara Kids',
+    price: 22.99,
+    description: 'Soft cotton t-shirt with a colorful superhero design.',
+    image: 'https://images.pexels.com/photos/3771813/pexels-photo-3771813.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.6,
+    stock: 38,
+    colors: ['Blue', 'White'],
+    colorImages: {
+      Blue: 'https://images.pexels.com/photos/3771813/pexels-photo-3771813.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/3771813/pexels-photo-3771813.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'T-Shirts'
+  },
+  {
+    id: '209',
+    name: 'Space Explorer Tee',
+    brand: 'GAP Kids',
+    price: 21.99,
+    description: 'Casual t-shirt inspired by space adventures.',
+    image: 'https://images.pexels.com/photos/3771816/pexels-photo-3771816.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.4,
+    stock: 42,
+    colors: ['Navy', 'Gray'],
+    colorImages: {
+      Navy: 'https://images.pexels.com/photos/3771816/pexels-photo-3771816.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Gray: 'https://images.pexels.com/photos/3771816/pexels-photo-3771816.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'T-Shirts'
+  },
+  {
+    id: '210',
+    name: 'Skateboard Graphic Tee',
+    brand: 'Puma Kids',
+    price: 23.99,
+    description: 'Modern graphic t-shirt for active boys.',
+    image: 'https://images.pexels.com/photos/3771820/pexels-photo-3771820.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 36,
+    badge: 'Sale',
+    colors: ['Black', 'Orange'],
+    colorImages: {
+      Black: 'https://images.pexels.com/photos/3771820/pexels-photo-3771820.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Orange: 'https://images.pexels.com/photos/3771820/pexels-photo-3771820.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'T-Shirts'
+  },
+  {
+    id: '211',
+    name: 'Classic Blue Jeans',
+    brand: 'Levis Kids',
+    price: 39.99,
+    description: 'Durable stretch denim jeans for everyday wear.',
+    image: 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 38,
+    badge: 'Best Seller',
+    colors: ['Blue', 'Dark Blue'],
+    colorImages: {
+      Blue: 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Dark Blue': 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Jeans'
+  },
+  {
+    id: '212',
+    name: 'Slim Fit Jeans',
+    brand: 'Carters',
+    price: 34.99,
+    description: 'Modern slim fit jeans with soft stretch fabric.',
+    image: 'https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.5,
+    stock: 40,
+    colors: ['Blue', 'Black'],
+    colorImages: {
+      Blue: 'https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Black: 'https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Jeans'
+  },
+  {
+    id: '213',
+    name: 'Junior Running Shoes',
+    brand: 'Adidas Kids',
+    price: 54.99,
+    description: 'Lightweight running shoes designed for active kids.',
+    image: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.9,
+    stock: 29,
+    badge: 'Premium',
+    colors: ['Black', 'White', 'Blue'],
+    colorImages: {
+      Black: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Blue: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '214',
+    name: 'Playground Sneakers',
+    brand: 'Puma Kids',
+    price: 49.99,
+    description: 'Comfortable sneakers built for playground adventures.',
+    image: 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 33,
+    colors: ['White', 'Blue'],
+    colorImages: {
+      White: 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Blue: 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '215',
+    name: 'Sport Active Shoes',
+    brand: 'Nike Kids',
+    price: 59.99,
+    description: 'Versatile athletic shoes for school and sports.',
+    image: 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 27,
+    badge: 'New',
+    colors: ['Black', 'Red'],
+    colorImages: {
+      Black: 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600',
+      Red: 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '216',
+    name: 'Winter Puffer Jacket',
+    brand: 'The North Face Kids',
+    price: 74.99,
+    description: 'Warm insulated puffer jacket designed for cold winter days.',
+    image: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.9,
+    stock: 24,
+    badge: 'Premium',
+    colors: ['Black', 'Navy'],
+    colorImages: {
+      Black: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Navy: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Jackets'
+  },
+  {
+    id: '217',
+    name: 'Denim Kids Jacket',
+    brand: 'Levis Kids',
+    price: 54.99,
+    description: 'Classic denim jacket perfect for casual everyday outfits.',
+    image: 'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 31,
+    badge: 'Best Seller',
+    colors: ['Blue', 'Light Blue'],
+    colorImages: {
+      Blue: 'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'Light Blue': 'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Jackets'
+  },
+  {
+    id: '218',
+    name: 'Rain Protection Jacket',
+    brand: 'Columbia Kids',
+    price: 59.99,
+    description: 'Water-resistant jacket built for rainy weather and outdoor fun.',
+    image: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.6,
+    stock: 28,
+    colors: ['Yellow', 'Blue'],
+    colorImages: {
+      Yellow: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Blue: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Jackets'
+  },
+  {
+    id: '219',
+    name: 'Sport Zip Hoodie',
+    brand: 'Nike Kids',
+    price: 44.99,
+    description: 'Lightweight hoodie with zip closure and sporty design.',
+    image: 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 35,
+    badge: 'Sale',
+    colors: ['Gray', 'Black'],
+    colorImages: {
+      Gray: 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Black: 'https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Hodes'
+  },
+  {
+    id: '220',
+    name: 'Cartoon Print Hoodie',
+    brand: 'H&M Kids',
+    price: 34.99,
+    description: 'Soft hoodie featuring colorful cartoon-inspired artwork.',
+    image: 'https://images.pexels.com/photos/6311613/pexels-photo-6311613.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.5,
+    stock: 40,
+    badge: 'New',
+    colors: ['Blue', 'Red'],
+    colorImages: {
+      Blue: 'https://images.pexels.com/photos/6311613/pexels-photo-6311613.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Red: 'https://images.pexels.com/photos/6311613/pexels-photo-6311613.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Hodes'
+  },
+  {
+    id: '221',
+    name: 'Princess Party Dress',
+    brand: 'Carters',
+    price: 49.99,
+    description: 'Elegant princess-inspired dress for birthdays and special occasions.',
+    image: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.9,
+    stock: 22,
+    badge: 'Premium',
+    colors: ['Pink', 'White'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Dresses'
+  },
+  {
+    id: '222',
+    name: 'Floral Summer Dress',
+    brand: 'Zara Kids',
+    price: 44.99,
+    description: 'Lightweight floral dress perfect for sunny summer days.',
+    image: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 29,
+    badge: 'Best Seller',
+    colors: ['Yellow', 'Pink'],
+    colorImages: {
+      Yellow: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Pink: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Dresses'
+  },
+  {
+    id: '223',
+    name: 'Sparkle Birthday Dress',
+    brand: 'H&M Kids',
+    price: 54.99,
+    description: 'Shimmering party dress designed for memorable celebrations.',
+    image: 'https://images.pexels.com/photos/7691229/pexels-photo-7691229.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 18,
+    badge: 'Premium',
+    colors: ['Rose Gold', 'Silver'],
+    colorImages: {
+      'Rose Gold': 'https://images.pexels.com/photos/7691229/pexels-photo-7691229.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Silver: 'https://images.pexels.com/photos/7691229/pexels-photo-7691229.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Dresses'
+  },
+  {
+    id: '224',
+    name: 'Rainbow Tulle Dress',
+    brand: 'Disney Kids',
+    price: 42.99,
+    description: 'Colorful tulle dress inspired by fairy tale adventures.',
+    image: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.6,
+    stock: 34,
+    colors: ['Rainbow', 'Pink'],
+    colorImages: {
+      Rainbow: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Pink: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Dresses'
+  },
+  {
+    id: '225',
+    name: 'Elegant Lace Dress',
+    brand: 'Mango Kids',
+    price: 59.99,
+    description: 'Beautiful lace dress combining elegance and comfort.',
+    image: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 20,
+    badge: 'New',
+    colors: ['Cream', 'White'],
+    colorImages: {
+      Cream: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Dresses'
+  },
+  {
+    id: '226',
+    name: 'Butterfly Print Top',
+    brand: 'Zara Kids',
+    price: 24.99,
+    description: 'Soft cotton top featuring a colorful butterfly print.',
+    image: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 35,
+    badge: 'New',
+    tags: ['Girls', 'Top', 'Casual'],
+    colors: ['Pink', 'White'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Tops'
+  },
+  {
+    id: '227',
+    name: 'Rainbow Graphic Top',
+    brand: 'H&M Kids',
+    price: 22.99,
+    description: 'Colorful rainbow graphic top made from breathable cotton.',
+    image: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.5,
+    stock: 42,
+    colors: ['Yellow', 'Pink'],
+    colorImages: {
+      Yellow: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Pink: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Tops'
+  },
+  {
+    id: '228',
+    name: 'Floral Ruffle Top',
+    brand: 'Mango Kids',
+    price: 26.99,
+    description: 'Elegant floral top with ruffle sleeves for a stylish look.',
+    image: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 28,
+    badge: 'Best Seller',
+    colors: ['Floral Pink', 'White'],
+    colorImages: {
+      'Floral Pink': 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/1755428/pexels-photo-1755428.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Tops'
+  },
+  {
+    id: '229',
+    name: 'Cute Unicorn Top',
+    brand: 'Disney Kids',
+    price: 23.99,
+    description: 'Fun unicorn-themed top perfect for everyday wear.',
+    image: 'https://images.pexels.com/photos/3771826/pexels-photo-3771826.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.6,
+    stock: 39,
+    colors: ['Purple', 'Pink'],
+    colorImages: {
+      Purple: 'https://images.pexels.com/photos/3771826/pexels-photo-3771826.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Pink: 'https://images.pexels.com/photos/3771826/pexels-photo-3771826.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Tops'
+  },
+  {
+    id: '230',
+    name: 'Casual Cotton Top',
+    brand: 'GAP Kids',
+    price: 21.99,
+    description: 'Everyday cotton top offering comfort and simplicity.',
+    image: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.4,
+    stock: 45,
+    colors: ['Blue', 'White'],
+    colorImages: {
+      Blue: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/6311648/pexels-photo-6311648.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Tops'
+  },
+  {
+    id: '231',
+    name: 'Princess Jewelry Set',
+    brand: 'Disney Kids',
+    price: 18.99,
+    description: 'Colorful jewelry set including necklace, bracelet and ring.',
+    image: 'https://images.pexels.com/photos/1927259/pexels-photo-1927259.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 50,
+    badge: 'Best Seller',
+    colors: ['Pink', 'Purple'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/1927259/pexels-photo-1927259.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Purple: 'https://images.pexels.com/photos/1927259/pexels-photo-1927259.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Accessories'
+  },
+  {
+    id: '232',
+    name: 'Mini Fashion Handbag',
+    brand: 'Barbie',
+    price: 24.99,
+    description: 'Cute mini handbag designed for young fashion lovers.',
+    image: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.6,
+    stock: 38,
+    badge: 'New',
+    colors: ['Pink', 'Rose'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Rose: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Accessories'
+  },
+  {
+    id: '233',
+    name: 'Colorful Hair Clips',
+    brand: 'H&M Kids',
+    price: 12.99,
+    description: 'Set of colorful hair clips perfect for daily styling.',
+    image: 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.5,
+    stock: 65,
+    colors: ['Multi Color'],
+    colorImages: {
+      'Multi Color': 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Accessories'
+  },
+  {
+    id: '234',
+    name: 'Glitter Sneakers',
+    brand: 'Skechers Kids',
+    price: 54.99,
+    description: 'Comfortable glitter sneakers with stylish sparkling finish.',
+    image: 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.8,
+    stock: 29,
+    badge: 'Premium',
+    colors: ['Pink', 'Silver'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Silver: 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '235',
+    name: 'Light Up Shoes',
+    brand: 'Geox Kids',
+    price: 59.99,
+    description: 'Fun sneakers with LED lights that activate while walking.',
+    image: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.9,
+    stock: 26,
+    badge: 'Best Seller',
+    colors: ['Pink', 'Blue'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Blue: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '236',
+    name: 'Pink Running Shoes',
+    brand: 'Adidas Kids',
+    price: 49.99,
+    description: 'Lightweight running shoes designed for active girls.',
+    image: 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 33,
+    colors: ['Pink', 'White'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Shoes'
+  },
+  {
+    id: '237',
+    name: 'Cute Sun Hat',
+    brand: 'Carters',
+    price: 16.99,
+    description: 'Wide-brim summer hat providing protection and style.',
+    image: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.5,
+    stock: 44,
+    colors: ['Pink', 'White'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      White: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Heats'
+  },
+  {
+    id: '238',
+    name: 'Flower Straw Hat',
+    brand: 'Disney Kids',
+    price: 18.99,
+    description: 'Decorative straw hat featuring floral details.',
+    image: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.6,
+    stock: 36,
+    badge: 'New',
+    colors: ['Beige', 'Pink'],
+    colorImages: {
+      Beige: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Pink: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Heats'
+  },
+  {
+    id: '239',
+    name: 'Summer Beach Hat',
+    brand: 'H&M Kids',
+    price: 15.99,
+    description: 'Lightweight beach hat ideal for sunny outdoor activities.',
+    image: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.4,
+    stock: 48,
+    colors: ['White', 'Cream'],
+    colorImages: {
+      White: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Cream: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Heats'
+  },
+  {
+    id: '240',
+    name: 'Fashion Bow Hat',
+    brand: 'Zara Kids',
+    price: 19.99,
+    description: 'Stylish hat featuring a decorative bow design.',
+    image: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    rating: 4.7,
+    stock: 31,
+    badge: 'Sale',
+    colors: ['Pink', 'Cream'],
+    colorImages: {
+      Pink: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      Cream: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    },
+    category: 'Kids',
+    subcategory: 'Heats'
+  },
 ];

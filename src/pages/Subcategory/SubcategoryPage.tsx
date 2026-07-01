@@ -59,6 +59,7 @@ const SubcategoryPage: React.FC = () => {
     updateFilter,
     resetFilters,
     categories,
+    brands,
     allColors,
     priceRange,
     totalCount,
@@ -152,6 +153,7 @@ const SubcategoryPage: React.FC = () => {
             onSortChange={val => { setSortBy(val); setCurrentPage(1); }}
             onReset={handleResetFilters}
             categoryLabel={categoryLabel}
+            Brands={brands}
           />
         </aside>
 
@@ -171,6 +173,7 @@ const SubcategoryPage: React.FC = () => {
                 onSortChange={val => { setSortBy(val); setCurrentPage(1); setFilterOpen(false); }}
                 onReset={() => { handleResetFilters(); setFilterOpen(false); }}
                 categoryLabel={categoryLabel}
+                Brands={brands}
                 isOpen
               />
             </div>

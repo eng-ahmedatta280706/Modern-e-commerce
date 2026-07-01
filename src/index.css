@@ -217,3 +217,32 @@ nav ul li:hover .ChevronDown {
 .addCart-btn:hover .ShoppingCart {
     transform: rotate(-360deg);
 }
+
+/*----------------------------------------------------*/
+
+.swiper-blur {
+    position: relative;
+}
+
+.swiper-blur::before,
+.swiper-blur::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.swiper-blur::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    /* opacity: 0.8; */
+}
+
+.swiper-blur::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    /* opacity: 0.9; */
+}

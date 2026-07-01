@@ -11,6 +11,7 @@ export interface ProductFilters {
   maxPrice?: number;
   badge?: string;
   search?: string;
+  brands?: string[];
 }
 
 export type SortOption = 'default' | 'price-asc' | 'price-desc' | 'name-asc' | 'newest';
@@ -75,6 +76,13 @@ export const useProducts = (initialFilters: ProductFilters = {}) => {
           (p.tags ?? []).some(t => t.toLowerCase().includes(q))
       );
     }
+    if (filters.brands && filters.brands.length > 0) {
+      result = result.filter(p => filters.brands!.includes(p.brand ?? ''));
+    }
+
+    if (filters.badge) {
+      result = result.filter(p => p.badge === filters.badge);
+    }
 
     return sortProducts(result, sortBy);
   }, [filters, sortBy]);
@@ -100,6 +108,16 @@ export const useProducts = (initialFilters: ProductFilters = {}) => {
     max: Math.max(...localProducts.map(p => p.price)),
   }), []);
 
+  const brands = useMemo(
+    () => [...new Set(filteredProducts.map(p => p.brand).filter(Boolean))] as string[],
+    []
+  );
+
+  const badges = useMemo(
+    () => [...new Set(filteredProducts.map(p => p.badge).filter(Boolean))] as string[],
+    []
+  );
+
   return {
     products: filteredProducts,
     filters,
@@ -110,6 +128,8 @@ export const useProducts = (initialFilters: ProductFilters = {}) => {
     categories,
     allColors,
     priceRange,
+    brands,
+    badges,
     totalCount: filteredProducts.length,
   };
 };

@@ -5,16 +5,19 @@
  * @param locale - Locale string (default: 'en-US')
  */
 export const formatPrice = (
-  amount: number,
+  amount: number | string,
   currency = 'USD',
   locale = 'en-US'
 ): string => {
+  // Backend numeric columns (price, total, ...) come back as strings — coerce safely.
+  const value = typeof amount === 'number' ? amount : Number(amount);
+  const safe = Number.isFinite(value) ? value : 0;
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(amount);
+  }).format(safe);
 };
 
 /**

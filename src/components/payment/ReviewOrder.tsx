@@ -13,6 +13,7 @@ interface ReviewOrderProps {
     onShippingMethodChange: (method: string) => void;
     appliedCoupon: any;
     onCouponChange: (coupon: any) => void;
+    submitting?: boolean;
 }
 
 const ReviewOrder: React.FC<ReviewOrderProps> = ({
@@ -23,6 +24,7 @@ const ReviewOrder: React.FC<ReviewOrderProps> = ({
     onShippingMethodChange,
     appliedCoupon,
     onCouponChange,
+    submitting = false,
 }) => {
     const cartContext = useContext(CartContext);
     if (!cartContext) throw new Error("ReviewOrder must be used within CartProvider");
@@ -114,11 +116,11 @@ const ReviewOrder: React.FC<ReviewOrderProps> = ({
             <p className="text-xl font-bold mb-6">Total: ${total.toFixed(2)}</p>
 
             <div className="flex justify-between">
-                <button onClick={onBack} className="border px-6 py-3 rounded-lg hover:bg-gray-100">
+                <button onClick={onBack} disabled={submitting} className="border px-6 py-3 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
                     Back
                 </button>
-                <button onClick={onSubmit} className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
-                    Place Order
+                <button onClick={onSubmit} disabled={submitting} className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                    {submitting ? "Placing Order..." : "Place Order"}
                 </button>
             </div>
 

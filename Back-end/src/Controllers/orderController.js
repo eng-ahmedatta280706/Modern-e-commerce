@@ -1,11 +1,9 @@
 import Stripe from 'stripe';
-import { createOrder, findOrders, countOrders, findOrderById, updateOrder, cancelOrder } from '../Models/Order.js';
-import { findProductById, decreaseStock, restoreStock, findProducts, countProducts } from '../Models/Product.js';
+import { createOrder, findOrders, findOrderById, updateOrder, cancelOrder } from '../Models/Order.js';
 import { findUser, findUserById } from '../Models/User.js';
-import { findCouponOne, incrementCouponUsage } from '../Models/Coupon.js';
-import errorHandlerModule from '../middleware/errorHandler.js';
-import { sendOrderConfirmationEmail, sendOrderStatusEmail } from '../services/emailService.js';
-import { notifyNewOrder, notifySellerNewOrder } from '../services/notificationService.js';
+import errorHandlerModule from '../Middleware/errorHandler.js';
+import { sendOrderConfirmationEmail, sendOrderStatusEmail } from '../Services/emailService.js';
+import { notifyNewOrder, notifySellerNewOrder } from '../Services/notificationService.js';
 
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 const { AppError } = errorHandlerModule;
@@ -29,7 +27,7 @@ export async function createOrderHandler(req, res, next) {
         paymentMethod,
         couponCode,
         notes,
-        customerId: req.user._id,
+        customerId: req.user.id,
       });
 
       // Notify admins + sellers
@@ -52,7 +50,7 @@ export async function createOrderHandler(req, res, next) {
         )
       );
 
-      const user = await findUserById(req.user._id);
+      const user = await findUserById(req.user.id);
       await sendOrderConfirmationEmail(user, order).catch(() => null);
 
       res.status(201).json({ success: true, data: order });
@@ -67,7 +65,7 @@ export async function getMyOrders(req, res, next) {
   try {
     const page = Math.max(1, Number(req.query.page) || 1);
     const limit = Math.min(50, Number(req.query.limit) || 10);
-    const filter = { customerId: req.user._id };
+    const filter = { customerId: req.user.id };
     if (req.query.status) filter.status = req.query.status;
 
     const results = await findOrders(filter);
@@ -85,7 +83,7 @@ export async function getOrder(req, res, next) {
     if (!order) return next(new AppError('Order not found.', 404));
 
     // Customers can only see their own
-    if (req.user.role === 'customer' && String(order.customerId) !== String(req.user._id)) {
+    if (req.user.role === 'customer' && String(order.customerId) !== String(req.user.id)) {
       return next(new AppError('Not authorized.', 403));
     }
     res.json({ success: true, data: order });
@@ -112,16 +110,18 @@ export async function updateOrderStatus(req, res, next) {
       return next(new AppError(`Cannot move from ${order.status} to ${status}.`, 400));
     }
 
-    const updateData = { status };
-    if (trackingNumber) updateData.trackingNumber = trackingNumber;
-    if (status === 'delivered') updateData.deliveredAt = new Date();
-    if (status === 'cancelled') updateData.cancelledAt = new Date();
-
-    const updated = await updateOrder(req.params.id, updateData);
-
-    // Restore stock on cancel
+    let updated;
     if (status === 'cancelled') {
-      // Stock restore handled in Model.ts cancelOrder function
+      // cancelOrder restores stock for every line item, then flips the status.
+      updated = await cancelOrder(req.params.id);
+      if (trackingNumber) {
+        updated = await updateOrder(req.params.id, { trackingNumber });
+      }
+    } else {
+      const updateData = { status };
+      if (trackingNumber) updateData.trackingNumber = trackingNumber;
+      if (status === 'delivered') updateData.deliveredAt = new Date();
+      updated = await updateOrder(req.params.id, updateData);
     }
 
     const customer = await findUserById(order.customerId);
@@ -141,7 +141,7 @@ export async function createStripeIntent(req, res, next) {
     const intent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // cents
       currency,
-      metadata: { userId: String(req.user._id) },
+      metadata: { userId: String(req.user.id) },
     });
 
     res.json({ success: true, clientSecret: intent.client_secret });

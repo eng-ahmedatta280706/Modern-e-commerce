@@ -37,8 +37,8 @@ interface DashStats {
     revenueGrowth: number;
   };
   ordersByStatus: Record<string, number>;
-  topProducts: Array<{ _id: string; name: string; sold: number; price: number; images: string[]; seller: { storeName: string } }>;
-  recentOrders: Array<{ _id: string; customer: { name: string; email: string }; total: number; status: string; createdAt: string }>;
+  topProducts: Array<{ id: string; name: string; sold: number; price: number; images: string[]; seller: { storeName: string } }>;
+  recentOrders: Array<{ id: string; customer: { name: string; email: string }; total: number; status: string; createdAt: string }>;
   monthlySales: Array<{ month: string; revenue: number; orders: number }>;
 }
 
@@ -128,23 +128,23 @@ const AdminDashboard: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Orders */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-bold text-gray-900">Recent Orders</h2>
-              <Link to="/admin/orders" className="text-sm text-blue-600 hover:underline">View all</Link>
+              <Link to="/admin/orders" className="text-sm text-brand-600 hover:underline">View all</Link>
             </div>
             <div className="space-y-3">
               {(stats?.recentOrders ?? []).slice(0, 6).map(order => (
                 <Link
-                  key={order._id}
-                  to={`/admin/orders/${order._id}`}
+                  key={order.id}
+                  to={`/admin/orders/${order.id}`}
                   className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors"
                 >
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">{order.customer?.name}</p>
                     <p className="text-xs text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>
                   </div>
-                  <div className="flex items-center gap-3 flex-shrink-0">
+                  <div className="flex items-center gap-3 shrink-0">
                     <StatusBadge status={order.status} size="sm" />
                     <span className="text-sm font-semibold text-gray-900">{formatPrice(order.total)}</span>
                   </div>
@@ -157,16 +157,16 @@ const AdminDashboard: React.FC = () => {
           </div>
 
           {/* Top Products */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-bold text-gray-900">Top Products</h2>
-              <Link to="/admin/products" className="text-sm text-blue-600 hover:underline">View all</Link>
+              <Link to="/admin/products" className="text-sm text-brand-600 hover:underline">View all</Link>
             </div>
             <div className="space-y-3">
               {(stats?.topProducts ?? []).map((product, i) => (
-                <div key={product._id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                <div key={product.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
                   <span className="text-sm font-bold text-gray-300 w-5 text-center">{i + 1}</span>
-                  <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                  <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0">
                     {product.images?.[0] && (
                       <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
                     )}
@@ -175,7 +175,7 @@ const AdminDashboard: React.FC = () => {
                     <p className="text-sm font-medium text-gray-900 truncate">{product.name}</p>
                     <p className="text-xs text-gray-400">{product.seller?.storeName}</p>
                   </div>
-                  <div className="text-right flex-shrink-0">
+                  <div className="text-right shrink-0">
                     <p className="text-sm font-semibold text-gray-900">{product.sold} sold</p>
                     <p className="text-xs text-gray-400">{formatPrice(product.price)}</p>
                   </div>

@@ -110,12 +110,12 @@ export const useProducts = (initialFilters: ProductFilters = {}) => {
 
   const brands = useMemo(
     () => [...new Set(filteredProducts.map(p => p.brand).filter(Boolean))] as string[],
-    []
+    [filteredProducts]
   );
 
   const badges = useMemo(
     () => [...new Set(filteredProducts.map(p => p.badge).filter(Boolean))] as string[],
-    []
+    [filteredProducts]
   );
 
   return {

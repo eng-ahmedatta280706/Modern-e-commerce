@@ -1,30 +1,39 @@
-import { createContext, useState, ReactNode, useEffect ,} from "react";
+import { createContext, useState, ReactNode, useEffect } from "react";
 import { Translations } from "../utils/translations";
-// import { Translation } from "react-i18next";
+
+type LanguageCode = keyof Translations;
+
+// Languages that render right-to-left. Add "he", "ur", "fa" here as they are introduced.
+const RTL_LANGUAGES: LanguageCode[] = ["ar"];
+
+const isRTL = (lang: LanguageCode) => RTL_LANGUAGES.includes(lang);
+
+// Apply direction + lang attributes on the document so RTL and a11y/SEO stay in sync.
+const applyDocumentLang = (lang: LanguageCode) => {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = isRTL(lang) ? "rtl" : "ltr";
+};
 
 type LanguageContextType = {
-    language: keyof Translations;
-    changeLanguage: (lang: keyof Translations) => void;
+    language: LanguageCode;
+    changeLanguage: (lang: LanguageCode) => void;
 };
 
 export const LanguageContext = createContext<LanguageContextType | null>(null);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-    const [language, setLanguage] = useState<keyof Translations>(
-        (localStorage.getItem("lang") as keyof Translations) || "en");
+    const [language, setLanguage] = useState<LanguageCode>(
+        (localStorage.getItem("lang") as LanguageCode) || "en");
 
+    // Sync the document with the active language on mount and whenever it changes.
     useEffect(() => {
-        const saved = localStorage.getItem("lang");
-        if (saved) {
-            document.documentElement.dir = saved === "ar" ? "rtl" : "ltr";
-        }
-    }, []);
+        applyDocumentLang(language);
+    }, [language]);
 
-    const changeLanguage = (lang: keyof Translations) => {
+    const changeLanguage = (lang: LanguageCode) => {
         setLanguage(lang);
         localStorage.setItem("lang", lang);
-
-        document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+        applyDocumentLang(lang);
     };
 
     return (

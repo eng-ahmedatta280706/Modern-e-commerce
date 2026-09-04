@@ -1,12 +1,12 @@
 import { Router } from 'express';
 const router = Router();
-import { getSellerDashboard, getStoreProfile, getMyProducts, getMyOrders } from '../controllers/sellerController.js';
-import { getNotifications, markRead, deleteNotification } from '../controllers/notificationController.js';
-import { create_Product, updateProduct, deleteProduct } from '../controllers/productController.js';
-import { updateOrderStatus } from '../controllers/orderController.js';
-import { protect, authorize, requireApprovedSeller } from '../middleware/auth.js';
+import { getSellerDashboard, getStoreProfile, getMyProducts, getMyOrders } from '../Controllers/sellerController.js';
+import { getNotifications, markRead, deleteNotification } from '../Controllers/notificationController.js';
+import { create_Product, updateProduct, deleteProduct } from '../Controllers/productController.js';
+import { updateOrderStatus } from '../Controllers/orderController.js';
+import { protect, authorize, requireApprovedSeller } from '../Middleware/auth.js';
 // import { upload } from '../config/cloudinary';
-import { uploadLimiter } from '../middleware/rateLimiter.js';
+import { uploadLimiter } from '../Middleware/rateLimiter.js';
 
 // All seller routes require auth + seller role
 router.use(protect, authorize('seller'));

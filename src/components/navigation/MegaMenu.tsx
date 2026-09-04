@@ -35,7 +35,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                 to={`/category/${slugify(
                   t(`header.categories.${category}`)
                 )}`}
-                className="text-gray-700 hover:text-blue-600 font-medium flex items-center transition-colors"
+                className="text-gray-700 hover:text-brand-600 font-medium flex items-center transition-colors"
                 onClick={onClose}
               >
                 {t(`header.categories.${category}`)}
@@ -82,7 +82,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                                 to={`/category/${slugify(
                                   t(`header.categories.${category}`)
                                 )}/${slugify(item)}`}
-                                className="block py-1 text-xs text-gray-600 hover:text-blue-600"
+                                className="block py-1 text-xs text-gray-600 hover:text-brand-600"
                                 onClick={onClose}
                               >
                                 {item}
@@ -99,7 +99,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   to={`/category/${slugify(
                     t(`header.categories.${category}`)
                   )}`}
-                  className="block text-blue-600 font-medium py-3 mt-2"
+                  className="block text-brand-600 font-medium py-3 mt-2"
                   onClick={onClose}
                 >
                   View all →
@@ -142,7 +142,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                             to={`/category/${slugify(
                               t(`header.categories.${category}`)
                             )}/${slugify(item)}`}
-                            className="block text-sm text-gray-600 hover:text-blue-600 hover:translate-x-1 transition-all"
+                            className="block text-sm text-gray-600 hover:text-brand-600 hover:translate-x-1 transition-all"
                             onClick={onClose}
                           >
                             {item}
@@ -159,7 +159,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   to={`/category/${slugify(
                     t(`header.categories.${category}`)
                   )}`}
-                  className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                  className="text-sm text-brand-600 hover:text-brand-800 font-medium"
                   onClick={onClose}
                 >
                   View all in {t(`header.categories.${category}`)} →

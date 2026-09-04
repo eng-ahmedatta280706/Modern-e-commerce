@@ -5,6 +5,6 @@ export default {
     out: './drizzle',
     dialect: 'postgresql',
     dbCredentials: {
-        url: 'postgresql://postgres:Ahmed1234@localhost:5432/StoreDB',
+        url: 'database url',
     },
 };

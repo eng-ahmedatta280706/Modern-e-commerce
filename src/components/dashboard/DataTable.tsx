@@ -36,7 +36,7 @@ function DataTable<T>({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
@@ -51,8 +51,8 @@ function DataTable<T>({
                     {col.header}
                     {col.sortable && (
                       <span className="flex flex-col">
-                        <ChevronUp size={10} className={sortKey === col.key && sortDir === 'asc' ? 'text-blue-600' : 'text-gray-300'} />
-                        <ChevronDown size={10} className={sortKey === col.key && sortDir === 'desc' ? 'text-blue-600' : 'text-gray-300'} />
+                        <ChevronUp size={10} className={sortKey === col.key && sortDir === 'asc' ? 'text-brand-600' : 'text-gray-300'} />
+                        <ChevronDown size={10} className={sortKey === col.key && sortDir === 'desc' ? 'text-brand-600' : 'text-gray-300'} />
                       </span>
                     )}
                   </div>
@@ -64,7 +64,7 @@ function DataTable<T>({
             {loading ? (
               <tr>
                 <td colSpan={columns.length} className="py-16 text-center">
-                  <Loader2 size={28} className="animate-spin mx-auto text-blue-600" />
+                  <Loader2 size={28} className="animate-spin mx-auto text-brand-600" />
                 </td>
               </tr>
             ) : data?.length === 0 ? (

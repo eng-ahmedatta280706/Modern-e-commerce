@@ -5,7 +5,7 @@ import ProtectedRoute from './ProtectedRoute';
 // Loading fallback
 const PageLoader = () => (
     <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600" />
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-600" />
     </div>
 );
 
@@ -91,6 +91,9 @@ const AppRoutes: React.FC = () => (
                 <ProtectedRoute allowedRoles={['seller']}><SellerDashboard /></ProtectedRoute>
             } />
             <Route path="/seller/products" element={
+                <ProtectedRoute allowedRoles={['seller']}><SellerProductsPage /></ProtectedRoute>
+            } />
+            <Route path="/seller/products/new" element={
                 <ProtectedRoute allowedRoles={['seller']}><SellerProductsPage /></ProtectedRoute>
             } />
             <Route path="/seller/orders" element={

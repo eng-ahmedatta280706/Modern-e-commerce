@@ -1,12 +1,12 @@
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 
-const signToken = (id, role) =>
+export const signToken = (id, role) =>
   sign({ id, role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   });
 
-const signRefreshToken = (id) =>
+export const signRefreshToken = (id) =>
   sign({ id }, process.env.JWT_REFRESH_SECRET, {
     expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d',
   });
@@ -14,9 +14,9 @@ const signRefreshToken = (id) =>
 /**
  * Creates token, attaches cookie, and sends JSON response.
  */
-const sendToken = (user, statusCode, res) => {
-  const token        = signToken(user._id, user.role);
-  const refreshToken = signRefreshToken(user._id);
+export const sendToken = (user, statusCode, res) => {
+  const token        = signToken(user.id, user.role);
+  const refreshToken = signRefreshToken(user.id);
 
   const cookieOptions = {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),

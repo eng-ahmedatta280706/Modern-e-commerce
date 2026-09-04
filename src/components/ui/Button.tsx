@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+type ButtonVariant = 'primary' | 'secondary' | 'outline-solid' | 'ghost' | 'danger';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,10 +13,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-blue-600 hover:bg-blue-700 text-white disabled:bg-blue-300',
-  secondary: 'bg-gray-800 hover:bg-gray-900 text-white disabled:bg-gray-400',
-  outline: 'border border-gray-300 hover:bg-gray-50 text-gray-700 disabled:opacity-50',
-  ghost: 'hover:bg-gray-100 text-gray-700 disabled:opacity-50',
+  primary: 'bg-brand-600 hover:bg-brand-700 text-white shadow-xs hover:shadow-card-hover disabled:bg-brand-300',
+  secondary: 'bg-ink hover:bg-slate-800 text-white disabled:bg-slate-400',
+  outline: 'border border-slate-300 hover:border-brand-400 hover:text-brand-700 text-ink-soft disabled:opacity-50',
+  ghost: 'hover:bg-slate-100 text-ink-soft disabled:opacity-50',
   danger: 'bg-red-600 hover:bg-red-700 text-white disabled:bg-red-300',
 };
 
@@ -42,8 +42,8 @@ const Button: React.FC<ButtonProps> = ({
     {...props}
     disabled={disabled || loading}
     className={`
-      inline-flex items-center justify-center gap-2 font-medium rounded-lg
-      transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+      inline-flex items-center justify-center gap-2 font-semibold rounded-xl
+      transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-brand-500/40 focus:ring-offset-2
       ${variantClasses[variant]}
       ${sizeClasses[size]}
       ${fullWidth ? 'w-full' : ''}

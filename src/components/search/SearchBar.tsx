@@ -38,7 +38,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ className = '' , value, placehold
           onChange(e.target.value);
         }}
         placeholder={placeholder || t('search.placeholder') || 'Search...'}
-        className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+        className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-brand-500 text-sm"
         aria-label="Search products"
       />
       {query && (

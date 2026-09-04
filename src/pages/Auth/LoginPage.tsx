@@ -85,10 +85,9 @@ const LoginPage: React.FC = () => {
 
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 text-gray-600 cursor-pointer">
-              <input type="checkbox" className="rounded" />
-              Remember me
+              <input type="checkbox" className="rounded-sm" />Remember me
             </label>
-            <a href="#" className="text-blue-600 hover:underline">Forgot password?</a>
+            <a href="#" className="text-brand-600 hover:underline">Forgot password?</a>
           </div>
 
           <Button type="submit" fullWidth loading={loading}>
@@ -98,7 +97,7 @@ const LoginPage: React.FC = () => {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Don't have an account?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline font-medium">
+          <Link to="/register" className="text-brand-600 hover:underline font-medium">
             Create one
           </Link>
         </p>

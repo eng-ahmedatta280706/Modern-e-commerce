@@ -36,8 +36,8 @@ interface SellerStats {
     unreadNotifications: number;
   };
   ordersByStatus: Record<string, number>;
-  topProducts: Array<{ _id: string; name: string; sold: number; price: number; images: string[]; stock: number }>;
-  recentOrders: Array<{ _id: string; customer: { name: string }; sellerSubtotal?: number; total: number; status: string; createdAt: string }>;
+  topProducts: Array<{ id: string; name: string; sold: number; price: number; images: string[]; stock: number }>;
+  recentOrders: Array<{ id: string; customer: { name: string }; sellerSubtotal?: number; total: number; status: string; createdAt: string }>;
   monthlySales: Array<{ month: string; revenue: number; orders: number }>;
 }
 
@@ -80,7 +80,7 @@ const SellerDashboard: React.FC = () => {
               {user?.storeName ?? 'My Store'}
             </h1>
             <p className="text-gray-500 text-sm mt-1">
-              Your commission rate: <span className="font-semibold text-blue-600">{o?.commission ?? 0}%</span>
+              Your commission rate: <span className="font-semibold text-brand-600">{o?.commission ?? 0}%</span>
             </p>
           </div>
           {(o?.lowStockProducts ?? 0) > 0 && (
@@ -132,19 +132,19 @@ const SellerDashboard: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Orders */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-bold text-gray-900">Recent Orders</h2>
-              <Link to="/seller/orders" className="text-sm text-blue-600 hover:underline">View all</Link>
+              <Link to="/seller/orders" className="text-sm text-brand-600 hover:underline">View all</Link>
             </div>
             <div className="space-y-3">
               {(stats?.recentOrders ?? []).slice(0, 6).map(order => (
-                <div key={order._id} className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                <div key={order.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">{order.customer?.name}</p>
                     <p className="text-xs text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>
                   </div>
-                  <div className="flex items-center gap-3 flex-shrink-0">
+                  <div className="flex items-center gap-3 shrink-0">
                     <StatusBadge status={order.status} size="sm" />
                     <span className="text-sm font-semibold text-gray-900">
                       {formatPrice(order.sellerSubtotal ?? order.total)}
@@ -159,16 +159,16 @@ const SellerDashboard: React.FC = () => {
           </div>
 
           {/* Top Products */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-bold text-gray-900">Top Products</h2>
-              <Link to="/seller/products" className="text-sm text-blue-600 hover:underline">View all</Link>
+              <Link to="/seller/products" className="text-sm text-brand-600 hover:underline">View all</Link>
             </div>
             <div className="space-y-3">
               {(stats?.topProducts ?? []).map((product, i) => (
-                <div key={product._id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                <div key={product.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
                   <span className="text-sm font-bold text-gray-300 w-5 text-center">{i + 1}</span>
-                  <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                  <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0">
                     {product.images?.[0] && (
                       <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
                     )}
@@ -179,7 +179,7 @@ const SellerDashboard: React.FC = () => {
                       {product.stock} in stock
                     </p>
                   </div>
-                  <div className="text-right flex-shrink-0">
+                  <div className="text-right shrink-0">
                     <p className="text-sm font-semibold text-gray-900">{product.sold} sold</p>
                     <p className="text-xs text-gray-400">{formatPrice(product.price)}</p>
                   </div>
@@ -189,7 +189,7 @@ const SellerDashboard: React.FC = () => {
                 <div className="text-center py-8">
                   <p className="text-gray-400 text-sm mb-3">No products yet.</p>
                   <Link to="/seller/products/new"
-                    className="text-sm text-blue-600 font-medium hover:underline">
+                    className="text-sm text-brand-600 font-medium hover:underline">
                     Add your first product →
                   </Link>
                 </div>

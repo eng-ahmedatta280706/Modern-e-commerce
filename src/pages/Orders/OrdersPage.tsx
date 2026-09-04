@@ -89,7 +89,7 @@ const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
   });
 
   return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+    <div className="border border-gray-200 rounded-xl overflow-hidden shadow-xs">
       {/* Order header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 bg-gray-50 border-b border-gray-200">
         <div className="flex flex-col gap-1">
@@ -105,7 +105,7 @@ const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
           <span className="font-bold text-gray-900 text-lg">{formatPrice(order.total)}</span>
           <button
             onClick={() => setExpanded(prev => !prev)}
-            className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 font-medium"
+            className="flex items-center gap-1 text-sm text-brand-600 hover:text-brand-800 font-medium"
           >
             {expanded ? (
               <><ChevronUp size={16} /> Hide</>
@@ -157,7 +157,7 @@ const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
                   key={`${item.id}-${item.selectedColor}`}
                   className="flex items-center gap-4"
                 >
-                  <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                  <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
                     {item.image && (
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
                     )}
@@ -166,7 +166,7 @@ const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
                     <p className="font-medium text-sm text-gray-900 truncate">{item.name}</p>
                     <p className="text-xs text-gray-500">Color: {item.selectedColor} · Qty: {item.quantity}</p>
                   </div>
-                  <span className="font-medium text-sm text-gray-900 flex-shrink-0">
+                  <span className="font-medium text-sm text-gray-900 shrink-0">
                     {formatPrice(item.price * item.quantity)}
                   </span>
                 </div>
@@ -209,7 +209,7 @@ const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
                 <h4 className="font-semibold text-gray-800 mb-2">Tracking</h4>
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-gray-700">{order.trackingNumber}</span>
-                  <ExternalLink size={14} className="text-blue-500" />
+                  <ExternalLink size={14} className="text-brand-500" />
                 </div>
                 <p className="text-gray-500 mt-1">via {order.shippingMethod} shipping</p>
               </div>
@@ -245,7 +245,7 @@ const OrdersPage: React.FC = () => {
       <Breadcrumb items={[{ label: 'Account', href: '/account' }, { label: 'My Orders' }]} />
 
       <div className="flex items-center gap-3 mb-6">
-        <Package size={28} className="text-blue-600" />
+        <Package size={28} className="text-brand-600" />
         <h1 className="text-3xl font-bold text-gray-900">My Orders</h1>
       </div>
 
@@ -257,7 +257,7 @@ const OrdersPage: React.FC = () => {
             onClick={() => setActiveTab(tab.value)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               activeTab === tab.value
-                ? 'bg-blue-600 text-white'
+                ? 'bg-brand-600 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >

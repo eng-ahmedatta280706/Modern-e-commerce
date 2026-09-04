@@ -28,4 +28,16 @@ export const orderService = {
 
   cancelOrder: (id: string) =>
     api.patch(`/orders/${id}/cancel`),
+
+  updateOrderStatus: (id: string, status: string) =>
+    api.patch(`/orders/${id}/status`, { status }),
+
+  applyCoupon: (orderId: string, couponCode: string) =>
+    api.post(`/orders/${orderId}/apply-coupon`, { couponCode }),
+
+  removeCoupon: (orderId: string) =>
+    api.delete(`/orders/${orderId}/remove-coupon`),
+
+  getOrderSummary: () =>
+    api.get('/orders/summary'),
 };

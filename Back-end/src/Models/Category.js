@@ -7,12 +7,10 @@ import slugify from 'slugify';
 export async function findCategories(filter = {}) {
   let query = db.select().from(Categories);
 
-  if (filter.isActive !== undefined) {
-    query = query.where(eq(Categories.isActive, filter.isActive));
-  }
-  if (filter.parentId) {
-    query = query.where(eq(Categories.parentId, filter.parentId));
-  }
+  const conditions = [];
+  if (filter.isActive !== undefined) conditions.push(eq(Categories.isActive, filter.isActive));
+  if (filter.parentId) conditions.push(eq(Categories.parentId, filter.parentId));
+  if (conditions.length) query = query.where(and(...conditions));
 
   return await query;
 }

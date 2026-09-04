@@ -2,9 +2,9 @@ import { countUsers, findUser, findUserById, findUserByIdAndUpdate } from '../Mo
 import { findProducts, countProducts, findProductById, updateProductById } from '../Models/Product.js';
 import { findOrders, countOrders, getTotalRevenue, getOrdersByStatus } from '../Models/Order.js';
 import { findCoupons, createCoupon, updateCoupon, deleteCoupon } from '../Models/Coupon.js';
-import AppError from '../middleware/errorHandler.js';
-import { sendSellerApprovalEmail, sendSellerRejectionEmail } from '../services/emailService.js';
-import { notifySellerApproved, notifySellerRejected } from '../services/notificationService.js';
+import { AppError } from '../Middleware/errorHandler.js';
+import { sendSellerApprovalEmail, sendSellerRejectionEmail } from '../Services/emailService.js';
+import { notifySellerApproved, notifySellerRejected } from '../Services/notificationService.js';
 
 // ═══════════════════════════════════════════════════════════
 // DASHBOARD STATS
@@ -30,7 +30,9 @@ export async function getDashboardStats(_req, res, next) {
       return d >= last && d < start;
     });
 
-    const pendingSellers = (await findUser({ role: 'seller', sellerStatus: 'pending' })).length;
+    // findUser only filters by a single field (role), so narrow by status in JS.
+    const pendingSellers = (await findUser({ role: 'seller' }))
+      .filter(s => s.sellerStatus === 'pending').length;
     const totalRevenue = await getTotalRevenue();
 
     const ordersByStatus = {};
@@ -255,8 +257,8 @@ export async function getAllProducts(req, res, next) {
     const allProducts = await findProducts({});
 
     let filtered = allProducts;
-    if (category) filtered = filtered.filter(p => new RegExp(category, 'i').test(p.category));
-    if (seller) filtered = filtered.filter(p => String(p.sellerId) === seller);
+    if (category) filtered = filtered.filter(p => String(p.categoryId) === String(category));
+    if (seller) filtered = filtered.filter(p => String(p.sellerId) === String(seller));
     if (search) filtered = filtered.filter(p => new RegExp(search, 'i').test(p.name));
 
     const total = filtered.length;
@@ -292,7 +294,7 @@ export async function getCoupons(_req, res, next) {
 
 export async function create_Coupon(req, res, next) {
   try {
-    const coupon = await createCoupon({ ...req.body, createdBy: req.user._id });
+    const coupon = await createCoupon({ ...req.body, createdById: req.user.id });
     res.status(201).json({ success: true, data: coupon });
   } catch (err) { next(err); }
 }

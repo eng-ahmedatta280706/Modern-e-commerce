@@ -24,7 +24,7 @@ const ADMIN_NAV: NavItem[] = [
 ];
 
 interface Seller {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   storeName: string;
@@ -123,7 +123,7 @@ const AdminSellersPage: React.FC = () => {
       confirmButtonText: 'Update',
     });
     if (rate === undefined) return;
-    await api.patch(`/admin/sellers/${seller._id}/commission`, { commissionRate: Number(rate) });
+    await api.patch(`/admin/sellers/${seller.id}/commission`, { commissionRate: Number(rate) });
     Swal.fire('Updated!', `Commission set to ${rate}%.`, 'success');
     fetchSellers();
   };
@@ -134,7 +134,7 @@ const AdminSellersPage: React.FC = () => {
       header: 'Seller',
       render: (s) => (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gray-100 overflow-hidden flex-shrink-0 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-full bg-gray-100 overflow-hidden shrink-0 flex items-center justify-center">
             {s.profilePic
               ? <img src={s.profilePic} alt={s.name} className="w-full h-full object-cover" />
               : <span className="text-gray-500 font-bold text-sm">{s.name[0]}</span>
@@ -150,7 +150,7 @@ const AdminSellersPage: React.FC = () => {
     {
       key: 'storeName',
       header: 'Store',
-      render: (s) => <span className="font-medium text-blue-600">{s.storeName || '—'}</span>,
+      render: (s) => <span className="font-medium text-brand-600">{s.storeName || '—'}</span>,
     },
     {
       key: 'sellerStatus',
@@ -163,7 +163,7 @@ const AdminSellersPage: React.FC = () => {
       render: (s) => (
         <button
           onClick={() => handleCommission(s)}
-          className="text-sm font-medium text-blue-600 hover:underline"
+          className="text-sm font-medium text-brand-600 hover:underline"
         >
           {s.commissionRate}%
         </button>
@@ -181,18 +181,18 @@ const AdminSellersPage: React.FC = () => {
         <div className="flex items-center gap-1">
           {s.sellerStatus === 'pending' && (
             <>
-              <button onClick={() => handleApprove(s._id, s.name)} title="Approve"
+              <button onClick={() => handleApprove(s.id, s.name)} title="Approve"
                 className="p-1.5 rounded-lg text-green-600 hover:bg-green-50 transition-colors">
                 <CheckCircle size={16} />
               </button>
-              <button onClick={() => handleReject(s._id, s.name)} title="Reject"
+              <button onClick={() => handleReject(s.id, s.name)} title="Reject"
                 className="p-1.5 rounded-lg text-red-600 hover:bg-red-50 transition-colors">
                 <XCircle size={16} />
               </button>
             </>
           )}
           {s.sellerStatus === 'approved' && (
-            <button onClick={() => handleSuspend(s._id, s.name)} title="Suspend"
+            <button onClick={() => handleSuspend(s.id, s.name)} title="Suspend"
               className="p-1.5 rounded-lg text-orange-600 hover:bg-orange-50 transition-colors">
               <Ban size={16} />
             </button>
@@ -228,7 +228,7 @@ const AdminSellersPage: React.FC = () => {
               onClick={() => { setSearchParams(tab === 'all' ? {} : { status: tab }); setPage(1); }}
               className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-colors ${
                 activeStatus === tab
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-brand-600 text-white'
                   : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
               }`}
             >
@@ -245,7 +245,7 @@ const AdminSellersPage: React.FC = () => {
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1); }}
             placeholder="Search sellers or stores..."
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
           />
         </div>
 
@@ -254,7 +254,7 @@ const AdminSellersPage: React.FC = () => {
           columns={columns}
           data={sellers}
           loading={loading}
-          keyExtractor={s => s._id}
+          keyExtractor={s => s.id}
           currentPage={page}
           totalPages={totalPages}
           onPageChange={setPage}

@@ -66,8 +66,9 @@ export async function findUserByIdAndUpdate(id, update) {
         if (user.role === 'admin' && update.role !== 'admin') {
             throw new Error('Cannot change role of an admin user');
         }
-    } else if (update.sellerStatus) {
-        const validStatuses = ['pending', 'approved', 'rejected'];
+    }
+    if (update.sellerStatus) {
+        const validStatuses = ['pending', 'approved', 'rejected', 'suspended'];
         if (!validStatuses.includes(update.sellerStatus)) {
             throw new Error('Invalid seller status');
         }

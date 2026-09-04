@@ -54,7 +54,7 @@ export const STATUS_LABELS: Record<OrderStatus, string> = {
 
 export const STATUS_COLORS: Record<OrderStatus, string> = {
   pending: 'text-yellow-600 bg-yellow-100',
-  processing: 'text-blue-600 bg-blue-100',
+  processing: 'text-brand-600 bg-brand-100',
   shipped: 'text-purple-600 bg-purple-100',
   delivered: 'text-green-600 bg-green-100',
   cancelled: 'text-red-600 bg-red-100',

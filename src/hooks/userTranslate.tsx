@@ -4,29 +4,34 @@ import { translations } from "../utils/translations";
 
 
 export const useTranslate = () => {
-    const contest = useContext(LanguageContext);
+    const context = useContext(LanguageContext);
 
-
-    if (!contest) {
-        throw new Error("useTranslate hook must be used inside the LanguageProvider")
+    if (!context) {
+        throw new Error("useTranslate hook must be used inside the LanguageProvider");
     }
 
-    const { language } = contest;
-
+    const { language } = context;
     const t = (path: string): string => {
         const keys = path.split(".");
 
-        let value: any = translations[language];
+        // Fall back to English so a missing key in one language still shows real text
+        // instead of the raw dotted path.
+        let value: any = translations[language] ?? translations.en;
 
         for (const key of keys) {
             value = value?.[key];
         }
-
-        return value || path
+        if (typeof value !== "string") {
+            let fallback: any = translations.en;
+            for (const key of keys) {
+                fallback = fallback?.[key];
+            }
+            value = fallback;
+        }
+        return typeof value === "string" ? value : path;
     };
 
     const isRTL = language === "ar";
-
     return { t, isRTL };
 };
 

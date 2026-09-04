@@ -63,7 +63,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, thumbnailUrl }) => 
       
       {/* Video controls (visible when video is playing) */}
       {isPlaying && (
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 flex items-center justify-between">
+        <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/70 to-transparent p-4 flex items-center justify-between">
           <button
             onClick={togglePlay}
             className="text-white hover:text-gray-300 transition-colors"

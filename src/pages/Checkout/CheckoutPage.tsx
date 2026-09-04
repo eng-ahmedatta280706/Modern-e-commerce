@@ -229,7 +229,7 @@ const CheckoutWizard: React.FC = () => {
                             <input type="text" name="country" placeholder="Country" value={formData.country} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" required />
                         </div>
                         <div className="mt-6 flex justify-end">
-                            <button onClick={() => changeStep(2)} className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                            <button onClick={() => changeStep(2)} className="bg-brand-600 text-white px-6 py-3 rounded-lg hover:bg-brand-700">
                                 Next
                             </button>
                         </div>
@@ -273,7 +273,7 @@ const CheckoutWizard: React.FC = () => {
                             <button onClick={() => changeStep(1)} className="border px-6 py-3 rounded-lg hover:bg-gray-100">
                                 Back
                             </button>
-                            <button onClick={() => changeStep(3)} className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                            <button onClick={() => changeStep(3)} className="bg-brand-600 text-white px-6 py-3 rounded-lg hover:bg-brand-700">
                                 Review
                             </button>
                         </div>

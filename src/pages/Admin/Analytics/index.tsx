@@ -31,8 +31,8 @@ interface DashboardData {
     revenueGrowth: number;
   };
   ordersByStatus: Record<string, number>;
-  topProducts: Array<{ _id: string; name: string; sold: number; price: number; images?: string[]; seller?: { storeName?: string } }>;
-  recentOrders: Array<{ _id: string; customer?: { name?: string; email?: string }; total: number; status: string; createdAt: string }>;
+  topProducts: Array<{ id: string; name: string; sold: number; price: number; images?: string[]; seller?: { storeName?: string } }>;
+  recentOrders: Array<{ id: string; customer?: { name?: string; email?: string }; total: number; status: string; createdAt: string }>;
   monthlySales: Array<{ month: string; revenue: number; orders: number }>;
 }
 
@@ -65,7 +65,7 @@ const AdminAnalyticsPage: React.FC = () => {
     return (
       <DashboardLayout navItems={ADMIN_NAV} role="admin" userName="Admin" onLogout={() => { window.location.href = '/login'; }}>
         <div className="space-y-4">
-          <div className="h-8 w-48 bg-gray-100 rounded animate-pulse" />
+          <div className="h-8 w-48 bg-gray-100 rounded-sm animate-pulse" />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-28 bg-gray-100 rounded-2xl animate-pulse" />)}
           </div>
@@ -96,7 +96,7 @@ const AdminAnalyticsPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
             <h2 className="font-bold text-gray-900 mb-4">Order breakdown</h2>
             <div className="space-y-2">
               {Object.entries(stats?.ordersByStatus ?? {}).map(([status, count]) => (
@@ -111,7 +111,7 @@ const AdminAnalyticsPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
             <h2 className="font-bold text-gray-900 mb-4">Monthly sales</h2>
             <div className="space-y-2">
               {monthlySales.map((entry) => (
@@ -129,11 +129,11 @@ const AdminAnalyticsPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
             <h2 className="font-bold text-gray-900 mb-4">Top products</h2>
             <div className="space-y-3">
               {(stats?.topProducts ?? []).map((product, index) => (
-                <div key={product._id} className="flex items-center gap-3 rounded-xl border border-gray-100 p-2">
+                <div key={product.id} className="flex items-center gap-3 rounded-xl border border-gray-100 p-2">
                   <span className="text-sm font-bold text-gray-300 w-5 text-center">{index + 1}</span>
                   <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden">
                     {product.images?.[0] && <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />}
@@ -152,11 +152,11 @@ const AdminAnalyticsPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
             <h2 className="font-bold text-gray-900 mb-4">Recent orders</h2>
             <div className="space-y-3">
               {(stats?.recentOrders ?? []).map((order) => (
-                <div key={order._id} className="flex items-center justify-between rounded-xl border border-gray-100 p-3">
+                <div key={order.id} className="flex items-center justify-between rounded-xl border border-gray-100 p-3">
                   <div>
                     <p className="text-sm font-medium text-gray-900">{order.customer?.name ?? 'Customer'}</p>
                     <p className="text-xs text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>

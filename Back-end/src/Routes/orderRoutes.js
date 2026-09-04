@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
-import { createOrderHandler, createStripeIntent, getMyOrders, getOrder, updateOrderStatus } from '../controllers/orderController.js';
-import { protect, authorize } from '../middleware/auth.js';
+import { createOrderHandler, createStripeIntent, getMyOrders, getOrder, updateOrderStatus } from '../Controllers/orderController.js';
+import { protect, authorize } from '../Middleware/auth.js';
 
 router.use(protect); // all order routes require auth
 

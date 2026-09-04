@@ -46,7 +46,7 @@ const SearchResultsPage: React.FC = () => {
           {query && (
             <button
               onClick={() => setSearchParams({})}
-              className="ml-3 text-blue-600 hover:underline text-sm"
+              className="ml-3 text-brand-600 hover:underline text-sm"
             >
               Clear search
             </button>
@@ -62,7 +62,7 @@ const SearchResultsPage: React.FC = () => {
             <Link
               key={cat}
               to={`/category/${cat.toLowerCase()}`}
-              className="px-3 py-1 text-sm border rounded-full hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
+              className="px-3 py-1 text-sm border rounded-full hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-colors"
             >
               {cat}
             </Link>

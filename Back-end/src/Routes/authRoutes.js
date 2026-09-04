@@ -1,8 +1,8 @@
 import { Router } from 'express';
 const router = Router();
-import { register, registerSeller, login, refreshToken, logout, forgotPassword, resetPassword, getMe, updateProfile, changePassword } from '../controllers/authController.js';
-import { protect } from '../middleware/auth.js';
-import { authLimiter } from '../middleware/rateLimiter.js';
+import { register, registerSeller, login, refreshToken, logout, forgotPassword, resetPassword, getMe, updateProfile, changePassword } from '../Controllers/authController.js';
+import { protect } from '../Middleware/auth.js';
+import { authLimiter } from '../Middleware/rateLimiter.js';
 // import { upload } from '../config/cloudinary';
 
 // Public

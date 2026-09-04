@@ -1,5 +1,5 @@
 import { findCategories, findCategoryBySlug, createCategory, updateCategory } from '../Models/Category.js';
-import AppError from '../middleware/errorHandler.js';
+import { AppError } from '../Middleware/errorHandler.js';
 
 export async function getCategories(_req, res, next) {
   try {

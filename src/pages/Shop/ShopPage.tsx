@@ -38,6 +38,7 @@ const ShopPage: React.FC = () => {
     resetFilters,
     categories,
     brands,
+    badges,
     allColors,
     priceRange,
     totalCount,
@@ -102,7 +103,7 @@ const ShopPage: React.FC = () => {
 
       <div className="flex gap-8">
         {/* Sidebar filters */}
-        <aside className="hidden lg:block w-64 flex-shrink-0">
+        <aside className="hidden lg:block w-64 shrink-0">
           <SearchBar
             placeholder="Search products..."
             value={filters.search ?? ''}
@@ -121,6 +122,7 @@ const ShopPage: React.FC = () => {
             onSortChange={val => { setSortBy(val); setCurrentPage(1); }}
             onReset={handleResetFilters}
             Brands={brands}
+            BADGE_OPTIONS={badges}
           />
         </aside>
 
@@ -159,13 +161,13 @@ const ShopPage: React.FC = () => {
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-              />
             </>
           )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </main>
       </div>
     </div>

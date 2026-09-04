@@ -1,14 +1,10 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from 'react';
+import React, {createContext, useState, useEffect, ReactNode} from 'react';
 import type { Product } from '../types/Product';
 
 export interface CartItem extends Product {
   quantity: number;
   selectedColor: string;
+  price: number; // Ensure price is a number
 }
 
 interface CartContextType {
@@ -46,10 +42,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [cartItems]);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
 
-  // ✅ Fixed: total number of individual units in cart
-  const totalItems = cartItems.length;
+  // Total number of individual units in the cart (sum of quantities).
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const addToCart = (product: Product, selectedColor: string, quantity: number = 1) => {
     setCartItems(prev => {
@@ -57,11 +53,12 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         item => item.id === product.id && item.selectedColor === selectedColor
       );
       if (existingIndex >= 0) {
+        // Add to the existing quantity rather than overwriting it.
         return prev.map((item, i) =>
-          i === existingIndex ? { ...item, quantity } : item
+          i === existingIndex ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
-      return [...prev, { ...product, quantity, selectedColor }];
+      return [...prev, { ...product, quantity, selectedColor, price: product.price }];
     });
   };
 

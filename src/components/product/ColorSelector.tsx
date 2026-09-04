@@ -57,7 +57,7 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({
             data-is-white={isWhite ? 'true' : 'false'}
             className={`color-swatch rounded-full border transition-all duration-200 ${
               selectedColor === color
-                ? 'ring-2 ring-offset-1 ring-blue-500'
+                ? 'ring-2 ring-offset-1 ring-brand-500'
                 : 'ring-1 ring-gray-200'
             }`}
             onClick={e => {

@@ -4,8 +4,10 @@ import { Heart } from 'lucide-react';
 import { Product } from '../../types/Product';
 import ColorSelector from './ColorSelector';
 import AddCart from '../ui/AddCart';
+import Badge from '../ui/Badge';
 import { useCart } from '../../hooks/useCart';
 import { useWishlist } from '../../hooks/useWishlist';
+import { formatPrice } from '../../utils/formatPrice';
 
 interface ProductCardProps {
   product: Product;
@@ -17,8 +19,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isWishlist }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-
-  // الصورة حسب اللون المختار
   const currentImage = product.colorImages[selectedColor] || product.image;
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -44,25 +44,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isWishlist }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link to={`/product/${product.id}`} className="block">
-        <div className="relative overflow-hidden rounded-lg bg-gray-100 mb-4 aspect-[3/4]">
+        <div className="relative overflow-hidden rounded-2xl bg-slate-100 mb-4 aspect-3/4 shadow-card transition-all duration-300 group-hover:shadow-card-hover
+        sm:w-75 md:w-68 lg:w-85 xl:w-58 2xl:w-75">
           <img
             src={currentImage}
             alt={product.name}
-            className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
           />
 
-          {/* بادج إذا موجود */}
+          {/* Badge */}
           {product.badge && (
-            <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-medium px-2 py-1 rounded">
-              {product.badge}
-            </div>
+            <Badge text={product.badge} />
           )}
 
           <div
-            className={`absolute bottom-0 left-0 right-0 bg-slate-300 bg-opacity-90 py-3 px-4 transition-all duration-300 flex justify-between ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'
+            className={`absolute bottom-0 left-0 right-0 bg-white/85 backdrop-blur-sm py-3 px-4 transition-all duration-300 flex items-center justify-between ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'
               }`}
           >
-            {/* زر Wishlist */}
+            {/* Wishlist Button */}
             {isWishlist !== true && (
               <button
                 onClick={handleWishlist}
@@ -77,14 +76,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isWishlist }) => {
               </button>
             )}
 
-            {/* زر Add to Cart */}
-            {/* <button
-              onClick={handleAddToCart}
-              className="addCart-btn flex items-center space-x-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-0 rounded-full transition-colors"
-            >
-              <ShoppingCart size={16} className='ShoppingCart' />
-              <span className="text-sm">Add to Cart</span>
-            </button> */}
             <AddCart
               product={product}
               color={selectedColor}
@@ -92,12 +83,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isWishlist }) => {
           </div>
         </div>
 
-        {/* معلومات المنتج */}
-        <div>
-          <h3 className="font-medium text-gray-900 mb-1 transition-colors group-hover:text-blue-600">
+        {/* Product Info */}
+        <div className="px-1">
+          <h3 className="font-medium text-ink mb-1 line-clamp-1 transition-colors group-hover:text-brand-600">
             {product.name}
           </h3>
-          <p className="font-medium text-gray-900 mb-2">${product.price.toFixed(2)}</p>
+          <p className="font-semibold text-ink mb-2">{formatPrice(product.price)}</p>
 
           <ColorSelector
             colors={product.colors}

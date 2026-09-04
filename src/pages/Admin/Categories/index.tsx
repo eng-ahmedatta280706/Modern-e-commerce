@@ -19,7 +19,7 @@ const ADMIN_NAV: NavItem[] = [
 ];
 
 interface CategoryRow {
-  _id: string;
+  id: string;
   name: string;
   slug: string;
   order?: number;
@@ -63,7 +63,7 @@ const AdminCategoriesPage: React.FC = () => {
     });
 
     if (!isConfirmed) return;
-    await api.delete(`/admin/categories/${category._id}`);
+    await api.delete(`/admin/categories/${category.id}`);
     await fetchCategories();
   };
 
@@ -81,7 +81,7 @@ const AdminCategoriesPage: React.FC = () => {
       header: 'Category',
       render: (category) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-gray-100 overflow-hidden shrink-0">
             {category.image ? <img src={category.image} alt={category.name} className="w-full h-full object-cover" /> : null}
           </div>
           <div>
@@ -138,7 +138,7 @@ const AdminCategoriesPage: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search categories..."
-            className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-full focus:outline-hidden focus:ring-2 focus:ring-brand-500"
           />
         </div>
 
@@ -152,7 +152,7 @@ const AdminCategoriesPage: React.FC = () => {
           columns={columns}
           data={filtered}
           loading={loading}
-          keyExtractor={(category) => category._id}
+          keyExtractor={(category) => category.id}
           emptyMessage="No categories found."
         />
       </div>

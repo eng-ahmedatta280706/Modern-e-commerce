@@ -38,7 +38,7 @@ const AdminSettingsPage: React.FC = () => {
           <p className="text-gray-500 text-sm mt-1">Quick account and platform settings.</p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-6 space-y-4">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center">
               <ShieldCheck size={28} />

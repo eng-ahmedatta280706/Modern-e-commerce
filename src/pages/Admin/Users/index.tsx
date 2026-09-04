@@ -20,7 +20,7 @@ const ADMIN_NAV: NavItem[] = [
 ];
 
 interface UserRow {
-    _id: string;
+    id: string;
     name: string;
     email: string;
     role: 'admin' | 'seller' | 'customer';
@@ -83,7 +83,7 @@ const AdminUsersPage: React.FC = () => {
         });
 
         if (!value || value === user.role) return;
-        await api.patch(`/admin/users/${user._id}`, { role: value });
+        await api.patch(`/admin/users/${user.id}`, { role: value });
         await fetchUsers();
     };
 
@@ -98,7 +98,7 @@ const AdminUsersPage: React.FC = () => {
         });
 
         if (!isConfirmed) return;
-        await api.patch(`/admin/users/${user._id}`, { isActive: !user.isActive });
+        await api.patch(`/admin/users/${user.id}`, { isActive: !user.isActive });
         await fetchUsers();
     };
 
@@ -108,7 +108,7 @@ const AdminUsersPage: React.FC = () => {
             header: 'User',
             render: (user) => (
                 <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center shrink-0">
                         {user.profilePic ? (
                             <img src={user.profilePic} alt={user.name} className="w-full h-full object-cover" />
                         ) : (
@@ -149,7 +149,7 @@ const AdminUsersPage: React.FC = () => {
                 <div className="flex items-center gap-1">
                     <button
                         onClick={() => handleRoleChange(user)}
-                        className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
+                        className="p-1.5 rounded-lg text-brand-600 hover:bg-brand-50 transition-colors"
                         title="Edit role"
                     >
                         <Edit3 size={15} />
@@ -189,13 +189,13 @@ const AdminUsersPage: React.FC = () => {
                             value={search}
                             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                             placeholder="Search users..."
-                            className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-64 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
                         />
                     </div>
                     <select
                         value={roleFilter}
                         onChange={(e) => { setRoleFilter(e.target.value as any); setPage(1); }}
-                        className="border border-gray-200 rounded-xl text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="border border-gray-200 rounded-xl text-sm px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
                     >
                         {ROLE_OPTIONS.map((role) => (
                             <option key={role} value={role}>{role === 'all' ? 'All roles' : role}</option>
@@ -213,7 +213,7 @@ const AdminUsersPage: React.FC = () => {
                     columns={columns}
                     data={users}
                     loading={loading}
-                    keyExtractor={(user) => user._id}
+                    keyExtractor={(user) => user.id}
                     currentPage={page}
                     totalPages={totalPages}
                     onPageChange={setPage}

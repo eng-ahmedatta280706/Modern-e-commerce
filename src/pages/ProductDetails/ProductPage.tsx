@@ -41,7 +41,7 @@ const ProductPage: React.FC = () => {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold mb-4">Product not found</h1>
-        <Link to="/" className="text-blue-600 hover:text-blue-800">
+        <Link to="/" className="text-brand-600 hover:text-brand-800">
           Return to home page
         </Link>
       </div>
@@ -186,7 +186,7 @@ const ProductPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <button
               onClick={handleAddToCart}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center"
+              className="flex-1 bg-brand-600 hover:bg-brand-700 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center"
             >
               Add to Cart
             </button>
@@ -206,21 +206,21 @@ const ProductPage: React.FC = () => {
           {/* Shipping and returns */}
           <div className="border-t border-gray-200 pt-6 space-y-4">
             <div className="flex items-start">
-              <Truck className="text-gray-400 mr-3 flex-shrink-0" size={20} />
+              <Truck className="text-gray-400 mr-3 shrink-0" size={20} />
               <div>
                 <h4 className="font-medium text-gray-900">Free Shipping</h4>
                 <p className="text-sm text-gray-600">Free standard shipping on orders over $50</p>
               </div>
             </div>
             <div className="flex items-start">
-              <ShieldCheck className="text-gray-400 mr-3 flex-shrink-0" size={20} />
+              <ShieldCheck className="text-gray-400 mr-3 shrink-0" size={20} />
               <div>
                 <h4 className="font-medium text-gray-900">Quality Guarantee</h4>
                 <p className="text-sm text-gray-600">Satisfaction guaranteed on all our products</p>
               </div>
             </div>
             <div className="flex items-start">
-              <RotateCcw className="text-gray-400 mr-3 flex-shrink-0" size={20} />
+              <RotateCcw className="text-gray-400 mr-3 shrink-0" size={20} />
               <div>
                 <h4 className="font-medium text-gray-900">Easy Returns</h4>
                 <p className="text-sm text-gray-600">30-day return policy</p>

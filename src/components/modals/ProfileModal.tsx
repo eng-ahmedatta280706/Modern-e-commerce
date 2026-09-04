@@ -83,7 +83,8 @@ const ProfileMenu: React.FC<{ children: ReactNode }> = ({ children }) => {
             </div>
 
             <div
-                className={`absolute -right-20 mt-2 w-72 bg-white shadow-lg rounded-lg p-4 z-50 transition 
+                style={{ width: "min(20rem, calc(100vw - 1.5rem))" }}
+                className={`absolute right-0 rtl:right-auto rtl:left-0 mt-2 bg-white shadow-lg rounded-lg p-4 z-50 transition
                     ${open ? "opacity-100 visible" : "opacity-0 invisible"}`}>
                 <div className="flex items-center gap-3 mb-4">
                     <img
@@ -103,7 +104,7 @@ const ProfileMenu: React.FC<{ children: ReactNode }> = ({ children }) => {
 
                     <button
                         type="button"
-                        className="relative overflow-visible flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white hover:bg-brand-strong focus:outline-none focus:ring-brand-medium transition-colors">
+                        className="relative overflow-visible flex items-center justify-center w-8 h-8 rounded-full bg-brand text-white hover:bg-brand-strong focus:outline-hidden focus:ring-brand-medium transition-colors">
                         <img src={notificationsIcon} alt="Notifications" className="w-8 h-8 mb-1" />
 
                         <span className="sr-only">
@@ -112,14 +113,14 @@ const ProfileMenu: React.FC<{ children: ReactNode }> = ({ children }) => {
 
                         {user.notificationsCount > 0 && user.notificationsCount <= 99 && (
                             <span
-                                className="absolute -top-[5px] -right-2 flex items-center justify-center w-[20px] h-[20px] text-[9px] font-bold text-white bg-red-500 rounded-full border-2 border-white "
+                                className="absolute top-[-5px] -right-2 flex items-center justify-center w-[20px] h-[20px] text-[9px] font-bold text-white bg-red-500 rounded-full border-2 border-white "
                             >
                                 {user.notificationsCount}
                             </span>
                         )}
                         {user.notificationsCount > 99 && (
                             <span
-                                className="absolute -top-[5px] -right-2 flex items-center justify-center w-[22px] h-[20px] text-[9px] font-bold text-white bg-red-500 rounded-full border-2 border-white text-center ps-1"
+                                className="absolute top-[-5px] -right-2 flex items-center justify-center w-[22px] h-[20px] text-[9px] font-bold text-white bg-red-500 rounded-full border-2 border-white text-center ps-1"
                             >
                                 99+
                             </span>
@@ -129,19 +130,19 @@ const ProfileMenu: React.FC<{ children: ReactNode }> = ({ children }) => {
 
                 <hr className="my-3" />
                 <ul className="space-y-2 text-sm">
-                    <li className="hover:bg-gray-100 p-2 rounded cursor-pointer">
+                    <li className="hover:bg-gray-100 p-2 rounded-sm cursor-pointer">
                         <Link to="/account" onClick={() => setOpen(false)} className="flex items-center gap-2">
                             <Settings size={16} />
                             Profile Settings
                         </Link>
                     </li>
-                    <li className="hover:bg-gray-100 p-2 rounded cursor-pointer" onClick={() => setOpen(false)}>
+                    <li className="hover:bg-gray-100 p-2 rounded-sm cursor-pointer" onClick={() => setOpen(false)}>
                         <Link to="/orders" className="flex items-center gap-2">
                             <span>📦</span>
                             My Orders ({user.ordersCount > 99 ? "99+" : user.ordersCount})
                         </Link>
                     </li>
-                    <li className="hover:bg-gray-100 p-2 rounded cursor-pointer" onClick={() => setOpen(false)}>
+                    <li className="hover:bg-gray-100 p-2 rounded-sm cursor-pointer" onClick={() => setOpen(false)}>
                         <Link to="/wishlist" className="flex items-center gap-2">
                             <span>❤️</span>
                             Wishlist

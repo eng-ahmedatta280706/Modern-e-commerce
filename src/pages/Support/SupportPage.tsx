@@ -128,7 +128,7 @@ const SupportPage: React.FC = () => {
         <Breadcrumb items={[{ label: 'Support' }, { label: content.title }]} />
 
         <div className="mb-8 flex items-start gap-4">
-          <div className="rounded-xl bg-blue-50 p-3 text-blue-600">
+          <div className="rounded-xl bg-brand-50 p-3 text-brand-600">
             <Icon size={28} />
           </div>
           <div>
@@ -142,16 +142,16 @@ const SupportPage: React.FC = () => {
             <input
               type="text"
               placeholder="Order number"
-              className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
             />
             <input
               type="email"
               placeholder="Email address"
-              className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
             />
             <button
               type="submit"
-              className="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white transition-colors hover:bg-blue-700"
+              className="rounded-lg bg-brand-600 px-5 py-2 font-medium text-white transition-colors hover:bg-brand-700"
             >
               Track
             </button>
@@ -161,14 +161,14 @@ const SupportPage: React.FC = () => {
         {page === 'contact' && (
           <div className="mb-8 grid gap-4 rounded-2xl border border-gray-200 p-5 md:grid-cols-2">
             <div className="flex gap-3">
-              <Mail className="mt-1 text-blue-600" size={20} />
+              <Mail className="mt-1 text-brand-600" size={20} />
               <div>
                 <h2 className="font-semibold text-gray-900">Email</h2>
                 <p className="text-gray-600">support@stylestore.example</p>
               </div>
             </div>
             <div className="flex gap-3">
-              <MapPin className="mt-1 text-blue-600" size={20} />
+              <MapPin className="mt-1 text-brand-600" size={20} />
               <div>
                 <h2 className="font-semibold text-gray-900">Address</h2>
                 <p className="text-gray-600">42 Market Street, New York, NY</p>
@@ -188,7 +188,7 @@ const SupportPage: React.FC = () => {
 
         <Link
           to="/shop"
-          className="mt-8 inline-flex rounded-lg bg-gray-900 px-5 py-2 font-medium text-white transition-colors hover:bg-gray-800"
+          className="mt-8 inline-flex rounded-lg bg-ink px-5 py-2 font-medium text-white transition-colors hover:bg-gray-800"
         >
           Continue shopping
         </Link>

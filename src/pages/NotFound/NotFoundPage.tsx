@@ -13,7 +13,7 @@ const NotFoundPage: React.FC = () => {
           404
         </span>
         <div className="absolute inset-0 flex items-center justify-center">
-          <ShoppingBag size={64} className="text-blue-600 opacity-80" />
+          <ShoppingBag size={64} className="text-brand-600 opacity-80" />
         </div>
       </div>
 
@@ -32,14 +32,14 @@ const NotFoundPage: React.FC = () => {
         </button>
         <Link
           to="/"
-          className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+          className="flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
         >
           <Home size={18} />
           Back to Home
         </Link>
         <Link
           to="/shop"
-          className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+          className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-ink text-white px-6 py-3 rounded-lg font-medium transition-colors"
         >
           <ShoppingBag size={18} />
           Browse Shop

@@ -27,7 +27,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
 
-  const roleColor = role === 'admin' ? 'bg-red-600' : 'bg-blue-600';
+  const roleColor = role === 'admin' ? 'bg-red-600' : 'bg-brand-600';
   const roleLabel = role === 'admin' ? 'Admin Panel' : 'Seller Dashboard';
 
   const SidebarContent = () => (
@@ -46,7 +46,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* User info */}
       <div className="px-4 py-4 border-b border-gray-100">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+          <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden shrink-0">
             {userAvatar
               ? <img src={userAvatar} alt={userName} className="w-full h-full object-cover" />
               : <div className="w-full h-full flex items-center justify-center text-gray-600 font-bold text-sm">{userName[0]}</div>
@@ -74,7 +74,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               onClick={() => setSidebarOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 active
-                  ? `${roleColor} text-white shadow-sm`
+                  ? `${roleColor} text-white shadow-xs`
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
               }`}
             >
@@ -107,7 +107,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-60 bg-white border-r border-gray-100 flex-shrink-0">
+      <aside className="hidden lg:flex flex-col w-60 bg-white border-r border-gray-100 shrink-0">
         <SidebarContent />
       </aside>
 
@@ -130,7 +130,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top bar */}
-        <header className="bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between flex-shrink-0">
+        <header className="bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between shrink-0">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
@@ -165,7 +165,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             {/* Back to store */}
             <Link
               to="/"
-              className="hidden sm:flex items-center gap-1.5 text-xs text-gray-500 hover:text-blue-600 border border-gray-200 rounded-lg px-3 py-1.5 transition-colors"
+              className="hidden sm:flex items-center gap-1.5 text-xs text-gray-500 hover:text-brand-600 border border-gray-200 rounded-lg px-3 py-1.5 transition-colors"
             >
               <ShoppingBag size={13} />
               Store

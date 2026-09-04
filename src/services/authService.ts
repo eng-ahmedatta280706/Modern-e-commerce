@@ -14,7 +14,9 @@ export interface RegisterPayload {
 
 export const authService = {
   login: (payload: LoginPayload) =>
-    api.post('/auth/login', { email: payload.identifier, password: payload.password }),
+    api.post('/auth/login', payload.identifier.includes("@") ?
+      { email: payload.identifier, password: payload.password } :
+      { username: payload.identifier, password: payload.password }),
 
   register: (payload: RegisterPayload) =>
     api.post('/auth/register', payload),
@@ -24,4 +26,10 @@ export const authService = {
 
   refreshToken: () =>
     api.post('/auth/refresh'),
+
+  forgotPassword: (email: string) =>
+    api.post('/auth/forgot-password', { email }),
+
+  resetPassword: (token: string, newPassword: string) =>
+    api.post('/auth/reset-password', { token, newPassword }),
 };

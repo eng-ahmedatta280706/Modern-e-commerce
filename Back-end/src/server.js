@@ -4,20 +4,20 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import connectDB from './configs/db.js';
-import errorHandlerModule from './middleware/errorHandler.js';
-import { globalLimiter } from './middleware/rateLimiter.js';
+import errorHandlerModule from './Middleware/errorHandler.js';
+import { globalLimiter } from './Middleware/rateLimiter.js';
 
 dotenv.config();
 
 const { errorHandler } = errorHandlerModule;
 
 // ── Routes ────────────────────────────────────────────────
-import authRoutes from './routes/authRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
-import sellerRoutes from './routes/sellerRoutes.js';
-import publicRoutes from './routes/publicRoutes.js';
+import authRoutes from './Routes/authRoutes.js';
+import productRoutes from './Routes/productRoutes.js';
+import orderRoutes from './Routes/orderRoutes.js';
+import adminRoutes from './Routes/adminRoutes.js';
+import sellerRoutes from './Routes/sellerRoutes.js';
+import publicRoutes from './Routes/publicRoutes.js';
 
 // ── Connect DB ────────────────────────────────────────────
 connectDB();

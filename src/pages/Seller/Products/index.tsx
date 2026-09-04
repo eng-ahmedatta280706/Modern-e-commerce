@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   ShoppingBag, Plus, Pencil, Trash2, Search,
   LayoutDashboard, ListOrdered, Bell, User2, BarChart3,
@@ -22,7 +22,7 @@ const SELLER_NAV: NavItem[] = [
 ];
 
 interface Product {
-  _id: string;
+  id: string;
   name: string;
   category: string;
   price: number;
@@ -73,39 +73,39 @@ const ProductFormModal: React.FC<{
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-4 my-4">
         <h2 className="text-lg font-bold text-gray-900">
-          {initial._id ? 'Edit Product' : 'Add New Product'}
+          {initial.id ? 'Edit Product' : 'Add New Product'}
         </h2>
 
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-2">
             <label className="text-xs font-medium text-gray-600 mb-1 block">Product Name *</label>
             <input value={form.name} onChange={e => set('name', e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
               placeholder="e.g. Classic Cotton T-Shirt" />
           </div>
           <div className="col-span-2">
             <label className="text-xs font-medium text-gray-600 mb-1 block">Description *</label>
             <textarea value={form.description} onChange={e => set('description', e.target.value)}
               rows={3}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500 resize-none"
               placeholder="Product description..." />
           </div>
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Price ($) *</label>
             <input type="number" value={form.price} min={0} step="0.01"
               onChange={e => set('price', e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500" />
           </div>
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Discount %</label>
             <input type="number" value={form.discount} min={0} max={100}
               onChange={e => set('discount', Number(e.target.value))}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500" />
           </div>
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Category *</label>
             <select value={form.category} onChange={e => set('category', e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500">
               {['Men', 'Women', 'Kids', 'Shoes', 'Accessories'].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
@@ -115,12 +115,12 @@ const ProductFormModal: React.FC<{
             <label className="text-xs font-medium text-gray-600 mb-1 block">Stock *</label>
             <input type="number" value={form.stock} min={0}
               onChange={e => set('stock', e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500" />
           </div>
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Badge</label>
             <select value={form.badge} onChange={e => set('badge', e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500">
               <option value="">None</option>
               <option value="New">New</option>
               <option value="Sale">Sale</option>
@@ -130,13 +130,13 @@ const ProductFormModal: React.FC<{
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Colors (comma-separated)</label>
             <input value={form.colors} onChange={e => set('colors', e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
               placeholder="Black, White, Red" />
           </div>
           <div className="col-span-2">
             <label className="text-xs font-medium text-gray-600 mb-1 block">Images (up to 8)</label>
             <input type="file" multiple accept="image/*" onChange={e => setFiles(Array.from(e.target.files ?? []))}
-              className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+              className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100" />
             {files.length > 0 && <p className="text-xs text-gray-400 mt-1">{files.length} file(s) selected</p>}
           </div>
         </div>
@@ -147,8 +147,8 @@ const ProductFormModal: React.FC<{
             Cancel
           </button>
           <button onClick={handleSubmit}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2 text-sm font-medium transition-colors">
-            {initial._id ? 'Save Changes' : 'Create Product'}
+            className="flex-1 bg-brand-600 hover:bg-brand-700 text-white rounded-xl py-2 text-sm font-medium transition-colors">
+            {initial.id ? 'Save Changes' : 'Create Product'}
           </button>
         </div>
       </div>
@@ -157,6 +157,10 @@ const ProductFormModal: React.FC<{
 };
 
 const SellerProductsPage: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isNewRoute = location.pathname === '/seller/products/new';
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -164,8 +168,22 @@ const SellerProductsPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(isNewRoute);
   const [editing, setEditing] = useState<Product | undefined>(undefined);
+
+  // Deep-linking to /seller/products/new opens the create form directly.
+  useEffect(() => {
+    if (isNewRoute) {
+      setEditing(undefined);
+      setModalOpen(true);
+    }
+  }, [isNewRoute]);
+
+  const closeModal = useCallback(() => {
+    setModalOpen(false);
+    setEditing(undefined);
+    if (isNewRoute) navigate('/seller/products', { replace: true });
+  }, [isNewRoute, navigate]);
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -185,17 +203,12 @@ const SellerProductsPage: React.FC = () => {
 
   const handleSave = async (formData: FormData) => {
     try {
-      if (editing?._id) {
-        await api.put(`/seller/products/${editing._id}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+      if (editing?.id) {
+        await api.put(`/seller/products/${editing.id}`, formData);
       } else {
-        await api.post('/seller/products', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        await api.post('/seller/products', formData);
       }
-      setModalOpen(false);
-      setEditing(undefined);
+      closeModal();
       fetchProducts();
     } catch (err: any) {
       Swal.fire('Error', err?.response?.data?.message ?? 'Failed to save product.', 'error');
@@ -222,7 +235,7 @@ const SellerProductsPage: React.FC = () => {
       header: 'Product',
       render: (p) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0">
             {p.images?.[0] && <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" loading="lazy" />}
           </div>
           <div className="min-w-0">
@@ -276,15 +289,15 @@ const SellerProductsPage: React.FC = () => {
       header: 'Actions',
       render: (p) => (
         <div className="flex items-center gap-1">
-          <Link to={`/product/${p._id}`} target="_blank"
+          <Link to={`/product/${p.id}`} target="_blank"
             className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 transition-colors" title="View">
             <Eye size={15} />
           </Link>
           <button onClick={() => { setEditing(p); setModalOpen(true); }}
-            className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors" title="Edit">
+            className="p-1.5 rounded-lg text-brand-600 hover:bg-brand-50 transition-colors" title="Edit">
             <Pencil size={15} />
           </button>
-          <button onClick={() => handleDelete(p._id, p.name)}
+          <button onClick={() => handleDelete(p.id, p.name)}
             className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Delete">
             <Trash2 size={15} />
           </button>
@@ -304,7 +317,7 @@ const SellerProductsPage: React.FC = () => {
         <ProductFormModal
           initial={editing}
           onSave={handleSave}
-          onClose={() => { setModalOpen(false); setEditing(undefined); }}
+          onClose={closeModal}
         />
       )}
 
@@ -316,7 +329,7 @@ const SellerProductsPage: React.FC = () => {
           </div>
           <button
             onClick={() => { setEditing(undefined); setModalOpen(true); }}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
+            className="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
           >
             <Plus size={16} />
             Add Product
@@ -329,7 +342,7 @@ const SellerProductsPage: React.FC = () => {
             {STATUS_TABS.map(tab => (
               <button key={tab}
                 onClick={() => { setStatus(tab); setPage(1); }}
-                className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-colors ${statusFilter === tab ? 'bg-blue-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-colors ${statusFilter === tab ? 'bg-brand-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
                 {tab}
               </button>
             ))}
@@ -339,7 +352,7 @@ const SellerProductsPage: React.FC = () => {
             <input type="text" value={search}
               onChange={e => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search products..."
-              className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-48 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-48 focus:outline-hidden focus:ring-2 focus:ring-brand-500" />
           </div>
         </div>
 
@@ -347,7 +360,7 @@ const SellerProductsPage: React.FC = () => {
           columns={columns}
           data={products}
           loading={loading}
-          keyExtractor={p => p._id}
+          keyExtractor={p => p.id}
           currentPage={page}
           totalPages={totalPages}
           onPageChange={setPage}

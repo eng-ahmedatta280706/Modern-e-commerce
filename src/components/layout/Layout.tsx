@@ -49,7 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="flex flex-col min-h-screen">
       {showHeader && <Header />}
 
-      <main className="flex-grow">
+      <main className="grow">
         {children}
       </main>
 

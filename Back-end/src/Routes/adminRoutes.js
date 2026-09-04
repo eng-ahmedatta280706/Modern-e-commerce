@@ -1,8 +1,8 @@
 import { Router } from 'express';
 const router = Router();
-import { getDashboardStats, getUsers, getUser, updateUser, deleteUser, getSellers, approveSeller, rejectSeller, suspendSeller, updateSellerCommission, getAllOrders, getAllProducts, toggleProductFeatured, getCoupons, create_Coupon, update_Coupon, delete_Coupon } from '../controllers/adminController.js';
-import { getCategories, create_Category, update_Category, delete_Category } from '../controllers/categoryController.js';
-import { protect, authorize } from '../middleware/auth.js';
+import { getDashboardStats, getUsers, getUser, updateUser, deleteUser, getSellers, approveSeller, rejectSeller, suspendSeller, updateSellerCommission, getAllOrders, getAllProducts, toggleProductFeatured, getCoupons, create_Coupon, update_Coupon, delete_Coupon } from '../Controllers/adminController.js';
+import { getCategories, create_Category, update_Category, delete_Category } from '../Controllers/categoryController.js';
+import { protect, authorize } from '../Middleware/auth.js';
 // import { upload } from '../config/cloudinary';
 
 // All admin routes require auth + admin role

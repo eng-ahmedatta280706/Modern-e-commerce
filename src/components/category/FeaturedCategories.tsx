@@ -63,7 +63,7 @@ const FeaturedCategories: React.FC = () => {
   ];
 
   return (
-    <section className="py-12 container mx-auto px-4 max-w-7xl ">
+    <section className="py-12 container mx-auto px-2 max-w-7xl ">
       <div className="text-center mb-10">
         <h2 className="text-2xl md:text-3xl font-bold">Shop By Category</h2>
       </div>
@@ -73,7 +73,7 @@ const FeaturedCategories: React.FC = () => {
         loop
         speed={3000}
         autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
-        spaceBetween={10}
+        spaceBetween={8}
         slidesPerView={1}
         breakpoints={{
           640: { slidesPerView: 3, spaceBetween: 16 },
@@ -86,7 +86,7 @@ const FeaturedCategories: React.FC = () => {
               to={`/category/${category.link}`}
               className="group relative block overflow-hidden rounded-lg w-full h-full"
             >
-              <div className="aspect-square overflow-hidden w-[100%] h-[200px]">
+              <div className="aspect-square overflow-hidden w-full h-50">
                 <img
                   src={category.image}
                   alt={category.name}
@@ -94,7 +94,7 @@ const FeaturedCategories: React.FC = () => {
                 />
               </div>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
                 <h3 className="text-xl font-bold text-white">{category.name}</h3>
               </div>
             </Link>

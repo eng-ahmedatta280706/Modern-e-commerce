@@ -13,7 +13,7 @@ interface StatsCardProps {
 }
 
 const colorMap = {
-  blue:   'bg-blue-50 text-blue-600',
+  blue:   'bg-brand-50 text-brand-600',
   green:  'bg-green-50 text-green-600',
   orange: 'bg-orange-50 text-orange-600',
   purple: 'bg-purple-50 text-purple-600',
@@ -28,7 +28,7 @@ const StatsCard: React.FC<StatsCardProps> = ({
   const positive = (change ?? 0) >= 0;
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm font-medium text-gray-500">{title}</p>
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${colorMap[color]}`}>

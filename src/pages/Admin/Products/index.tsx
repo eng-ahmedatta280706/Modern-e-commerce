@@ -25,7 +25,7 @@ const ADMIN_NAV: NavItem[] = [
 ];
 
 interface Product {
-  _id: string;
+  id: string;
   name: string;
   category: string;
   price: number;
@@ -67,7 +67,7 @@ const AdminProductsPage: React.FC = () => {
 
   const handleToggleFeatured = async (id: string, current: boolean) => {
     await api.patch(`/admin/products/${id}/featured`);
-    setProducts(prev => prev.map(p => p._id === id ? { ...p, isFeatured: !current } : p));
+    setProducts(prev => prev.map(p => p.id === id ? { ...p, isFeatured: !current } : p));
   };
 
   const handleDelete = async (id: string, name: string) => {
@@ -90,13 +90,13 @@ const AdminProductsPage: React.FC = () => {
       header: 'Product',
       render: (p) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0">
             {p.images?.[0] && (
               <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" loading="lazy" />
             )}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate max-w-[160px]">{p.name}</p>
+            <p className="text-sm font-medium text-gray-900 truncate max-w-40">{p.name}</p>
             <p className="text-xs text-gray-400">{p.category}</p>
           </div>
         </div>
@@ -106,7 +106,7 @@ const AdminProductsPage: React.FC = () => {
       key: 'seller',
       header: 'Seller',
       render: (p) => (
-        <span className="text-xs text-blue-600 font-medium">{p.seller?.storeName ?? p.seller?.name}</span>
+        <span className="text-xs text-brand-600 font-medium">{p.seller?.storeName ?? p.seller?.name}</span>
       ),
     },
     {
@@ -135,7 +135,7 @@ const AdminProductsPage: React.FC = () => {
       header: 'Featured',
       render: (p) => (
         <button
-          onClick={() => handleToggleFeatured(p._id, p.isFeatured)}
+          onClick={() => handleToggleFeatured(p.id, p.isFeatured)}
           className={`p-1.5 rounded-lg transition-colors ${p.isFeatured ? 'text-yellow-500 bg-yellow-50' : 'text-gray-300 hover:text-yellow-400 hover:bg-yellow-50'}`}
           title={p.isFeatured ? 'Remove from featured' : 'Add to featured'}
         >
@@ -149,15 +149,15 @@ const AdminProductsPage: React.FC = () => {
       render: (p) => (
         <div className="flex items-center gap-1">
           <Link
-            to={`/product/${p._id}`}
+            to={`/product/${p.id}`}
             target="_blank"
-            className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
+            className="p-1.5 rounded-lg text-brand-600 hover:bg-brand-50 transition-colors"
             title="View product"
           >
             <Eye size={16} />
           </Link>
           <button
-            onClick={() => handleDelete(p._id, p.name)}
+            onClick={() => handleDelete(p.id, p.name)}
             className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
             title="Remove product"
           >
@@ -190,13 +190,13 @@ const AdminProductsPage: React.FC = () => {
               value={search}
               onChange={e => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search products..."
-              className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-56 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-56 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
             />
           </div>
           <select
             value={category}
             onChange={e => { setCategory(e.target.value); setPage(1); }}
-            className="border border-gray-200 rounded-xl text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-200 rounded-xl text-sm px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
           >
             <option value="">All Categories</option>
             {['Men', 'Women', 'Kids', 'Shoes', 'Accessories'].map(c => (
@@ -209,7 +209,7 @@ const AdminProductsPage: React.FC = () => {
           columns={columns}
           data={products}
           loading={loading}
-          keyExtractor={p => p._id}
+          keyExtractor={p => p.id}
           currentPage={page}
           totalPages={totalPages}
           onPageChange={setPage}

@@ -1,6 +1,6 @@
 import { db } from '../configs/db.js';
 import { Coupons } from './schema.js';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 
 export const COUPON_TYPES = ['percentage', 'fixed', 'shipping'];
 export const MAX_DISCOUNT = 100;
@@ -34,12 +34,10 @@ export async function findCouponById(id) {
 export async function findCouponOne(filter) {
   let query = db.select().from(Coupons);
 
-  if (filter.code) {
-    query = query.where(eq(Coupons.code, filter.code.toUpperCase()));
-  }
-  if (filter.isActive !== undefined) {
-    query = query.where(eq(Coupons.isActive, filter.isActive));
-  }
+  const conditions = [];
+  if (filter.code) conditions.push(eq(Coupons.code, filter.code.toUpperCase()));
+  if (filter.isActive !== undefined) conditions.push(eq(Coupons.isActive, filter.isActive));
+  if (conditions.length) query = query.where(and(...conditions));
 
   const results = await query;
   return results[0] || null;

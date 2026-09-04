@@ -47,7 +47,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ onApply }) => {
                 />
                 <button
                     onClick={applyCoupon}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                    className="bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700"
                 >
                     Apply
                 </button>

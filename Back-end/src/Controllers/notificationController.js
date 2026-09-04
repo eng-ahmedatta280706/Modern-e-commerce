@@ -7,7 +7,7 @@ import {
   deleteNotification as deleteNotificationModel,
   deleteUserNotifications,
 } from '../Models/Notification.js';
-import errorHandler from '../middleware/errorHandler.js';
+import errorHandler from '../Middleware/errorHandler.js';
 
 const { AppError } = errorHandler;
 
@@ -18,10 +18,10 @@ export async function getNotifications(req, res, next) {
     const lim = Number(limit);
 
     // fetch recent notifications (drizzle helper returns ordered results)
-    const all = await getUserNotifications(req.user._id, pageNum * lim);
+    const all = await getUserNotifications(req.user.id, pageNum * lim);
     const paged = all.slice((pageNum - 1) * lim, pageNum * lim);
     const total = all.length;
-    const unreadCount = await getUnreadCount(req.user._id);
+    const unreadCount = await getUnreadCount(req.user.id);
 
     res.json({
       success: true,
@@ -42,12 +42,12 @@ export async function markRead(req, res, next) {
     const { id } = req.params;
 
     if (id === 'all') {
-      await markAllAsRead(req.user._id);
+      await markAllAsRead(req.user.id);
       return res.json({ success: true, message: 'All notifications marked as read.' });
     }
 
     const notification = await findNotificationById(id);
-    if (!notification || String(notification.recipientId) !== String(req.user._id)) {
+    if (!notification || String(notification.recipientId) !== String(req.user.id)) {
       return next(new AppError('Notification not found.', 404));
     }
 
@@ -61,12 +61,12 @@ export async function deleteNotification(req, res, next) {
     const { id } = req.params;
 
     if (id === 'all') {
-      await deleteUserNotifications(req.user._id);
+      await deleteUserNotifications(req.user.id);
       return res.json({ success: true, message: 'All notifications deleted.' });
     }
 
     const notification = await findNotificationById(id);
-    if (!notification || String(notification.recipientId) !== String(req.user._id)) {
+    if (!notification || String(notification.recipientId) !== String(req.user.id)) {
       return next(new AppError('Notification not found.', 404));
     }
 

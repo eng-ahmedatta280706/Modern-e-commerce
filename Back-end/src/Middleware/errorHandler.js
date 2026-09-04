@@ -6,22 +6,21 @@ const errorHandler = (err, req, res, _next) => {
   let statusCode = err.statusCode || 500;
   let message    = err.message    || 'Internal Server Error';
 
-  // Mongoose duplicate key
-  if (err.code === 11000) {
-    const field = Object.keys(err.keyValue)[0];
-    message = `${field.charAt(0).toUpperCase() + field.slice(1)} already exists.`;
+  // Postgres unique-violation (duplicate key)
+  if (err.code === '23505') {
+    message = 'A record with these details already exists.';
     statusCode = 409;
   }
 
-  // Mongoose validation error
-  if (err.name === 'ValidationError') {
-    message = Object.values(err.errors).map(e => e.message).join(', ');
+  // Postgres not-null violation
+  if (err.code === '23502') {
+    message = `Missing required field: ${err.column || 'unknown'}.`;
     statusCode = 422;
   }
 
-  // Mongoose cast error (invalid ObjectId)
-  if (err.name === 'CastError') {
-    message = `Invalid ${err.path}: ${err.value}`;
+  // Postgres invalid text representation (e.g. bad UUID)
+  if (err.code === '22P02') {
+    message = 'Invalid input format.';
     statusCode = 400;
   }
 
@@ -51,4 +50,5 @@ class AppError extends Error {
   }
 }
 
+export { errorHandler, AppError };
 export default { errorHandler, AppError };

@@ -75,14 +75,14 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       {onAction ? (
         <button
           onClick={onAction}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+          className="bg-brand-600 hover:bg-brand-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
         >
           {actionLabel ?? defaults.actionLabel}
         </button>
       ) : (
         <Link
           to={actionHref ?? defaults.actionHref}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+          className="bg-brand-600 hover:bg-brand-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
         >
           {actionLabel ?? defaults.actionLabel}
         </Link>

@@ -1,7 +1,10 @@
 import { useState, useContext } from "react";
 import CustomModal from "../modals/ModalMenu";
-import { Globe, Check } from "lucide-react";
+import { Globe } from "lucide-react";
 import { LanguageContext } from "../../contexts/LanguageContext";
+import { Translations } from "../../utils/translations";
+
+type LanguageCode = keyof Translations;
 
 export default function LanguageSwitcher() {
     const [open, setOpen] = useState(false);
@@ -11,7 +14,7 @@ export default function LanguageSwitcher() {
 
     const { language, changeLanguage } = langContext;
 
-    const languages = [
+    const languages: { code: LanguageCode; label: string }[] = [
         { code: "en", label: "English 🇺🇸" },
         { code: "ar", label: "العربية 🇪🇬" },
         { code: "fr", label: "Français 🇫🇷" },
@@ -27,6 +30,7 @@ export default function LanguageSwitcher() {
         { code: "nl", label: "Nederlands 🇳🇱" },
         { code: "sv", label: "Svenska 🇸🇪" },
         { code: "pl", label: "Polski 🇵🇱" },
+        { code: "tr", label: "Türkçe 🇹🇷" },
     ];
 
     return (
@@ -44,16 +48,10 @@ export default function LanguageSwitcher() {
                 onClose={() => setOpen(false)}
                 dividerAfterIndex={1}
                 items={languages.map((lang) => ({
-                    label: (
-                        <div className="flex justify-between items-center">
-                            <span>{lang.label}</span>
-                            {language === lang.code && (
-                                <Check size={24} className="text-green-600" />
-                            )}
-                        </div>
-                    ) as unknown as string,
+                    label: lang.label,
+                    active: language === lang.code,
                     onClick: () => {
-                        changeLanguage(lang.code as "en" | "ar");
+                        changeLanguage(lang.code);
                         setOpen(false);
                     },
                 }))}

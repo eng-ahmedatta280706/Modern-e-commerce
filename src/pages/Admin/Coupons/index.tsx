@@ -23,7 +23,7 @@ const ADMIN_NAV: NavItem[] = [
 ];
 
 interface Coupon {
-  _id: string;
+  id: string;
   code: string;
   type: 'percentage' | 'fixed' | 'shipping';
   value: number;
@@ -55,19 +55,19 @@ const CouponFormModal: React.FC<{
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
-        <h2 className="text-lg font-bold text-gray-900">{initial._id ? 'Edit Coupon' : 'Create Coupon'}</h2>
+        <h2 className="text-lg font-bold text-gray-900">{initial.id ? 'Edit Coupon' : 'Create Coupon'}</h2>
 
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-2">
             <label className="text-xs font-medium text-gray-600 mb-1 block">Coupon Code</label>
             <input value={form.code} onChange={e => set('code', e.target.value.toUpperCase())}
-              className="w-full border rounded-xl px-3 py-2 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border rounded-xl px-3 py-2 text-sm font-mono uppercase focus:outline-hidden focus:ring-2 focus:ring-brand-500"
               placeholder="e.g. SAVE20" />
           </div>
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Type</label>
             <select value={form.type} onChange={e => set('type', e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500">
               <option value="percentage">Percentage %</option>
               <option value="fixed">Fixed $</option>
               <option value="shipping">Free Shipping</option>
@@ -80,27 +80,27 @@ const CouponFormModal: React.FC<{
               </label>
               <input type="number" value={form.value} min={0} max={form.type === 'percentage' ? 100 : undefined}
                 onChange={e => set('value', Number(e.target.value))}
-                className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500" />
             </div>
           )}
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Min Order ($)</label>
             <input type="number" value={form.minOrder} min={0}
               onChange={e => set('minOrder', Number(e.target.value))}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500" />
           </div>
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Usage Limit</label>
             <input type="number" value={form.usageLimit} min={1}
               onChange={e => set('usageLimit', e.target.value ? Number(e.target.value) : '')}
               placeholder="Unlimited"
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500" />
           </div>
           <div>
             <label className="text-xs font-medium text-gray-600 mb-1 block">Expires At</label>
             <input type="date" value={form.expiresAt}
               onChange={e => set('expiresAt', e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500" />
           </div>
           <div className="col-span-2 flex items-center gap-3">
             <label className="text-sm font-medium text-gray-700">Active</label>
@@ -118,8 +118,8 @@ const CouponFormModal: React.FC<{
             Cancel
           </button>
           <button onClick={() => onSave({ ...form, usageLimit: form.usageLimit === '' ? null : Number(form.usageLimit) } as Partial<Coupon>)}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2 text-sm font-medium transition-colors">
-            {initial._id ? 'Update' : 'Create'}
+            className="flex-1 bg-brand-600 hover:bg-brand-700 text-white rounded-xl py-2 text-sm font-medium transition-colors">
+            {initial.id ? 'Update' : 'Create'}
           </button>
         </div>
       </div>
@@ -146,8 +146,8 @@ const AdminCouponsPage: React.FC = () => {
 
   const handleSave = async (formData: Partial<Coupon>) => {
     try {
-      if (editing?._id) {
-        await api.patch(`/admin/coupons/${editing._id}`, formData);
+      if (editing?.id) {
+        await api.patch(`/admin/coupons/${editing.id}`, formData);
       } else {
         await api.post('/admin/coupons', formData);
       }
@@ -173,7 +173,7 @@ const AdminCouponsPage: React.FC = () => {
   };
 
   const handleToggle = async (coupon: Coupon) => {
-    await api.patch(`/admin/coupons/${coupon._id}`, { isActive: !coupon.isActive });
+    await api.patch(`/admin/coupons/${coupon.id}`, { isActive: !coupon.isActive });
     fetchCoupons();
   };
 
@@ -182,7 +182,7 @@ const AdminCouponsPage: React.FC = () => {
       key: 'code',
       header: 'Code',
       render: (c) => (
-        <span className="font-mono font-bold text-sm bg-gray-100 px-2 py-1 rounded text-gray-800">{c.code}</span>
+        <span className="font-mono font-bold text-sm bg-gray-100 px-2 py-1 rounded-sm text-gray-800">{c.code}</span>
       ),
     },
     {
@@ -234,10 +234,10 @@ const AdminCouponsPage: React.FC = () => {
       render: (c) => (
         <div className="flex items-center gap-1">
           <button onClick={() => { setEditing(c); setModalOpen(true); }}
-            className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors">
+            className="p-1.5 rounded-lg text-brand-600 hover:bg-brand-50 transition-colors">
             <Pencil size={15} />
           </button>
-          <button onClick={() => handleDelete(c._id, c.code)}
+          <button onClick={() => handleDelete(c.id, c.code)}
             className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors">
             <Trash2 size={15} />
           </button>
@@ -269,7 +269,7 @@ const AdminCouponsPage: React.FC = () => {
           </div>
           <button
             onClick={() => { setEditing(undefined); setModalOpen(true); }}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
+            className="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
           >
             <Plus size={16} />
             New Coupon
@@ -280,7 +280,7 @@ const AdminCouponsPage: React.FC = () => {
           columns={columns}
           data={coupons}
           loading={loading}
-          keyExtractor={c => c._id}
+          keyExtractor={c => c.id}
           emptyMessage="No coupons yet. Create your first one!"
         />
       </div>

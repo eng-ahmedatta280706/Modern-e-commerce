@@ -25,7 +25,7 @@ const ADMIN_NAV: NavItem[] = [
 ];
 
 interface Order {
-  _id: string;
+  id: string;
   customer: { name: string; email: string };
   items: { name: string; quantity: number }[];
   total: number;
@@ -73,7 +73,7 @@ const AdminOrdersPage: React.FC = () => {
   const handleStatusUpdate = async (order: Order) => {
     const { value: newStatus } = await Swal.fire({
       title: `Update Order Status`,
-      html: `<p class="text-sm text-gray-500 mb-2">Order #${order._id.slice(-8).toUpperCase()}</p>`,
+      html: `<p class="text-sm text-gray-500 mb-2">Order #${order.id.slice(-8).toUpperCase()}</p>`,
       input: 'select',
       inputOptions: Object.fromEntries(STATUS_OPTIONS.map(s => [s, s.charAt(0).toUpperCase() + s.slice(1)])),
       inputValue: order.status,
@@ -94,7 +94,7 @@ const AdminOrdersPage: React.FC = () => {
     }
 
     try {
-      await api.patch(`/orders/${order._id}/status`, { status: newStatus, trackingNumber });
+      await api.patch(`/orders/${order.id}/status`, { status: newStatus, trackingNumber });
       Swal.fire('Updated!', `Order status changed to ${newStatus}.`, 'success');
       fetchOrders();
     } catch (err: any) {
@@ -107,8 +107,8 @@ const AdminOrdersPage: React.FC = () => {
       key: 'id',
       header: 'Order ID',
       render: (o) => (
-        <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded text-gray-700">
-          #{o._id.slice(-8).toUpperCase()}
+        <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded-sm text-gray-700">
+          #{o.id.slice(-8).toUpperCase()}
         </span>
       ),
     },
@@ -163,8 +163,8 @@ const AdminOrdersPage: React.FC = () => {
       render: (o) => (
         <div className="flex items-center gap-1">
           <Link
-            to={`/admin/orders/${o._id}`}
-            className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
+            to={`/admin/orders/${o.id}`}
+            className="p-1.5 rounded-lg text-brand-600 hover:bg-brand-50 transition-colors"
             title="View order"
           >
             <Eye size={16} />
@@ -205,7 +205,7 @@ const AdminOrdersPage: React.FC = () => {
               onClick={() => { setSearchParams(tab === 'all' ? {} : { status: tab }); setPage(1); }}
               className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-colors ${
                 activeStatus === tab
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-brand-600 text-white'
                   : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
               }`}
             >
@@ -222,7 +222,7 @@ const AdminOrdersPage: React.FC = () => {
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1); }}
             placeholder="Search by customer or order ID..."
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
           />
         </div>
 
@@ -231,7 +231,7 @@ const AdminOrdersPage: React.FC = () => {
           columns={columns}
           data={orders}
           loading={loading}
-          keyExtractor={o => o._id}
+          keyExtractor={o => o.id}
           currentPage={page}
           totalPages={totalPages}
           onPageChange={setPage}

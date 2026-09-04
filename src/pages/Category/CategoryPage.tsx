@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import Breadcrumb from '../../components/ui/Breadcrumb';
-import EmptyState from '../../components/ui/EmptyState';
+import Breadcrumb from '@components/ui/Breadcrumb';
+import EmptyState from '@components/ui/EmptyState';
 import { localProducts } from '../../data/products';
 import { subCategories } from '../../data/categories';
 import type { CategoryKey } from '../../types/Category';
-import { slugify, toTitleCase } from '../../utils/helpers';
+import { slugify, toTitleCase } from '@utils/helpers';
 
 /* ── helpers ─────────────────────────────────── */
 const slugToCategory: Record<string, CategoryKey> = {
@@ -77,9 +77,9 @@ const CategoryPage: React.FC = () => {
           className="w-full h-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-3">{categoryLabel}</h1>
-          <p className="text-lg opacity-90">{categoryProducts.length} products</p>
+        <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-white">{categoryLabel}</h1>
+          <p className="text-lg opacity-90 text-white">{categoryProducts.length} products</p>
         </div>
       </div>
 
@@ -96,7 +96,7 @@ const CategoryPage: React.FC = () => {
                   <Link
                     key={item}
                     to={`/category/${categorySlug}/${slugify(item)}`}
-                    className="px-4 py-2 rounded-full border border-gray-300 text-sm hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
+                    className="px-4 py-2 rounded-full border border-gray-300 text-sm hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-colors"
                   >
                     {item}
                   </Link>
@@ -109,22 +109,24 @@ const CategoryPage: React.FC = () => {
         {/* Products grouped by subcategory */}
         {Object.keys(productsBySubcategory).length > 0 ? (
           Object.entries(productsBySubcategory).map(([sub, products]) => (
-            <div key={sub} className="mb-12">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900">{sub}</h2>
-                <Link
-                  to={`/category/${categorySlug}/${slugify(sub)}`}
-                  className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
-                >
-                  View all <ArrowRight size={14} />
-                </Link>
+            products.length > 1 ? (
+              <div key={sub} className="mb-12">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900">{sub}</h2>
+                  <Link
+                    to={`/category/${categorySlug}/${slugify(sub)}`}
+                    className="flex items-center gap-1 text-brand-600 hover:text-brand-800 text-sm font-medium"
+                  >
+                    View all <ArrowRight size={14} />
+                  </Link>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+                  {products.slice(0, 5).map(product => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-                {products.slice(0, 5).map(product => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            </div>
+            ) : null
           ))
         ) : (
           <EmptyState variant="products" />
@@ -135,6 +137,6 @@ const CategoryPage: React.FC = () => {
 };
 
 // Local import to avoid circular dep
-import ProductCard from '../../components/product/ProductCard';
+import ProductCard from '@components/product/ProductCard';
 
 export default CategoryPage;

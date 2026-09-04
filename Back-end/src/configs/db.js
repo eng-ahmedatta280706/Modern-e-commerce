@@ -5,28 +5,20 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connectionString = process.env.DATABASE_URL || '';
-const parsedUrl = connectionString ? new URL(connectionString) : null;
+// Prefer the environment variable; fall back to a local dev connection string.
+const connectionString =
+  process.env.DATABASE_URL || 'postgresql://postgres:Ahmed1234@localhost:5432/StoreDB';
 
-// const client = new Client({
-//   host: parsedUrl?.hostname,
-//   port: parsedUrl?.port ? Number(parsedUrl.port) : undefined,
-//   user: parsedUrl?.username || undefined,
-//   password: parsedUrl?.password ? decodeURIComponent(parsedUrl.password) : '',
-//   database: parsedUrl?.pathname ? parsedUrl.pathname.replace(/^\//, '') : undefined,
-// });
-
-const client = new Client({
-  // connectionString: process.env.DATABASE_URL,
-  connectionString: "postgresql://postgres:Ahmed1234@localhost:5432/StoreDB",
-});
+const client = new Client({ connectionString });
 
 async function connectDb() {
   try {
     await client.connect();
     console.log('✅ PostgreSQL connected successfully');
   } catch (error) {
-    console.error('❌ PostgreSQL connection failed:', error);
+    console.error('❌ PostgreSQL connection failed:', error.message);
+    // Fail fast so the app doesn't run in a broken, DB-less state.
+    process.exit(1);
   }
 }
 

@@ -17,7 +17,7 @@ const SELLER_NAV: NavItem[] = [
 ];
 
 interface OrderRow {
-    _id: string;
+    id: string;
     customer?: { name?: string; email?: string };
     items: Array<{ name: string; quantity: number; price: number }>;
     status: string;
@@ -86,7 +86,7 @@ const SellerOrdersPage: React.FC = () => {
         }
 
         try {
-            await api.patch(`/seller/orders/${order._id}/status`, { status: newStatus, trackingNumber });
+            await api.patch(`/seller/orders/${order.id}/status`, { status: newStatus, trackingNumber });
             await fetchOrders();
         } catch (err: any) {
             Swal.fire('Error', err?.response?.data?.message ?? 'Failed to update order status.', 'error');
@@ -99,7 +99,7 @@ const SellerOrdersPage: React.FC = () => {
             header: 'Order',
             render: (order) => (
                 <div>
-                    <p className="font-mono text-xs bg-gray-100 px-2 py-1 rounded text-gray-700 inline-flex">#{order._id.slice(-8).toUpperCase()}</p>
+                    <p className="font-mono text-xs bg-gray-100 px-2 py-1 rounded-sm text-gray-700 inline-flex">#{order.id.slice(-8).toUpperCase()}</p>
                     <p className="text-xs text-gray-400 mt-1">{new Date(order.createdAt).toLocaleDateString()}</p>
                 </div>
             ),
@@ -143,7 +143,7 @@ const SellerOrdersPage: React.FC = () => {
                     </button>
                     <button
                         onClick={() => Swal.fire({ title: 'Order details', html: `<p class="text-sm text-gray-500">${order.items.map((item) => `${item.name} × ${item.quantity}`).join('<br/>')}</p>`, confirmButtonText: 'Close' })}
-                        className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
+                        className="p-1.5 rounded-lg text-brand-600 hover:bg-brand-50 transition-colors"
                         title="View details"
                     >
                         <Eye size={16} />
@@ -176,13 +176,13 @@ const SellerOrdersPage: React.FC = () => {
                             value={search}
                             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                             placeholder="Search orders..."
-                            className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-60 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-60 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
                         />
                     </div>
                     <select
                         value={statusFilter}
                         onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-                        className="border border-gray-200 rounded-xl text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="border border-gray-200 rounded-xl text-sm px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
                     >
                         <option value="all">All statuses</option>
                         {STATUS_OPTIONS.map((status) => <option key={status} value={status}>{status}</option>)}
@@ -199,7 +199,7 @@ const SellerOrdersPage: React.FC = () => {
                     columns={columns}
                     data={orders}
                     loading={loading}
-                    keyExtractor={(order) => order._id}
+                    keyExtractor={(order) => order.id}
                     currentPage={page}
                     totalPages={totalPages}
                     onPageChange={setPage}

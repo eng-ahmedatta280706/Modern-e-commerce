@@ -6,9 +6,9 @@ import {
 } from 'lucide-react';
 import { UserContext } from '../../contexts/UserContext';
 import { CartContext } from '../../contexts/CartContext';
-import Breadcrumb from '../../components/ui/Breadcrumb';
+import Breadcrumb from '@components/ui/Breadcrumb';
 import { DEFAULT_GUEST_USER } from '../../types/User';
-import { formatPrice } from '../../utils/formatPrice';
+import { formatPrice } from '@utils/formatPrice';
 
 const QUICK_LINKS = [
   { icon: Package, label: 'My Orders', href: '/orders', count: null },
@@ -35,12 +35,12 @@ const AccountPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile card */}
         <div className="md:col-span-1">
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center shadow-sm">
-            <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4 overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center shadow-xs">
+            <div className="w-20 h-20 rounded-full bg-brand-100 flex items-center justify-center mx-auto mb-4 overflow-hidden">
               {user.profilePic ? (
                 <img src={user.profilePic} alt={user.name} className="w-full h-full object-cover" />
               ) : (
-                <User size={36} className="text-blue-600" />
+                <User size={36} className="text-brand-600" />
               )}
             </div>
             <h2 className="text-xl font-bold text-gray-900">{user.name}</h2>
@@ -49,19 +49,19 @@ const AccountPage: React.FC = () => {
             <div className="mt-4 space-y-2 text-left">
               {user.email && (
                 <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Mail size={14} className="flex-shrink-0" />
+                  <Mail size={14} className="shrink-0" />
                   <span className="truncate">{user.email}</span>
                 </div>
               )}
               {user.phoneNumber && (
                 <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Phone size={14} className="flex-shrink-0" />
+                  <Phone size={14} className="shrink-0" />
                   <span>{user.phoneNumber}</span>
                 </div>
               )}
               {user.address && (
                 <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <MapPin size={14} className="flex-shrink-0" />
+                  <MapPin size={14} className="shrink-0" />
                   <span>{user.address}</span>
                 </div>
               )}
@@ -76,32 +76,32 @@ const AccountPage: React.FC = () => {
         {/* Right column */}
         <div className="md:col-span-2 space-y-5">
           {/* Quick links */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+          <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs">
             <h3 className="font-semibold text-gray-900 mb-4">Quick Links</h3>
             <div className="divide-y divide-gray-100">
               {QUICK_LINKS.map(({ icon: Icon, label, href }) => (
                 <Link
                   key={href}
                   to={href}
-                  className="flex items-center justify-between py-3 hover:text-blue-600 transition-colors group"
+                  className="flex items-center justify-between py-3 hover:text-brand-600 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
-                      <Icon size={18} className="text-blue-600" />
+                    <div className="w-9 h-9 rounded-lg bg-brand-50 group-hover:bg-brand-100 flex items-center justify-center transition-colors">
+                      <Icon size={18} className="text-brand-600" />
                     </div>
                     <span className="font-medium text-sm">{label}</span>
                   </div>
-                  <ChevronRight size={16} className="text-gray-400 group-hover:text-blue-600 transition-colors" />
+                  <ChevronRight size={16} className="text-gray-400 group-hover:text-brand-600 transition-colors" />
                 </Link>
               ))}
             </div>
           </div>
 
           {/* Cart summary */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+          <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-gray-900">Cart Summary</h3>
-              <Link to="/checkout" className="text-sm text-blue-600 hover:underline">
+              <Link to="/checkout" className="text-sm text-brand-600 hover:underline">
                 Checkout
               </Link>
             </div>
@@ -120,7 +120,7 @@ const AccountPage: React.FC = () => {
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
+                          className="w-10 h-10 rounded-lg object-cover shrink-0"
                           loading="lazy"
                         />
                       )}
@@ -128,7 +128,7 @@ const AccountPage: React.FC = () => {
                         <p className="text-sm font-medium text-gray-900 truncate">{item.name}</p>
                         <p className="text-xs text-gray-500">{item.selectedColor} · x{item.quantity}</p>
                       </div>
-                      <span className="text-sm font-medium flex-shrink-0">
+                      <span className="text-sm font-medium shrink-0">
                         {formatPrice(item.price * item.quantity)}
                       </span>
                     </div>
@@ -151,9 +151,9 @@ const AccountPage: React.FC = () => {
             ].map(stat => (
               <div
                 key={stat.label}
-                className="bg-white border border-gray-200 rounded-2xl p-4 text-center shadow-sm"
+                className="bg-white border border-gray-200 rounded-2xl p-4 text-center shadow-xs"
               >
-                <p className="text-2xl font-bold text-blue-600">{stat.value}</p>
+                <p className="text-2xl font-bold text-brand-600">{stat.value}</p>
                 <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
               </div>
             ))}

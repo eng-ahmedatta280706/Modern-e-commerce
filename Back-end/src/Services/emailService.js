@@ -45,7 +45,8 @@ const sendEmail = async ({ to, subject, html }) => {
 
 // ── Pre-built email types ──────────────────────────────────
 
-export function sendWelcomeEmail(user)  {   return sendEmail({
+export function sendWelcomeEmail(user) {
+  return sendEmail({
     to: user.email,
     subject: 'Welcome to StyleStore!',
     html: baseTemplate('Welcome!', `
@@ -56,7 +57,8 @@ export function sendWelcomeEmail(user)  {   return sendEmail({
     `),
   });   }
 
-export function sendSellerApprovalEmail(seller)  {   return sendEmail({
+export function sendSellerApprovalEmail(seller) {
+  return sendEmail({
     to: seller.email,
     subject: 'Your Seller Account Has Been Approved!',
     html: baseTemplate('Seller Approved 🎉', `
@@ -67,7 +69,8 @@ export function sendSellerApprovalEmail(seller)  {   return sendEmail({
     `),
   });   }
 
-export function sendSellerRejectionEmail(seller, reason = '')  {   return sendEmail({
+export function sendSellerRejectionEmail(seller, reason = '') {
+  return sendEmail({
     to: seller.email,
     subject: 'Seller Application Update',
     html: baseTemplate('Application Update', `
@@ -78,31 +81,34 @@ export function sendSellerRejectionEmail(seller, reason = '')  {   return sendEm
     `),
   });   }
 
-export function sendOrderConfirmationEmail(user, order)  {   return sendEmail({
+export function sendOrderConfirmationEmail(user, order) {
+  return sendEmail({
     to: user.email,
-    subject: `Order Confirmed — #${order._id}`,
+    subject: `Order Confirmed — #${order.id}`,
     html: baseTemplate('Order Confirmed', `
       <p>Hi <strong>${user.name}</strong>,</p>
-      <p>Your order <strong>#${order._id}</strong> has been placed successfully.</p>
-      <p><strong>Total:</strong> $${order.total.toFixed(2)}</p>
+      <p>Your order <strong>#${order.id}</strong> has been placed successfully.</p>
+      <p><strong>Total:</strong> $${Number(order.total).toFixed(2)}</p>
       <p><strong>Status:</strong> ${order.status}</p>
       <a class="button" href="${process.env.CLIENT_URL}/orders">View Order</a>
     `),
   });   }
 
-export function sendOrderStatusEmail(user, order)  {   return sendEmail({
+export function sendOrderStatusEmail(user, order) {
+  return sendEmail({
     to: user.email,
-    subject: `Order #${order._id} — Status Updated to ${order.status}`,
+    subject: `Order #${order.id} — Status Updated to ${order.status}`,
     html: baseTemplate('Order Update', `
       <p>Hi <strong>${user.name}</strong>,</p>
-      <p>Your order <strong>#${order._id}</strong> status has been updated.</p>
+      <p>Your order <strong>#${order.id}</strong> status has been updated.</p>
       <p><strong>New Status:</strong> ${order.status}</p>
       ${order.trackingNumber ? `<p><strong>Tracking:</strong> ${order.trackingNumber}</p>` : ''}
       <a class="button" href="${process.env.CLIENT_URL}/orders">Track Order</a>
     `),
   });   }
 
-export function sendPasswordResetEmail(user, resetURL)  {   return sendEmail({
+export function sendPasswordResetEmail(user, resetURL) {
+  return sendEmail({
     to: user.email,
     subject: 'Password Reset Request',
     html: baseTemplate('Reset Password', `

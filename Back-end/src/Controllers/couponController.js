@@ -1,5 +1,5 @@
 import { findCouponOne, calculateDiscount } from '../Models/Coupon.js';
-import errorHandler from '../middleware/errorHandler.js';
+import errorHandler from '../Middleware/errorHandler.js';
 
 const { AppError } = errorHandler;
 

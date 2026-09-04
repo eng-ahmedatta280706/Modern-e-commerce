@@ -7,15 +7,11 @@ import slugify from 'slugify';
 export async function findProducts(filter = {}) {
   let query = db.select().from(Products);
 
-  if (filter.category) {
-    query = query.where(eq(Products.categoryId, filter.category));
-  }
-  if (filter.sellerId) {
-    query = query.where(eq(Products.sellerId, filter.sellerId));
-  }
-  if (filter.name) {
-    query = query.where(ilike(Products.name, `%${filter.name}%`));
-  }
+  const conditions = [];
+  if (filter.category) conditions.push(eq(Products.categoryId, filter.category));
+  if (filter.sellerId) conditions.push(eq(Products.sellerId, filter.sellerId));
+  if (filter.name) conditions.push(ilike(Products.name, `%${filter.name}%`));
+  if (conditions.length) query = query.where(and(...conditions));
 
   return await query;
 }

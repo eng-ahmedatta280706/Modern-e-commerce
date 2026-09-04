@@ -7,7 +7,7 @@ export interface User {
   phoneNumber?: string;
   profilePic?: string;
   ordersCount?: number;
-  role?: 'admin' | 'customer';
+  role?: 'admin' | 'customer' | 'seller';
   createdAt?: string;
 }
 

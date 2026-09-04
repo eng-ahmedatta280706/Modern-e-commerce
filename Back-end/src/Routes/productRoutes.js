@@ -1,9 +1,9 @@
 import { Router } from 'express';
 const router = Router();
-import { getProducts, getProduct, create_Product, updateProduct, deleteProduct, add_Review, deleteReview } from '../controllers/productController.js';
-import { protect, authorize, requireApprovedSeller } from '../middleware/auth.js';
+import { getProducts, getProduct, create_Product, updateProduct, deleteProduct, add_Review, deleteReview } from '../Controllers/productController.js';
+import { protect, authorize, requireApprovedSeller } from '../Middleware/auth.js';
 // import { upload } from '../config/cloudinary';
-import { uploadLimiter } from '../middleware/rateLimiter.js';
+import { uploadLimiter } from '../Middleware/rateLimiter.js';
 
 // ── Public ────────────────────────────────────────────────
 router.get('/', getProducts);

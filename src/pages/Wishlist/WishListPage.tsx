@@ -17,7 +17,7 @@ const WishlistPage: React.FC = () => {
                 </p>
                 <Link
                     to="/"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors"
+                    className="bg-brand-600 hover:bg-brand-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors"
                 >
                     Back to Home
                 </Link>

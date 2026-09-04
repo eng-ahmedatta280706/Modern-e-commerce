@@ -15,9 +15,9 @@ export function notifyNewOrder(adminId, order) {
     recipient: adminId,
     type: 'new_order',
     title: 'New Order Received',
-    message: `Order #${order._id} for $${order.total.toFixed(2)} was placed.`,
-    link: `/admin/orders/${order._id}`,
-    data: { orderId: order._id },
+    message: `Order #${order.id} for $${Number(order.total).toFixed(2)} was placed.`,
+    link: `/admin/orders/${order.id}`,
+    data: { orderId: order.id },
   });
 }
 
@@ -26,9 +26,9 @@ export function notifySellerNewOrder(sellerId, order, items) {
     recipient: sellerId,
     type: 'new_order',
     title: 'You have a new order!',
-    message: `${items.length} item(s) from your store in order #${order._id}.`,
-    link: `/seller/orders/${order._id}`,
-    data: { orderId: order._id },
+    message: `${items.length} item(s) from your store in order #${order.id}.`,
+    link: `/seller/orders/${order.id}`,
+    data: { orderId: order.id },
   });
 }
 
@@ -38,8 +38,8 @@ export function notifyNewSeller(adminId, seller) {
     type: 'new_seller',
     title: 'New Seller Application',
     message: `${seller.name} applied to become a seller: "${seller.storeName}".`,
-    link: `/admin/sellers/${seller._id}`,
-    data: { sellerId: seller._id },
+    link: `/admin/sellers/${seller.id}`,
+    data: { sellerId: seller.id },
   });
 }
 
@@ -69,8 +69,8 @@ export function notifyLowStock(sellerId, product) {
     type: 'low_stock',
     title: 'Low stock alert',
     message: `"${product.name}" has only ${product.stock} units left.`,
-    link: `/seller/products/${product._id}`,
-    data: { productId: product._id, stock: product.stock },
+    link: `/seller/products/${product.id}`,
+    data: { productId: product.id, stock: product.stock },
   });
 }
 
@@ -80,8 +80,8 @@ export function notifyNewReview(sellerId, product, review) {
     type: 'new_review',
     title: 'New Review',
     message: `${review.name} left a ${review.rating}★ review on "${product.name}".`,
-    link: `/seller/products/${product._id}`,
-    data: { productId: product._id },
+    link: `/seller/products/${product.id}`,
+    data: { productId: product.id },
   });
 }
 

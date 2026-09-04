@@ -1,10 +1,12 @@
 import { randomBytes, createHash } from 'crypto';
-import { findUserOne, createUser, findUserById, findUserByIdAndUpdate, comparePassword } from '../Models/User.js';
-import sendToken from '../utils/jwt.js';
-import signToken from '../utils/jwt.js';
-import AppError from '../middleware/errorHandler.js';
-import { sendWelcomeEmail, sendPasswordResetEmail } from '../services/emailService.js';
-import { notifyNewSeller } from '../services/notificationService.js';
+import jwtPkg from 'jsonwebtoken';
+import { findUserOne, findUser, createUser, findUserById, findUserByIdAndUpdate, comparePassword } from '../Models/User.js';
+import { sendToken, signToken } from '../utils/jwt.js';
+import { AppError } from '../Middleware/errorHandler.js';
+import { sendWelcomeEmail, sendPasswordResetEmail } from '../Services/emailService.js';
+import { notifyNewSeller } from '../Services/notificationService.js';
+
+const { verify } = jwtPkg;
 
 // ── Register ─────────────────────────────────────────────
 export async function register(req, res, next) {
@@ -73,12 +75,11 @@ export async function refreshToken(req, res, next) {
     const { refreshToken } = req.body;
     if (!refreshToken) return next(new AppError('Refresh token required.', 400));
 
-    const jwt = require('jsonwebtoken');
-    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    const decoded = verify(refreshToken, process.env.JWT_REFRESH_SECRET);
     const user = await findUserById(decoded.id);
     if (!user || !user.isActive) return next(new AppError('Invalid refresh token.', 401));
 
-    const token = signToken(user._id, user.role);
+    const token = signToken(user.id, user.role);
     res.json({ success: true, token });
   } catch (err) { next(new AppError('Invalid or expired refresh token.', 401)); }
 }
@@ -92,7 +93,7 @@ export function logout(_req, res) {
 // ── Get current user ─────────────────────────────────────
 export async function getMe(req, res, next) {
   try {
-    const user = await findUserById(req.user._id);
+    const user = await findUserById(req.user.id);
     res.json({ success: true, user });
   } catch (err) { next(err); }
 }
@@ -111,7 +112,7 @@ export async function updateProfile(req, res, next) {
 
     if (req.file) updates.profilePic = req.file.path;
 
-    const user = await findUserByIdAndUpdate(req.user._id, updates);
+    const user = await findUserByIdAndUpdate(req.user.id, updates);
     res.json({ success: true, user });
   } catch (err) { next(err); }
 }
@@ -121,7 +122,7 @@ export async function changePassword(req, res, next) {
   try {
     const { currentPassword, newPassword } = req.body;
 
-    const user = await findUserById(req.user._id);
+    const user = await findUserById(req.user.id);
     if (!(await comparePassword(user.id, currentPassword))) {
       return next(new AppError('Current password is incorrect.', 401));
     }

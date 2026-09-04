@@ -18,28 +18,28 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-ink text-gray-300">
       {/* Trust badges */}
       <div className="border-b border-gray-800">
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div className="flex flex-col items-center py-4">
-              <Truck className="text-blue-400 mb-2" size={24} />
+              <Truck className="text-brand-400 mb-2" size={24} />
               <h3 className="font-medium text-white">{t("footer.freeShipping.title")}</h3>
               <p className="text-sm mt-1">{t("footer.freeShipping.desc")}</p>
             </div>
             <div className="flex flex-col items-center py-4">
-              <CreditCard className="text-blue-400 mb-2" size={24} />
+              <CreditCard className="text-brand-400 mb-2" size={24} />
               <h3 className="font-medium text-white">{t("footer.securePayment.title")}</h3>
               <p className="text-sm mt-1">{t("footer.securePayment.desc")}</p>
             </div>
             <div className="flex flex-col items-center py-4">
-              <ShieldCheck className="text-blue-400 mb-2" size={24} />
+              <ShieldCheck className="text-brand-400 mb-2" size={24} />
               <h3 className="font-medium text-white">{t("footer.quality.title")}</h3>
               <p className="text-sm mt-1">{t("footer.quality.desc")}</p>
             </div>
             <div className="flex flex-col items-center py-4">
-              <Mail className="text-blue-400 mb-2" size={24} />
+              <Mail className="text-brand-400 mb-2" size={24} />
               <h3 className="font-medium text-white">{t("footer.support.title")}</h3>
               <p className="text-sm mt-1">{t("footer.support.desc")}</p>
             </div>
@@ -53,8 +53,10 @@ const Footer: React.FC = () => {
           {/* Column 1 - About */}
           <div className="flex flex-col">
             <div className={`flex items-center mb-4 ${isRTL ? "space-x-reverse" : "space-x-2"}`}>
-              <ShoppingBag className="text-orange-500" />
-              <span className="font-bold text-xl text-white tracking-tight">StyleStore</span>
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white">
+                <ShoppingBag size={18} />
+              </span>
+              <span className="font-extrabold text-xl text-white tracking-tight">StyleStore</span>
             </div>
             <p className="text-sm mb-4">{t("footer.about.desc")}</p>
             <div className={`flex mt-4 ${isRTL ? "space-x-reverse justify-center md:justify-end" : "space-x-4 justify-center md:justify-start"}`}>
@@ -101,11 +103,11 @@ const Footer: React.FC = () => {
                 <input
                   type="email"
                   placeholder={t("footer.newsletter.placeholder")}
-                  className={`px-4 py-2 w-full focus:outline-none text-gray-900 rounded-l-lg ${isRTL ? "rounded-l-lg rounded-r-none" : "rounded-r-none rounded-l-lg"}`}
+                  className={`px-4 py-2 w-full focus:outline-hidden text-gray-900 rounded-l-lg ${isRTL ? "rounded-l-lg rounded-r-none" : "rounded-r-none rounded-l-lg"}`}
                 />
                 <button
                   type="submit"
-                  className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 transition-colors rounded-r-lg ${isRTL ? "rounded-r-lg rounded-l-none" : ""}`}
+                  className={`bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 font-medium transition-colors rounded-r-lg ${isRTL ? "rounded-r-lg rounded-l-none" : ""}`}
                 >
                   {t("footer.newsletter.button")}
                 </button>

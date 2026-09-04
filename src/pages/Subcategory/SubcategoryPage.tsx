@@ -119,7 +119,7 @@ const SubcategoryPage: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">{subcategoryLabel}</h1>
           <p className="text-gray-500 mt-1">
-            in <Link to={`/category/${categorySlug}`} className="text-blue-600 hover:underline">{categoryLabel}</Link>
+            in <Link to={`/category/${categorySlug}`} className="text-brand-600 hover:underline">{categoryLabel}</Link>
             {' '}· {totalCount} products
           </p>
         </div>
@@ -134,7 +134,7 @@ const SubcategoryPage: React.FC = () => {
 
       <div className="flex gap-8">
         {/* Sidebar */}
-        <aside className="hidden lg:block w-64 flex-shrink-0">
+        <aside className="hidden lg:block w-64 shrink-0">
           <SearchBar
             placeholder="Search products..."
             value={filters.search ?? ''}

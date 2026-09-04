@@ -1,8 +1,8 @@
 import { Router } from 'express';
 const router = Router();
-import { getCategories, getCategory } from '../controllers/categoryController.js';
-import { validateCoupon } from '../controllers/couponController.js';
-import { protect } from '../middleware/auth.js';
+import { getCategories, getCategory } from '../Controllers/categoryController.js';
+import { validateCoupon } from '../Controllers/couponController.js';
+import { protect } from '../Middleware/auth.js';
 
 // ── Categories (public) ───────────────────────────────────
 router.get('/categories', getCategories);

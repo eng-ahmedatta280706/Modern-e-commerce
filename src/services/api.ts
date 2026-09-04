@@ -35,3 +35,54 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+/**
+ * Sends a password reset request to the backend.
+ *
+ * Adjust the endpoint path to match your Express API.
+ */
+
+export interface ForgotPasswordResponse {
+  message?: string;
+}
+
+export interface ForgotPasswordRequestOptions {
+  signal?: AbortSignal;
+}
+
+export async function forgotPassword(
+  email: string,
+  options: ForgotPasswordRequestOptions = {}
+): Promise<ForgotPasswordResponse> {
+  const API_BASE_URL =
+    import.meta.env.VITE_API_URL?.replace(/\/$/, "") ||
+    "http://localhost:5000/api";
+
+  const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ email }),
+    signal: options.signal,
+  });
+
+  let data: ForgotPasswordResponse | null = null;
+
+  try {
+    data = (await response.json()) as ForgotPasswordResponse;
+  } catch {
+    data = null;
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      data?.message || "Something went wrong while sending the reset link."
+    );
+  }
+
+  return data ?? {};
+}
+
+

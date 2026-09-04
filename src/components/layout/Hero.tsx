@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { localProducts } from "../../data/products"; // استيراد المنتجات المحلية
+import { formatPrice } from "../../utils/formatPrice";
 
 interface Product {
   id: string;
@@ -27,14 +28,14 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ products }) => {
 
   if (!featuredProducts || featuredProducts.length === 0) {
     return (
-      <div className="relative bg-gray-900 text-white h-[400px] flex items-center justify-center">
+      <div className="relative bg-ink text-white h-[400px] flex items-center justify-center">
         <p className="text-lg md:text-xl">There are no products available.</p>
       </div>
     );
   }
 
   return (
-    <div className="relative bg-gray-900 text-white">
+    <div className="relative bg-ink text-white">
       <Swiper
         modules={[Autoplay]}
         slidesPerView={1}
@@ -51,25 +52,27 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ products }) => {
                 alt={product.name}
                 className="w-full h-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-black/75 via-black/45 to-transparent rtl:bg-linear-to-l"></div>
             </div>
 
             {/* المحتوى */}
-            <div className="relative z-10 container mx-auto px-4 py-24 md:py-32 flex flex-col items-start">
-              {product.badge && (
-                <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm mb-4">
-                  {product.badge}
-                </span>
-              )}
-              <h1 className="text-3xl md:text-5xl font-bold mb-4">{product.name}</h1>
-              <p className="text-lg md:text-xl mb-4">{product.description}</p>
-              <p className="text-xl font-semibold mb-8">${product.price.toFixed(2)}</p>
-              <Link
-                to={`/product/${product.id}`}
-                className="bg-white text-gray-900 hover:bg-gray-200 px-6 py-3 rounded-lg font-medium transition-colors"
-              >
-                Shop {product.category}
-              </Link>
+            <div className="relative z-10 container px-4 py-24 md:py-32">
+              <div className="flex flex-col items-start max-w-2xl text-left rtl:items-end rtl:text-right">
+                {product.badge && (
+                  <span className="bg-accent-500 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+                    {product.badge}
+                  </span>
+                )}
+                <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-[1.05] text-white">{product.name}</h1>
+                <p className="text-base md:text-lg mb-5 text-white/80 max-w-lg">{product.description}</p>
+                <p className="text-2xl font-bold mb-8 text-white">{formatPrice(product.price)}</p>
+                <Link
+                  to={`/product/${product.id}`}
+                  className="inline-flex items-center gap-2 bg-white text-ink hover:bg-brand-600 hover:text-white px-7 py-3.5 rounded-xl font-semibold shadow-lg transition-all duration-200"
+                >
+                  Shop {product.category}
+                </Link>
+              </div>
             </div>
           </SwiperSlide>
         ))}

@@ -14,7 +14,7 @@ const SELLER_NAV: NavItem[] = [
 ];
 
 interface NotificationRow {
-    _id: string;
+    id: string;
     title?: string;
     message?: string;
     text?: string;
@@ -105,13 +105,13 @@ const SellerNotificationsPage: React.FC = () => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search notifications..."
-                        className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm w-full focus:outline-hidden focus:ring-2 focus:ring-brand-500"
                     />
                 </div>
 
                 {error && <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
 
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-100">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-xs divide-y divide-gray-100">
                     {loading ? (
                         <div className="p-8 text-sm text-gray-400">Loading notifications...</div>
                     ) : filtered.length === 0 ? (
@@ -120,18 +120,18 @@ const SellerNotificationsPage: React.FC = () => {
                         filtered.map((notification) => {
                             const content = notification.title ?? notification.message ?? notification.text ?? 'Notification';
                             return (
-                                <div key={notification._id} className={`p-4 flex items-start justify-between gap-4 ${notification.isRead ? 'bg-white' : 'bg-blue-50/40'}`}>
+                                <div key={notification.id} className={`p-4 flex items-start justify-between gap-4 ${notification.isRead ? 'bg-white' : 'bg-brand-50/40'}`}>
                                     <div className="min-w-0">
                                         <p className="font-medium text-gray-900">{content}</p>
                                         <p className="text-xs text-gray-400 mt-1">{new Date(notification.createdAt).toLocaleString()}</p>
                                     </div>
-                                    <div className="flex items-center gap-1 flex-shrink-0">
+                                    <div className="flex items-center gap-1 shrink-0">
                                         {!notification.isRead && (
-                                            <button onClick={() => markRead(notification._id)} className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors" title="Mark read">
+                                            <button onClick={() => markRead(notification.id)} className="p-1.5 rounded-lg text-brand-600 hover:bg-brand-50 transition-colors" title="Mark read">
                                                 <CheckCheck size={15} />
                                             </button>
                                         )}
-                                        <button onClick={() => deleteNotification(notification._id)} className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Delete">
+                                        <button onClick={() => deleteNotification(notification.id)} className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Delete">
                                             <Trash2 size={15} />
                                         </button>
                                     </div>

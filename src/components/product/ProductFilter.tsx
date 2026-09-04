@@ -10,6 +10,7 @@ interface ProductFilterProps {
   sortBy: SortOption;
   categories: string[];
   Brands?: string[];
+  BADGE_OPTIONS?: string[];
   allColors: string[];
   priceRange: { min: number; max: number };
   totalCount: number;
@@ -25,7 +26,7 @@ const colorClassMap: Record<string, string> = {
   black: 'bg-black',
   white: 'bg-white border border-gray-200',
   red: 'bg-red-500',
-  blue: 'bg-blue-500',
+  blue: 'bg-brand-500',
   green: 'bg-emerald-500',
   yellow: 'bg-amber-500',
   purple: 'bg-violet-500',
@@ -34,12 +35,20 @@ const colorClassMap: Record<string, string> = {
   navy: 'bg-[#1E3A8A]',
   brown: 'bg-[#92400E]',
   beige: 'bg-[#E5E7EB]',
-  Tan: 'bg-[#D2B48C]',
-  Cream: 'bg-[#FFFDD0]',
-  Blush: 'bg-[#FFC0CB]',
-  LightBlue: 'bg-[#ADD8E6]',
-  Olive: 'bg-[#808000]',
-  Beige: 'bg-[#F5F5DC]',
+  tan: 'bg-[#D2B48C]',
+  cream: 'bg-[#FFFDD0]',
+  blush: 'bg-[#FFC0CB]',
+  lightblue: 'bg-[#ADD8E6]',
+  darkgreen: 'bg-[#006400]',
+  maroon: 'bg-[#800000]',
+  teal: 'bg-[#008080]',
+  indigo: 'bg-[#4B0082]',
+  coral: 'bg-[#FF7F50]',
+  darkblue: 'bg-[#00008B]',
+  lavender: 'bg-[#E6E6FA]',
+  mint: 'bg-[#98FF98]',
+  olive: 'bg-[#808000]',
+  multicolor: 'bg-linear-to-r from-red-500 via-yellow-500 to-green-500',
 };
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
@@ -52,7 +61,24 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 
 // const BRAND_OPTIONS = ['Brand A', 'Brand B', 'Brand C'];
 
-const BADGE_OPTIONS = ['New', 'Sale', 'Best Seller' , 'Limited Edition' , 'Exclusive', 'Premium' , 'Eco-Friendly', 'Handmade', 'Luxury', 'Budget', 'Popular', 'Trending', 'Classic', 'Innovative', 'Award-Winning', 'Customer Favorite'];
+const BADGE_OPTIONS = [
+  'New',
+  'Sale',
+  'Best Seller',
+  'Limited Edition',
+  'Exclusive',
+  'Premium',
+  'Eco-Friendly',
+  'Handmade',
+  'Luxury',
+  'Budget',
+  'Popular',
+  'Trending',
+  'Classic',
+  'Innovative',
+  'Award-Winning',
+  'Customer Favorite'
+];
 
 const ProductFilter: React.FC<ProductFilterProps> = ({
   filters,
@@ -97,7 +123,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
         onClick={onToggle}
       >
         <SlidersHorizontal size={18} />
-        Filters {hasActiveFilters && <span className="bg-blue-600 text-white text-xs rounded-full px-2 py-0.5">Active</span>}
+        Filters {hasActiveFilters && <span className="bg-brand-600 text-white text-xs rounded-full px-2 py-0.5">Active</span>}
       </button>
 
       <div className={`${isOpen ? 'block' : 'hidden'} lg:block space-y-6`}>
@@ -126,7 +152,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
           <select
             value={sortBy}
             onChange={e => onSortChange(e.target.value as SortOption)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
           >
             {SORT_OPTIONS.map(opt => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -150,7 +176,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
             <select
               value={filters.category ?? ''}
               onChange={e => onFilterChange('category', e.target.value || undefined)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
             >
               <option value="">All Categories</option>
               {categories.map(cat => (
@@ -168,12 +194,48 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
           <select
             value={filters.brand ?? ''}
             onChange={e => onFilterChange('brand', e.target.value || undefined)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
           >
             <option value="">All Brands</option>
             {Brands?.map(brand => (
               <option key={brand} value={brand}>
                 {brand}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Badges */}
+        <div>
+          <h4 className="font-medium text-gray-800 mb-3 text-sm uppercase tracking-wide">Product Type</h4>
+          {/* <div className="space-y-1">
+            <button
+              type="button"
+              onClick={() => onFilterChange('badge', undefined)}
+              className={`w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${!filters.badge ? 'bg-brand-50 text-brand-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+            >
+              All Types
+            </button>
+            {BADGE_OPTIONS.map(badge => (
+              <button
+                type="button"
+                key={badge}
+                onClick={() => onFilterChange('badge', badge)}
+                className={`w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${filters.badge === badge ? 'bg-brand-50 text-brand-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+              >
+                {badge}
+              </button>
+            ))}
+          </div> */}
+          <select
+            value={filters.badge ?? ''}
+            onChange={e => onFilterChange('badge', e.target.value || undefined)}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
+          >
+            <option value="">All Types</option>
+            {BADGE_OPTIONS.map(badge => (
+              <option key={badge} value={badge}>
+                {badge}
               </option>
             ))}
           </select>
@@ -191,7 +253,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
                 min={priceRange.min}
                 max={priceRange.max}
                 onChange={e => onFilterChange('minPrice', e.target.value ? Number(e.target.value) : undefined)}
-                className="w-full border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border rounded-lg px-3 py-1.5 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
               />
               <span className="text-gray-400 text-sm">–</span>
               <input
@@ -201,7 +263,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
                 min={priceRange.min}
                 max={priceRange.max}
                 onChange={e => onFilterChange('maxPrice', e.target.value ? Number(e.target.value) : undefined)}
-                className="w-full border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border rounded-lg px-3 py-1.5 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
               />
             </div>
             <div className="text-xs text-gray-400 flex justify-between">
@@ -216,41 +278,19 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
           <h4 className="font-medium text-gray-800 mb-3 text-sm uppercase tracking-wide">Colors</h4>
           <div className="flex flex-wrap gap-2">
             {allColors.map(color => {
+              const normalized = color.toLowerCase().trim();
               const isActive = (filters.colors ?? []).includes(color);
+              if (!colorClassMap[normalized]) {return null;}
               return (
                 <button
                   type="button"
                   key={color}
                   title={color}
                   onClick={() => toggleColor(color)}
-                  className={`h-7 w-7 rounded-full transition-all ${colorClassMap[color.toLowerCase()] ?? 'bg-gray-200'} ${isActive ? 'ring-2 ring-blue-500 ring-offset-1' : 'ring-1 ring-gray-200'}`}
+                  className={`h-7 w-7 rounded-full transition-all ${colorClassMap[normalized] ?? 'bg-gray-200'} ${isActive ? 'ring-2 ring-brand-500 ring-offset-1' : 'ring-1 ring-gray-200'}`}
                 />
               );
             })}
-          </div>
-        </div>
-
-        {/* Badges */}
-        <div>
-          <h4 className="font-medium text-gray-800 mb-3 text-sm uppercase tracking-wide">Product Type</h4>
-          <div className="space-y-1">
-            <button
-              type="button"
-              onClick={() => onFilterChange('badge', undefined)}
-              className={`w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${!filters.badge ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
-            >
-              All Types
-            </button>
-            {BADGE_OPTIONS.map(badge => (
-              <button
-                type="button"
-                key={badge}
-                onClick={() => onFilterChange('badge', badge)}
-                className={`w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${filters.badge === badge ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
-              >
-                {badge}
-              </button>
-            ))}
           </div>
         </div>
       </div>

@@ -294,7 +294,7 @@ const CheckoutWizard: React.FC = () => {
                 <div className="grid lg:grid-cols-3 gap-8">
 
                     {/* Left Content */}
-                    <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-8">
+                    <div className="lg:col-span-2 bg-white rounded-xl shadow-xs p-8">
 
                         {/* STEP 1 */}
                         {step === 1 && (
@@ -455,20 +455,41 @@ const CheckoutWizard: React.FC = () => {
 
                         {/* STEP 3 */}
                         {step === 3 && (
-                            <ReviewOrder
-                                onBack={() => changeStep(2)}
-                                onSubmit={processOrder}
-                                onSelectItems={setSelectedItems}
-                                shippingMethod={shippingMethod}
-                                onShippingMethodChange={setShippingMethod}
-                                appliedCoupon={appliedCoupon}
-                                onCouponChange={setAppliedCoupon}
-                            />
+                            <>
+                                {errors.length > 0 && (
+                                    <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+                                        <ul className="list-disc pl-5 space-y-1">
+                                            {errors.map((error) => (
+                                                <li key={error} className="text-sm text-red-700">
+                                                    {error}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                {message && (
+                                    <div className="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+                                        {message}
+                                    </div>
+                                )}
+
+                                <ReviewOrder
+                                    onBack={() => changeStep(2)}
+                                    onSubmit={processOrder}
+                                    onSelectItems={setSelectedItems}
+                                    shippingMethod={shippingMethod}
+                                    onShippingMethodChange={setShippingMethod}
+                                    appliedCoupon={appliedCoupon}
+                                    onCouponChange={setAppliedCoupon}
+                                    submitting={submitting}
+                                />
+                            </>
                         )}
                     </div>
 
                     {/* Right Summary */}
-                    <div className="bg-white rounded-xl shadow-sm p-6 h-fit sticky top-6">
+                    <div className="bg-white rounded-xl shadow-xs p-6 h-fit sticky top-6">
                         <h3 className="text-xl font-bold mb-6">
                             Order Summary
                         </h3>

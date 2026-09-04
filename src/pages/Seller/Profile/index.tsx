@@ -54,8 +54,8 @@ const SellerProfilePage: React.FC = () => {
         {error && <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
 
         {loading ? (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <div className="h-6 w-40 bg-gray-100 rounded animate-pulse" />
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-6">
+            <div className="h-6 w-40 bg-gray-100 rounded-sm animate-pulse" />
             <div className="mt-4 space-y-3">
               <div className="h-20 bg-gray-100 rounded-2xl animate-pulse" />
               <div className="h-20 bg-gray-100 rounded-2xl animate-pulse" />
@@ -63,9 +63,9 @@ const SellerProfilePage: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-6 space-y-4">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-blue-50 overflow-hidden flex items-center justify-center text-blue-600 font-bold text-xl">
+                <div className="w-16 h-16 rounded-2xl bg-brand-50 overflow-hidden flex items-center justify-center text-brand-600 font-bold text-xl">
                   {profile?.profilePic ? <img src={profile.profilePic} alt={profile?.name ?? 'Seller'} className="w-full h-full object-cover" /> : (profile?.name?.[0] ?? 'S')}
                 </div>
                 <div>
@@ -94,19 +94,19 @@ const SellerProfilePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-6 space-y-4">
               <h2 className="font-bold text-gray-900">Store details</h2>
               <div className="space-y-3 text-sm text-gray-600">
                 <div className="flex items-start gap-3">
-                  <Store size={16} className="mt-0.5 text-blue-500" />
+                  <Store size={16} className="mt-0.5 text-brand-500" />
                   <span>{profile?.storeBio ?? 'No store bio has been added yet.'}</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Mail size={16} className="mt-0.5 text-blue-500" />
+                  <Mail size={16} className="mt-0.5 text-brand-500" />
                   <span>{profile?.email}</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <BadgeInfo size={16} className="mt-0.5 text-blue-500" />
+                  <BadgeInfo size={16} className="mt-0.5 text-brand-500" />
                   <span>Profile updates are currently read-only from the dashboard and come from your account settings.</span>
                 </div>
               </div>

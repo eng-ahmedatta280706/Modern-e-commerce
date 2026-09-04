@@ -3,7 +3,6 @@
  * (avoids re-sorting on every render when used with useMemo)
  */
 import type { Product } from '../types/Product';
-import { useState } from 'react';
 
 
 export const getRelatedProducts = (

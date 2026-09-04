@@ -1,8 +1,14 @@
 import { db } from '../configs/db.js';
 import { Orders, OrderItems } from './schema.js';
-import { eq, desc, inArray } from 'drizzle-orm';
+import { eq, and, desc, inArray } from 'drizzle-orm';
 import { findProductById, decreaseStock, restoreStock } from './Product.js';
-import { findCouponOne } from './Coupon.js';
+import { findCouponOne, incrementCouponUsage } from './Coupon.js';
+
+// Sale price defaults to '0' (a truthy string), so only use it when it is a real, positive value.
+const effectiveUnitPrice = (product) => {
+  const sale = Number(product.salePrice);
+  return sale > 0 ? sale : Number(product.price);
+};
 
 export const ORDER_STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'];
 export const PAYMENT_METHODS = ['card', 'paypal', 'cod', 'stripe'];
@@ -41,7 +47,7 @@ export async function createOrder(orderData) {
     if (product.stock < item.quantity) {
       throw new Error(`Insufficient stock for: ${product.name}`);
     }
-    subtotal += parseFloat((Number(product.salePrice || product.price) * item.quantity).toFixed(2));
+    subtotal += parseFloat((effectiveUnitPrice(product) * item.quantity).toFixed(2));
   }
 
   const shippingCost = SHIPPING_COSTS[shippingMethod] || SHIPPING_COSTS.standard;
@@ -49,11 +55,19 @@ export async function createOrder(orderData) {
 
   // Calculate discount from coupon
   let discount = 0;
+  let appliedCoupon = null;
   if (couponCode) {
     const coupon = await findCouponOne({ code: couponCode.toUpperCase(), isActive: true });
     if (!coupon) {
       throw new Error('Invalid or expired coupon code.');
     }
+    if (coupon.expiresAt && new Date(coupon.expiresAt) < new Date()) {
+      throw new Error('This coupon has expired.');
+    }
+    if (coupon.usageLimit !== null && coupon.usedCount >= coupon.usageLimit) {
+      throw new Error('This coupon has reached its usage limit.');
+    }
+    appliedCoupon = coupon;
     if (subtotal < Number(coupon.minOrder)) {
       throw new Error(`Minimum order of $${coupon.minOrder} required for this coupon.`);
     }
@@ -96,7 +110,7 @@ export async function createOrder(orderData) {
     const product = await findProductById(item.product);
     const itemName = product ? (product.name || '') : '';
     const itemImage = product && Array.isArray(product.images) && product.images.length ? product.images[0] : '';
-    const itemPrice = product ? (product.salePrice || product.price) : 0;
+    const itemPrice = product ? effectiveUnitPrice(product) : 0;
     await db.insert(OrderItems).values({
       orderId: order.id,
       productId: item.product,
@@ -113,6 +127,11 @@ export async function createOrder(orderData) {
     await decreaseStock(item.product, item.quantity);
   }
 
+  // Record coupon usage so usage limits are actually enforced.
+  if (appliedCoupon) {
+    await incrementCouponUsage(appliedCoupon.id);
+  }
+
   return order;
 }
 
@@ -120,12 +139,10 @@ export async function createOrder(orderData) {
 export async function findOrders(filter = {}, options = {}) {
   let query = db.select().from(Orders);
 
-  if (filter.customerId) {
-    query = query.where(eq(Orders.customerId, filter.customerId));
-  }
-  if (filter.status) {
-    query = query.where(eq(Orders.status, filter.status));
-  }
+  const conditions = [];
+  if (filter.customerId) conditions.push(eq(Orders.customerId, filter.customerId));
+  if (filter.status) conditions.push(eq(Orders.status, filter.status));
+  if (conditions.length) query = query.where(and(...conditions));
 
   if (options.sort) {
     query = query.orderBy(desc(Orders.createdAt));

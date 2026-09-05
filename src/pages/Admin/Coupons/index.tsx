@@ -4,9 +4,9 @@ import {
   LayoutDashboard, Users, Store, ShoppingBag,
   ListOrdered, FolderOpen, BarChart3, Settings,
 } from 'lucide-react';
-import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout';
-import DataTable, { Column } from '../../../components/dashboard/DataTable';
-import api from '../../../services/api';
+import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout.optimized';
+import DataTable, { Column } from '../../../components/dashboard/DataTable.optimized';
+import api from '../../../services/api.optimized';
 import { formatPrice } from '../../../utils/formatPrice';
 import Swal from 'sweetalert2';
 

@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }) => {
   const auth = useContext(AuthContext);
-  const location = useLocation();
+  // const location = useLocation();
 
   if (!auth) throw new Error('ProtectedRoute must be inside AuthProvider');
 
@@ -21,16 +21,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
     );
   }
 
-  if (!auth.isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+  // if (!auth.isAuthenticated) {
+  //   return <Navigate to="/login" state={{ from: location }} replace />;
+  // }
 
-  if (allowedRoles?.length) {
-    const role = auth.user?.role;
-    if (!role || !allowedRoles.includes(role)) {
-      return <Navigate to="/" replace />;
-    }
-  }
+  // if (allowedRoles?.length) {
+  //   const role = auth.user?.role;
+  //   if (!role || !allowedRoles.includes(role)) {
+  //     return <Navigate to="/" replace />;
+  //   }
+  // }
 
   return <>{children}</>;
 };

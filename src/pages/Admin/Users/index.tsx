@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { LayoutDashboard, Users, Store, ShoppingBag, ListOrdered, FolderOpen, Tag, BarChart3, Settings, Search, Edit3, UserX } from 'lucide-react';
 import Swal from 'sweetalert2';
-import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout';
-import DataTable, { Column } from '../../../components/dashboard/DataTable';
-import StatusBadge from '../../../components/dashboard/StatusBadge';
-import api from '../../../services/api';
+import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout.optimized';
+import DataTable, { Column } from '../../../components/dashboard/DataTable.optimized';
+import StatusBadge from '../../../components/dashboard/StatusBadge.optimized';
+import api from '../../../services/api.optimized';
 
 const ADMIN_NAV: NavItem[] = [
     { label: 'Dashboard', href: '/admin', icon: <LayoutDashboard size={18} /> },

@@ -5,6 +5,7 @@ export interface User {
   username?: string;
   address?: string;
   phoneNumber?: string;
+  storeName?: string;
   profilePic?: string;
   ordersCount?: number;
   role?: 'admin' | 'customer' | 'seller';

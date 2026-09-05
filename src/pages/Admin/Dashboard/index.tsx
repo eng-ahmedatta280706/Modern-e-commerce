@@ -6,11 +6,11 @@ import {
   Tag, FolderOpen, BarChart3, Settings,
 } from 'lucide-react';
 import DashboardLayout, { NavItem } from '../../../layouts/DashboardLayout';
-import StatsCard from '../../../components/dashboard/StatsCard';
-import StatusBadge from '../../../components/dashboard/StatusBadge';
+import StatsCard from '../../../components/dashboard/StatsCard.optimized';
+import StatusBadge from '../../../components/dashboard/StatusBadge.optimized';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { formatPrice } from '../../../utils/formatPrice';
-import api from '../../../services/api';
+import api from '../../../services/api.optimized';
 
 const ADMIN_NAV: NavItem[] = [
   { label: 'Dashboard',   href: '/admin',              icon: <LayoutDashboard size={18} /> },

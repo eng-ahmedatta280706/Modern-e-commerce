@@ -3,7 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
 import Breadcrumb from '../../components/ui/Breadcrumb';
-import Pagination from '../../components/ui/Pagination';
+import Pagination from '../../components/ui/Pagination.optimized';
 import EmptyState from '../../components/ui/EmptyState';
 import { useProducts } from '../../hooks/useProducts';
 

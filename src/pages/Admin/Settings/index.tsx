@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { LayoutDashboard, Users, Store, ShoppingBag, ListOrdered, FolderOpen, Tag, BarChart3, Settings, LogOut, ShieldCheck } from 'lucide-react';
-import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout';
+import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout.optimized';
 import { AuthContext } from '../../../contexts/AuthContext';
 
 const ADMIN_NAV: NavItem[] = [

@@ -34,12 +34,12 @@ const AdminCategoriesPage = lazy(() => import('../pages/Admin/Categories'));
 const AdminCouponsPage = lazy(() => import('../pages/Admin/Coupons'));
 const AdminAnalyticsPage = lazy(() => import('../pages/Admin/Analytics'));
 const AdminSettingsPage = lazy(() => import('../pages/Admin/Settings'));
-const SellerDashboard = lazy(() => import('../pages/Seller/Dashboard'));
-const SellerProductsPage = lazy(() => import('../pages/Seller/Products'));
-const SellerOrdersPage = lazy(() => import('../pages/Seller/Orders'));
-const SellerAnalyticsPage = lazy(() => import('../pages/Seller/Analytics'));
-const SellerNotificationsPage = lazy(() => import('../pages/Seller/Notifications'));
-const SellerProfilePage = lazy(() => import('../pages/Seller/Profile'));
+const SellerDashboard = lazy(() => import('../pages/Seller/Dashboard/SellerDashboard.optimized'));
+const SellerProductsPage = lazy(() => import('../pages/Seller/Products/SellerProductsPage.optimized'));
+const SellerOrdersPage = lazy(() => import('../pages/Seller/Orders/SellerOrdersPage.optimized'));
+const SellerAnalyticsPage = lazy(() => import('../pages/Seller/Analytics/SellerAnalyticsPage.optimized'));
+const SellerNotificationsPage = lazy(() => import('../pages/Seller/Notifications/SellerNotificationsPage.optimized'));
+const SellerProfilePage = lazy(() => import('../pages/Seller/Profile/SellerProfilePage.optimized'));
 
 const AppRoutes: React.FC = () => (
     <Suspense fallback={<PageLoader />}>

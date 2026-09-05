@@ -6,9 +6,9 @@ import {
   Users, ShoppingBag, ListOrdered, Tag, FolderOpen, BarChart3, Settings,
 } from 'lucide-react';
 import DashboardLayout, { NavItem } from '../../../layouts/DashboardLayout';
-import DataTable, { Column } from '../../../components/dashboard/DataTable';
-import StatusBadge from '../../../components/dashboard/StatusBadge';
-import api from '../../../services/api';
+import DataTable, { Column } from '../../../components/dashboard/DataTable.optimized';
+import StatusBadge from '../../../components/dashboard/StatusBadge.optimized';
+import api from '../../../services/api.optimized';
 import Swal from 'sweetalert2';
 
 const ADMIN_NAV: NavItem[] = [

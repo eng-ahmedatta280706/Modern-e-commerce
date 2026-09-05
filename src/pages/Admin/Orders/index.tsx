@@ -5,10 +5,10 @@ import {
   Users, Store, ShoppingBag, Tag, FolderOpen,
   BarChart3, Settings, ChevronDown,
 } from 'lucide-react';
-import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout';
-import DataTable, { Column } from '../../../components/dashboard/DataTable';
-import StatusBadge from '../../../components/dashboard/StatusBadge';
-import api from '../../../services/api';
+import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout.optimized';
+import DataTable, { Column } from '../../../components/dashboard/DataTable.optimized';
+import StatusBadge from '../../../components/dashboard/StatusBadge.optimized';
+import api from '../../../services/api.optimized';
 import { formatPrice } from '../../../utils/formatPrice';
 import Swal from 'sweetalert2';
 

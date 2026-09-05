@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { LayoutDashboard, Users, Store, ShoppingBag, ListOrdered, FolderOpen, Tag, BarChart3, Settings, DollarSign, Clock } from 'lucide-react';
-import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout';
-import StatsCard from '../../../components/dashboard/StatsCard';
-import StatusBadge from '../../../components/dashboard/StatusBadge';
-import api from '../../../services/api';
+import DashboardLayout, { NavItem } from '../../../components/dashboard/DashboardLayout.optimized';
+import StatsCard from '../../../components/dashboard/StatsCard.optimized';
+import StatusBadge from '../../../components/dashboard/StatusBadge.optimized';
+import api from '../../../services/api.optimized';
 import { formatPrice } from '../../../utils/formatPrice';
 
 const ADMIN_NAV: NavItem[] = [
